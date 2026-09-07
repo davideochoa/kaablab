@@ -1,0 +1,3 @@
+# Licencia pendiente
+
+La titularidad de la propiedad intelectual de este proyecto (código y tesis) está pendiente de confirmación con la Dirección de Vinculación/Investigación de ITESCAM, dado que el desarrollo involucra a estudiantes de maestría y licenciatura de la misma institución, con fines académicos (tesis en ambos niveles) y una posible comercialización futura. No se define licencia de código abierto ni cesión de derechos hasta resolver este punto. Cualquier acuerdo de colaboración entre colaboradores se regirá por la legislación mexicana. Este archivo se reemplazará por LICENSE y LICENSE-THESIS una vez resuelto el punto institucional.

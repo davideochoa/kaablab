@@ -216,3 +216,25 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Arduino / PlatformIO
+.pio/
+*.bin
+*.elf
+
+# LaTeX / Pandoc
+*.aux
+*.log
+*.toc
+*.synctex.gz
+
+# Word (archivos temporales)
+~$*.docx
+
+# Datos crudos (data/samples/ sí se versiona)
+data/raw/*
+!data/raw/.gitkeep
+
+# OS
+.DS_Store
+Thumbs.db
