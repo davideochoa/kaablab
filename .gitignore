@@ -238,3 +238,7 @@ data/raw/*
 # OS
 .DS_Store
 Thumbs.db
+
+# JetBrains IDE
+.idea/
+*.iml
