@@ -1,4 +1,4 @@
-CAPÍTULO II. ESTADO DEL ARTE O MARCO TEÓRICO
+CAPÍTULO 2. ESTADO DEL ARTE O MARCO TEÓRICO
 
 2.1 La meliponicultura maya y Melipona beecheii
 
