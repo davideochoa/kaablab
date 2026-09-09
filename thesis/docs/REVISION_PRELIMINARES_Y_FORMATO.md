@@ -159,6 +159,48 @@ Este archivo **no se incluyó** en el comando Pandoc de
 oficiales; su inclusión y posición en el documento final quedan
 pendientes de confirmación con la asesora.
 
+## 8. Contenido de `07-indice.md` (índice estructural en texto plano)
+
+Se llenó `thesis/preliminares/07-indice.md` con una lista jerárquica en
+Markdown (guiones anidados, sin números de página) que refleja la
+estructura completa de la tesis, para que el repo tenga un mapa de
+navegación legible sin necesidad de exportar a Word. No se modificó
+ningún archivo de contenido, solo se leyeron sus headings.
+
+**Entradas listadas: 76 en total.**
+- 14 entradas de preliminares (5 documentos oficiales 01–05 sin
+  contenido propio + 9 headings reales: `06`–`14`, incluyendo el
+  propio `ÍNDICE` y `Dedicatoria`).
+- 5 títulos de capítulo (`#`).
+- 28 secciones (`##`) repartidas: Cap. 1 = 9, Cap. 2 = 4, Cap. 3 = 10,
+  Cap. 4 = 3, Cap. 5 = 2.
+- 28 subsecciones (`###`) repartidas: Cap. 1 = 4, Cap. 2 = 0, Cap. 3 =
+  19, Cap. 4 = 5, Cap. 5 = 0.
+- 1 entrada final `BIBLIOGRAFÍA` (por instrucción explícita, sin
+  desglosar `referencias.md`).
+
+Se marcaron con "(pendiente de contenido)" las dos secciones de
+preliminares cuyo archivo trae un comentario `<!-- PENDIENTE... -->`
+explícito: `AGRADECIMIENTOS` (06) y `Dedicatoria` (14). `ABREVIATURAS`
+(08), `ÍNDICE DE FIGURAS` (09) e `ÍNDICE DE TABLAS` (10) no se
+marcaron como pendientes porque su propio contenido indica que son
+opcionales o de generación automática al compilar, no trabajo
+faltante.
+
+Inconsistencias de numeración encontradas al construir el índice (no
+corregidas, solo transcritas tal cual):
+- La discrepancia romana/4-capítulos vs. arábiga/5-capítulos ya
+  documentada en la sección 4 de este archivo — el índice se generó
+  con la numeración arábiga (1–5) actualmente en uso en el repo.
+- El salto `1.1.5` sin `1.1.1`–`1.1.4` en `capitulo-1.md` (también
+  documentado en la sección 4) se transcribió literal, como única
+  subsección de `1.1 Antecedentes`.
+- `Dedicatoria` ocupa la última posición entre los preliminares (`14`,
+  después de `INTRODUCCIÓN`) por el orden numérico de archivo actual,
+  aunque en el documento original pre-restructuración aparecía antes
+  de `AGRADECIMIENTOS` (ver sección 7). No se reordenó — se transcribió
+  según la posición real del archivo en el repo.
+
 ## Notas adicionales
 
 - El comando Pandoc verbatim de las instrucciones originales usaba
