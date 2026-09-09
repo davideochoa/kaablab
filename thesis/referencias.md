@@ -2,7 +2,7 @@
 
 Formato APA. Las entradas con datos bibliográficos incompletos están marcadas con `<!-- PENDIENTE: completar datos bibliográficos -->` y deben confirmarse antes de la entrega final. Este archivo es la fuente de trabajo versionada; la conversión a `.bib` (BibTeX) para gestión de citas queda pendiente (ver `docs/REVISION_2026-09.md`).
 
-Chin-Canché, [Nombres pendientes]. et al. (2026). [Título del artículo de referencia KaabLab — Apis mellifera]. [Revista, volumen, páginas]. GitHub: github.com/guillermochin/kaablab-bee-congress-2026-figures. Zenodo: https://doi.org/10.5281/zenodo.19685877
+Chin-Canché, [Nombres pendientes]. et al. (2026). [Título del artículo de referencia KaabLab — *Apis mellifera*]. [Revista, volumen, páginas]. GitHub: github.com/guillermochin/kaablab-bee-congress-2026-figures. Zenodo: https://doi.org/10.5281/zenodo.19685877
 
 <!-- PENDIENTE: completar datos bibliográficos -->
 
@@ -22,11 +22,11 @@ Hrncir, M., Barth, F. G., & Tautz, J. (2008). [Título completo pendiente — se
 
 <!-- PENDIENTE: completar datos bibliográficos -->
 
-Macías-Macías, J. O., Tapia-González, J. M., Contreras-Escareño, F., & Quezada-Euán, J. J. G. (2011). [Título completo pendiente — temperatura crítica / LT50 en M. beecheii].
+Macías-Macías, J. O., Tapia-González, J. M., Contreras-Escareño, F., & Quezada-Euán, J. J. G. (2011). [Título completo pendiente — temperatura crítica / LT50 en *Melipona beecheii*].
 
 <!-- PENDIENTE: completar datos bibliográficos -->
 
-Moo-Valle, H., Quezada-Euán, J. J. G., & Wenseleers, T. (2000). [Título completo pendiente — termorregulación en M. beecheii].
+Moo-Valle, H., Quezada-Euán, J. J. G., & Wenseleers, T. (2000). [Título completo pendiente — termorregulación en *M. beecheii*].
 
 <!-- PENDIENTE: completar datos bibliográficos -->
 
@@ -34,7 +34,7 @@ Muniz, [Nombres pendientes]. (s.f.). [Título completo pendiente — conteo por 
 
 <!-- PENDIENTE: completar datos bibliográficos -->
 
-Suárez Carvajal, S. (2025). [Título completo pendiente — micrófono MEMS aplicado a M. eburnea].
+Suárez Carvajal, S. (2025). [Título completo pendiente — micrófono MEMS aplicado a *Melipona eburnea*].
 
 <!-- PENDIENTE: completar datos bibliográficos -->
 
@@ -42,14 +42,14 @@ Suárez Carvajal, S. (2025). [Título completo pendiente — micrófono MEMS apl
 
 Las siguientes referencias ya son citadas en los capítulos existentes pero no fueron parte del alcance de esta revisión (PASO 7); se listan aquí para que la compilación final de la bibliografía las incluya:
 
-- Bennett, E. (1831). [Descripción original de Melipona beecheii].
-- Cauich Kumul, R. et al. (2015). [Propiedades de la miel de M. beecheii].
+- Bennett, E. (1831). [Descripción original de *Melipona beecheii*].
+- Cauich Kumul, R. et al. (2015). [Propiedades de la miel de *M. beecheii*].
 - Chin-Canché et al. (2026). Ver entrada arriba.
-- Lóriga Peña, W. et al. (2015). [Amenazas bióticas en colmenas de M. beecheii].
+- Lóriga Peña, W. et al. (2015). [Amenazas bióticas en colmenas de *M. beecheii*].
 - Ramírez-Miranda, F. et al. (2023). [Propiedades antioxidantes/antimicrobianas de la miel].
 - Schurischuster, S., & Kampel, M. (2020). VarroaDataset. Zenodo. https://doi.org/10.5281/zenodo.4085044
 - Uthoff, C. et al. (2023). [Estándar de n=13 MFCC en bioacústica de colmenas].
-- Villanueva-Gutiérrez, R. et al. (2014). [Declive de M. beecheii por deforestación y agroquímicos].
+- Villanueva-Gutiérrez, R. et al. (2014). [Declive de *M. beecheii* por deforestación y agroquímicos].
 - Yang, A. (2022). Beehive sounds [Dataset]. Kaggle. kaggle.com/datasets/annajyang/beehive-sounds
 
 <!-- PENDIENTE: completar datos bibliográficos de todas las entradas de esta sección -->
