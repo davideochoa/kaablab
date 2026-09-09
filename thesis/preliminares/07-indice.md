@@ -1,1 +1,84 @@
 # ÍNDICE
+
+- CARTA DE LIBERACIÓN DE TESIS
+- OFICIO DE AUTORIZACIÓN DEL COMITÉ TUTORIAL/CLAUSTRO DOCTORAL
+- CARTA DE RECONOCIMIENTO DEL DIRECTOR(A) Y CODIRECTOR(A) DE TESIS
+- DECLARACIÓN DE PROPIEDAD INTELECTUAL
+- OFICIO DE LIBERACIÓN DE ANÁLISIS ANTI-PLAGIO
+- AGRADECIMIENTOS (pendiente de contenido)
+- ÍNDICE
+- ABREVIATURAS
+- ÍNDICE DE FIGURAS
+- ÍNDICE DE TABLAS
+- RESUMEN
+- ABSTRACT
+- INTRODUCCIÓN
+- Dedicatoria (pendiente de contenido)
+
+- CAPÍTULO 1. PROPÓSITO Y ORGANIZACIÓN
+  - 1.1 Antecedentes
+    - 1.1.5 Brechas bibliográficas en los cuatro parámetros de medición
+  - 1.2 Planteamiento del problema
+  - 1.3 Pregunta de investigación
+  - 1.4 Hipótesis
+  - 1.5 Objetivos
+    - 1.5.1 Objetivo general
+    - 1.5.2 Objetivos específicos
+  - 1.6 Justificación
+    - 1.6.1 Conveniencia, relevancia social e implicaciones prácticas
+  - 1.7 Alcances y limitaciones
+  - 1.8 Estrategia experimental
+  - 1.9 Planeación: recursos, cronograma y presupuesto
+
+- CAPÍTULO 2. ESTADO DEL ARTE O MARCO TEÓRICO
+  - 2.1 La meliponicultura maya y *Melipona beecheii*
+  - 2.2 Limitaciones del artículo de referencia
+  - 2.3 Hallazgos metodológicos clave del artículo de referencia
+  - 2.4 Amenazas bióticas en colmenas de *M. beecheii*
+
+- CAPÍTULO 3. METODOLOGÍA (MATERIALES Y MÉTODOS)
+  - 3.1 Enfoque y diseño de investigación
+  - 3.2 Arquitectura sensorial heterogénea con rangos complementarios
+    - 3.2.1 Fundamento físico de la humedad: SHT31 interno primario y DHT22 externo secundario
+    - 3.2.2 Fundamento físico del INMP441 y el MPU6050 como sensores complementarios
+    - 3.2.3 Sensor IR doble haz — conteo de tráfico en piquera
+    - 3.2.4 Fusión sensorial ponderada por confianza
+  - 3.3 Instrumentación y flujo de adquisición de datos (IoT)
+    - 3.3.1 Conexión de los sensores
+    - 3.3.2 Disposición física en la colmena
+    - 3.3.3 Flujo del dato: de la captura al dataset
+  - 3.4 Protocolo de preprocesamiento de señal
+    - 3.4.1 Filtro de media móvil sobre variables ambientales
+    - 3.4.2 Pre-énfasis sobre la señal de audio
+    - 3.4.3 Umbral de energía RMS para descarte de segmentos silenciosos
+    - 3.4.4 Normalización Z-score del vector de características
+    - 3.4.5 Conversión de humedad relativa a humedad absoluta
+  - 3.5 Arquitectura del sistema KaabLab completo
+  - 3.6 Consideraciones de interferencia del hardware IoT en *M. beecheii*
+  - 3.7 Pipeline de procesamiento y evaluación (IA)
+  - 3.8 Justificación técnica de las decisiones de diseño de IA
+    - 3.8.1 Número de coeficientes MFCC (n = 13)
+    - 3.8.2 Validación cruzada de 3 pliegues
+    - 3.8.3 XGBoost y Gradient Boosting
+  - 3.9 Protocolo de construcción del dataset
+    - 3.9.1 Recolección de datos bioacústicos, de vibración y ambientales
+    - 3.9.2 Recolección de datos de conteo IR en piquera
+    - 3.9.3 Manejo del desbalance de clases
+    - 3.9.4 Partición y almacenamiento del dataset
+  - 3.10 Métricas de evaluación
+
+- CAPÍTULO 4. RESULTADOS Y DISCUSIONES
+  - 4.1 Estado actual del proyecto: evidencia técnica disponible
+    - 4.1.1 Baseline validado: pipeline completo para *Apis mellifera*
+    - 4.1.2 Repositorios públicos con código y datos
+    - 4.1.3 Análisis de transferibilidad del pipeline
+    - 4.1.4 Problemas técnicos identificados y estrategias de mitigación
+    - 4.1.5 Validación de arquitectura con datos sintéticos
+  - 4.2 Contribuciones originales esperadas
+  - 4.3 Discusión
+
+- CAPÍTULO 5. CONCLUSIONES Y RECOMENDACIONES
+  - 5.1 Conclusiones
+  - 5.2 Recomendaciones
+
+- BIBLIOGRAFÍA
