@@ -50,7 +50,7 @@ La arquitectura es de carril único con doble haz: dos pares emisor-receptor de 
 
 La separación entre los dos haces es de aproximadamente 4 mm, deliberadamente menor a la longitud del cuerpo de una obrera de *M. beecheii* (~10 mm), de modo que un mismo individuo interrumpa ambos haces en secuencia y no simultáneamente. El sensor se embebe en un barreno de aproximadamente 15 mm de diámetro practicado en una pared de madera de al menos 25 mm de espesor, alineado con el túnel de la piquera.
 
-Pines de conexión: GPIO25 (drive del LED IR), GPIO32 (haz A) y GPIO33 (haz B).
+Pines de conexión: GPIO25 (drive del LED IR), GPIO26 (haz A) y GPIO27 (haz B).
 
 Referencia: Muniz (conteo IR en Melipona). Costo estimado del sensor: ~$30–50 MXN.
 
@@ -74,21 +74,25 @@ El subsistema IoT cumple una función central: convertir el estado físico de la
 
 ### 3.3.1 Conexión de los sensores
 
-Todos los sensores convergen en un único nodo de borde (ESP32-CAM), que concentra la adquisición y la primera etapa de transmisión. La heterogeneidad de la arquitectura obliga a convivir varios protocolos distintos en el mismo microcontrolador: 1-Wire para el DHT22, I²C para el SHT31 y el MPU6050 (que comparten bus con direcciones 0x44 y 0x68 sin conflicto), I²S para el micrófono digital INMP441, y GPIO digital para el sensor IR doble haz. Resistencias pull-up de 10 kΩ estabilizan la línea de datos del DHT22 y el bus I²C. La Figura 3.1 resume la conexión y la Tabla 3.3 detalla los protocolos y pines.
+Todos los sensores convergen en un único nodo de borde (ESP32 DevKit V1), que concentra la adquisición y la primera etapa de transmisión. La heterogeneidad de la arquitectura obliga a convivir varios protocolos distintos en el mismo microcontrolador: 1-Wire para el DHT22, I²C para el SHT31 y el MPU6050/6500 (que comparten bus con direcciones 0x44 y 0x68 sin conflicto), I²S para el micrófono digital INMP441, y GPIO digital para el sensor IR doble haz. Resistencias pull-up de 10 kΩ estabilizan la línea de datos del DHT22 y el bus I²C. La Figura 3.1 resume la conexión y la Tabla 3.3 detalla los protocolos y pines.
 
 **Figura 3.1 **Conexión de los sensores al nodo de borde.
 
-| **Sensor** | **Protocolo** | **Pines ESP32-CAM** | **Dirección I²C** |
-| --- | --- | --- | --- |
-| DHT22 (externo) | 1-Wire | GPIO 13 | N/A |
-| SHT31 (interno) | I²C | SDA: GPIO 14 / SCL: GPIO 15 | 0x44 o 0x45 |
-| INMP441 | I²S | SD: GPIO 2 / WS: GPIO 4 / SCK: GPIO 14 | N/A |
-| MPU6050 | I²C | SDA: GPIO 14 / SCL: GPIO 15 | 0x68 o 0x69 |
-| IR doble haz | GPIO digital | LED: GPIO 25 / Haz A: GPIO 32 / Haz B: GPIO 33 | N/A |
+| Sensor | Señal | Pin |
+| --- | --- | --- |
+| INMP441 (I²S) | SCK | GPIO14 |
+| INMP441 (I²S) | WS | GPIO15 |
+| INMP441 (I²S) | SD | GPIO32 |
+| SHT31 + MPU6050/6500 (I²C) | SDA | GPIO21 |
+| SHT31 + MPU6050/6500 (I²C) | SCL | GPIO22 |
+| DHT22 (1-Wire) | DATA | GPIO4 |
+| Contador IR doble haz | LED | GPIO25 |
+| Contador IR doble haz | Haz A | GPIO26 |
+| Contador IR doble haz | Haz B | GPIO27 |
 
-**Tabla 3.3 **Protocolos de comunicación y pines por sensor.
+**Tabla 3.3 **Protocolos de comunicación y pines por sensor (ESP32 DevKit V1).
 
-<!-- REVISAR CON ASESOR: GPIO14 está asignado simultáneamente como SDA (bus I²C de SHT31/MPU6050) y como SCK (bus I²S del INMP441). Este conflicto de pines debe resolverse antes del cableado final del prototipo. -->
+Direcciones I²C del bus compartido: SHT31 en 0x44 u 0x45, MPU6050/6500 en 0x68 u 0x69 — sin conflicto entre sí.
 
 ### 3.3.2 Disposición física en la colmena
 
