@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" width="800" height="520" font-family="Segoe UI, Arial, sans-serif">
+  <title>Esquema de conexión ESP32 DevKit V1 — 4 módulos FC-51/KY-033 (doble haz)</title>
+  <rect x="0" y="0" width="800" height="520" fill="#ffffff"/>
+
+  <text x="400" y="28" text-anchor="middle" font-size="18" font-weight="bold" fill="#1a1a1a">
+    Conexión ESP32 DevKit V1 ↔ 4 módulos FC-51/KY-033 (doble haz)
+  </text>
+  <text x="400" y="46" text-anchor="middle" font-size="12" fill="#555555">
+    KaabLab — conteo direccional de tráfico en piquera (esquema, no a escala)
+  </text>
+
+  <!-- ESP32 DevKit V1 box -->
+  <rect x="30" y="90" width="190" height="340" rx="8" fill="#eef3fb" stroke="#2c5aa0" stroke-width="2"/>
+  <text x="125" y="118" text-anchor="middle" font-size="14" font-weight="bold" fill="#1a1a1a">ESP32 DevKit V1</text>
+
+  <circle cx="212" cy="150" r="4" fill="#2c5aa0"/>
+  <text x="130" y="155" text-anchor="end" font-size="12" fill="#1a1a1a">3V3 (bus VCC)</text>
+
+  <circle cx="212" cy="185" r="4" fill="#555555"/>
+  <text x="130" y="190" text-anchor="end" font-size="12" fill="#1a1a1a">GND (bus GND)</text>
+
+  <circle cx="212" cy="230" r="4" fill="#c0392b"/>
+  <text x="130" y="235" text-anchor="end" font-size="12" fill="#1a1a1a">GPIO26 — Haz A principal</text>
+
+  <circle cx="212" cy="265" r="4" fill="#e08a3c"/>
+  <text x="130" y="270" text-anchor="end" font-size="12" fill="#1a1a1a">GPIO25 — Haz A secundario</text>
+
+  <circle cx="212" cy="320" r="4" fill="#227a3d"/>
+  <text x="130" y="325" text-anchor="end" font-size="12" fill="#1a1a1a">GPIO27 — Haz B principal</text>
+
+  <circle cx="212" cy="355" r="4" fill="#7a2ca0"/>
+  <text x="130" y="360" text-anchor="end" font-size="12" fill="#1a1a1a">GPIO33 — Haz B secundario</text>
+
+  <!-- Tube cross-section with 4 modules (2 pares: A y B, ~4mm de separacion) -->
+  <rect x="440" y="150" width="200" height="220" rx="10" fill="#fdf8ef" stroke="#7a5a30" stroke-width="2"/>
+  <text x="540" y="140" text-anchor="middle" font-size="11" fill="#7a5a30">Tubo de la piquera (≈15 mm de diámetro)</text>
+
+  <!-- Par A: modulo A1 (principal) arriba, A2 (secundario) abajo, enfrentados -->
+  <rect x="470" y="100" width="70" height="30" rx="4" fill="#eef3fb" stroke="#c0392b" stroke-width="2"/>
+  <text x="505" y="120" text-anchor="middle" font-size="10" fill="#1a1a1a">Módulo A1</text>
+  <text x="505" y="90" text-anchor="middle" font-size="9.5" fill="#c0392b">OUT → GPIO26 (principal)</text>
+
+  <rect x="470" y="390" width="70" height="30" rx="4" fill="#fdf0e4" stroke="#e08a3c" stroke-width="2"/>
+  <text x="505" y="409" text-anchor="middle" font-size="10" fill="#1a1a1a">Módulo A2</text>
+  <text x="505" y="435" text-anchor="middle" font-size="9.5" fill="#e08a3c">OUT → GPIO25 (secundario)</text>
+
+  <line x1="505" y1="130" x2="505" y2="390" stroke="#c0392b" stroke-width="2" stroke-dasharray="5,4"/>
+
+  <!-- Par B: modulo B1 (principal) arriba, B2 (secundario) abajo, ~4mm mas adelante -->
+  <rect x="560" y="100" width="70" height="30" rx="4" fill="#eefbf1" stroke="#227a3d" stroke-width="2"/>
+  <text x="595" y="120" text-anchor="middle" font-size="10" fill="#1a1a1a">Módulo B1</text>
+  <text x="595" y="90" text-anchor="middle" font-size="9.5" fill="#227a3d">OUT → GPIO27 (principal)</text>
+
+  <rect x="560" y="390" width="70" height="30" rx="4" fill="#f2e9f7" stroke="#7a2ca0" stroke-width="2"/>
+  <text x="595" y="409" text-anchor="middle" font-size="10" fill="#1a1a1a">Módulo B2</text>
+  <text x="595" y="435" text-anchor="middle" font-size="9.5" fill="#7a2ca0">OUT → GPIO33 (secundario)</text>
+
+  <line x1="595" y1="130" x2="595" y2="390" stroke="#227a3d" stroke-width="2" stroke-dasharray="5,4"/>
+
+  <text x="550" y="145" text-anchor="middle" font-size="9.5" fill="#8a6d00">≈4 mm de separación entre pares (Haz A / Haz B)</text>
+
+  <!-- VCC / GND bus lines a los 4 modulos -->
+  <line x1="220" y1="150" x2="720" y2="150" stroke="#2c5aa0" stroke-width="1.5"/>
+  <line x1="720" y1="150" x2="720" y2="80" stroke="#2c5aa0" stroke-width="1.5"/>
+  <line x1="720" y1="80" x2="505" y2="80" stroke="#2c5aa0" stroke-width="1.5"/>
+  <line x1="505" y1="80" x2="505" y2="100" stroke="#2c5aa0" stroke-width="1.5"/>
+  <line x1="720" y1="80" x2="595" y2="80" stroke="#2c5aa0" stroke-width="1.5"/>
+  <line x1="595" y1="80" x2="595" y2="100" stroke="#2c5aa0" stroke-width="1.5"/>
+  <text x="660" y="74" text-anchor="middle" font-size="9.5" fill="#2c5aa0">VCC a los 4 módulos</text>
+
+  <line x1="220" y1="185" x2="740" y2="185" stroke="#555555" stroke-width="1.5"/>
+  <line x1="740" y1="185" x2="740" y2="480" stroke="#555555" stroke-width="1.5"/>
+  <line x1="740" y1="480" x2="505" y2="480" stroke="#555555" stroke-width="1.5"/>
+  <line x1="505" y1="480" x2="505" y2="420" stroke="#555555" stroke-width="1.5"/>
+  <line x1="740" y1="480" x2="595" y2="480" stroke="#555555" stroke-width="1.5"/>
+  <line x1="595" y1="480" x2="595" y2="420" stroke="#555555" stroke-width="1.5"/>
+  <text x="660" y="495" text-anchor="middle" font-size="9.5" fill="#555555">GND a los 4 módulos</text>
+
+  <!-- señal GPIO26 (A1 principal) -->
+  <line x1="220" y1="230" x2="380" y2="230" stroke="#c0392b" stroke-width="2"/>
+  <line x1="380" y1="230" x2="380" y2="115" stroke="#c0392b" stroke-width="2"/>
+  <line x1="380" y1="115" x2="470" y2="115" stroke="#c0392b" stroke-width="2"/>
+
+  <!-- señal GPIO25 (A2 secundario) -->
+  <line x1="220" y1="265" x2="400" y2="265" stroke="#e08a3c" stroke-width="2"/>
+  <line x1="400" y1="265" x2="400" y2="405" stroke="#e08a3c" stroke-width="2"/>
+  <line x1="400" y1="405" x2="470" y2="405" stroke="#e08a3c" stroke-width="2"/>
+
+  <!-- señal GPIO27 (B1 principal) -->
+  <line x1="220" y1="320" x2="420" y2="320" stroke="#227a3d" stroke-width="2"/>
+  <line x1="420" y1="320" x2="420" y2="115" stroke="#227a3d" stroke-width="2"/>
+  <line x1="420" y1="115" x2="560" y2="115" stroke="#227a3d" stroke-width="2"/>
+
+  <!-- señal GPIO33 (B2 secundario) -->
+  <line x1="220" y1="355" x2="440" y2="355" stroke="#7a2ca0" stroke-width="2"/>
+  <line x1="440" y1="355" x2="440" y2="405" stroke="#7a2ca0" stroke-width="2"/>
+  <line x1="440" y1="405" x2="560" y2="405" stroke="#7a2ca0" stroke-width="2"/>
+
+  <!-- Nota -->
+  <rect x="30" y="440" width="740" height="65" rx="6" fill="#fff8e6" stroke="#8a6d00" stroke-width="1"/>
+  <text x="42" y="458" font-size="10.5" fill="#1a1a1a">Doble haz = 2 pares emisor-receptor = 4 módulos FC-51/KY-033. Dentro de cada par, AMBOS módulos tienen fototransistor propio</text>
+  <text x="42" y="472" font-size="10.5" fill="#1a1a1a">y una señal OUT utilizable: por eso se cablean las 4 señales (principal + secundaria por par), no solo 2 — ver README §1.1.</text>
+  <text x="42" y="486" font-size="10.5" fill="#1a1a1a">Distancia mínima de detección especificada (20–300 mm) &gt; diámetro real del tubo (≈15 mm) — ver README §1, validar en banco.</text>
+
+  <!-- Legend -->
+  <rect x="30" y="60" width="14" height="14" fill="#2c5aa0"/>
+  <text x="50" y="71" font-size="10" fill="#1a1a1a">VCC</text>
+
+  <rect x="90" y="60" width="14" height="14" fill="#555555"/>
+  <text x="110" y="71" font-size="10" fill="#1a1a1a">GND</text>
+
+  <rect x="150" y="60" width="14" height="14" fill="#c0392b"/>
+  <text x="170" y="71" font-size="10" fill="#1a1a1a">Haz A principal (GPIO26)</text>
+
+  <rect x="330" y="60" width="14" height="14" fill="#e08a3c"/>
+  <text x="350" y="71" font-size="10" fill="#1a1a1a">Haz A secundario (GPIO25)</text>
+
+  <rect x="530" y="60" width="14" height="14" fill="#227a3d"/>
+  <text x="550" y="71" font-size="10" fill="#1a1a1a">Haz B principal (GPIO27)</text>
+
+  <rect x="30" y="78" width="14" height="14" fill="#7a2ca0"/>
+  <text x="50" y="89" font-size="10" fill="#1a1a1a">Haz B secundario (GPIO33)</text>
+</svg>

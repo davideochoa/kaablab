@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 460" width="760" height="460" font-family="Segoe UI, Arial, sans-serif">
+  <title>Concepto: detección de tráfico por interrupción de haz IR</title>
+  <rect x="0" y="0" width="760" height="460" fill="#ffffff"/>
+
+  <text x="380" y="28" text-anchor="middle" font-size="18" font-weight="bold" fill="#1a1a1a">
+    ¿Qué mide el contador IR doble haz? Eventos de cruce, no una frecuencia
+  </text>
+  <text x="380" y="46" text-anchor="middle" font-size="12" fill="#555555">
+    Conteo discreto de entradas/salidas de forrajeo — no una señal continua ni una banda de frecuencia
+  </text>
+
+  <!-- ===== Ilustracion: tubo de la piquera visto en corte, dos modulos enfrentados ===== -->
+  <text x="380" y="90" text-anchor="middle" font-size="12" fill="#7a5a30">Corte del tubo de la piquera (vista superior, no a escala)</text>
+
+  <!-- pared / tubo -->
+  <rect x="200" y="110" width="360" height="90" rx="10" fill="#fdf8ef" stroke="#7a5a30" stroke-width="2"/>
+  <text x="380" y="230" text-anchor="middle" font-size="10" fill="#7a5a30">diámetro del tubo ≈ 15 mm</text>
+
+  <!-- modulo emisor (arriba) y receptor (abajo), enfrentados -->
+  <rect x="300" y="70" width="70" height="30" rx="4" fill="#eef3fb" stroke="#2c5aa0" stroke-width="2"/>
+  <text x="335" y="90" text-anchor="middle" font-size="10.5" fill="#1a1a1a">Emisor IR</text>
+
+  <rect x="300" y="210" width="70" height="30" rx="4" fill="#eefbf1" stroke="#227a3d" stroke-width="2"/>
+  <text x="335" y="230" text-anchor="middle" font-size="10.5" fill="#1a1a1a">Receptor IR</text>
+
+  <!-- haz -->
+  <line x1="335" y1="100" x2="335" y2="210" stroke="#c0392b" stroke-width="2" stroke-dasharray="5,4"/>
+  <text x="355" y="160" font-size="10.5" fill="#c0392b">haz IR</text>
+
+  <!-- abeja cruzando el haz -->
+  <circle cx="335" cy="155" r="9" fill="#f5c518" stroke="#8a6d00" stroke-width="1.5"/>
+  <text x="335" y="185" text-anchor="middle" font-size="9.5" fill="#555555">abeja interrumpe el haz</text>
+
+  <!-- flecha de direccion de vuelo -->
+  <path d="M280 155 L410 155" stroke="#555555" stroke-width="1.5" fill="none" marker-end="url(#arrowhead)"/>
+  <defs>
+    <marker id="arrowhead" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#555555"/>
+    </marker>
+  </defs>
+  <text x="345" y="145" text-anchor="middle" font-size="9" fill="#555555">tránsito</text>
+
+  <!-- ===== Linea de tiempo: secuencia de eventos discretos ===== -->
+  <text x="380" y="280" text-anchor="middle" font-size="13" font-weight="bold" fill="#1a1a1a">
+    Lo que se registra: eventos discretos en el tiempo, no una onda continua
+  </text>
+
+  <line x1="80" y1="340" x2="680" y2="340" stroke="#1a1a1a" stroke-width="1.5"/>
+  <text x="690" y="344" font-size="11" fill="#1a1a1a">t</text>
+
+  <!-- evento haz A -->
+  <line x1="220" y1="325" x2="220" y2="355" stroke="#2c5aa0" stroke-width="2"/>
+  <text x="220" y="318" text-anchor="middle" font-size="10.5" fill="#2c5aa0">Haz A interrumpido</text>
+
+  <!-- evento haz B, poco despues -->
+  <line x1="280" y1="325" x2="280" y2="355" stroke="#227a3d" stroke-width="2"/>
+  <text x="280" y="318" text-anchor="middle" font-size="10.5" fill="#227a3d">Haz B interrumpido</text>
+
+  <rect x="200" y="365" width="100" height="22" rx="4" fill="#d9f2df" stroke="#227a3d" stroke-width="1"/>
+  <text x="250" y="380" text-anchor="middle" font-size="10.5" fill="#1a1a1a">A→B = entrada</text>
+
+  <!-- unidad de medida -->
+  <rect x="380" y="365" width="300" height="65" rx="6" fill="#eef3fb" stroke="#2c5aa0" stroke-width="1"/>
+  <text x="392" y="382" font-size="10.5" fill="#1a1a1a">Unidad de medida: conteo de eventos</text>
+  <text x="392" y="396" font-size="10.5" fill="#1a1a1a">(entradas, salidas) agregado por intervalo,</text>
+  <text x="392" y="410" font-size="10.5" fill="#1a1a1a">no Hz ni un rango espectral — ver README §0</text>
+  <text x="392" y="424" font-size="10.5" fill="#1a1a1a">y capitulo-3.md §3.9.2 (agregación cada 5 min).</text>
+</svg>

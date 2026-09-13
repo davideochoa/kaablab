@@ -20,7 +20,7 @@ Una contribución de diseño original de esta tesis es la arquitectura sensorial
 | Temp + HR externa | DHT22 | Capacitivo higroscópico | 0–80% HR · −40–80 °C | Externo secundario | Degrada sin recuperación a HR sostenida alta · histéresis |
 | Nivel acústico / vitalidad | INMP441 | MEMS capacitivo | 60 Hz–15 kHz | Estado general de la colonia | No capta vibración estructural <60 Hz |
 | Vibración estructural / defensivo | MPU6050 | Acelerómetro MEMS | 1–50 Hz | Comportamiento defensivo (sustrato) | Requiere contacto con madera |
-| Conteo de tráfico | IR doble haz | LED 940 nm + fototransistor | Direccional (entrada/salida) | Proxy de forrajeo y vitalidad | Sensible a luz solar directa sin filtro |
+| Conteo de tráfico | IR doble haz | Módulo integrado FC-51/KY-033 (LED 940 nm + fototransistor + comparador LM393), 4 módulos / 2 pares | Direccional (entrada/salida) | Proxy de forrajeo y vitalidad | Sensible a luz solar directa sin filtro; distancia mínima de detección (20–300 mm) mayor al diámetro del tubo (~15 mm), pendiente de validar |
 
 **Tabla 3.2 **Arquitectura sensorial heterogénea: fabricante, principio físico, rango, rol y limitación por sensor.
 
@@ -46,15 +46,15 @@ Las meliponinas, incluida *M. beecheii*, expresan su comportamiento defensivo me
 
 El sensor IR doble haz añade un cuarto tipo de señal a la arquitectura: el conteo direccional de tráfico de forrajeras en la piquera, como proxy de la actividad de forrajeo y de la vitalidad general de la colonia.
 
-La arquitectura es de carril único con doble haz: dos pares emisor-receptor de LED IR de 940 nm y fototransistor con filtro de luz diurna, alineados perpendicularmente al eje de tránsito de la piquera, con un comparador LM393 que digitaliza el cruce de cada haz y un transistor 2N2222 para el drive del LED. La lógica de conteo es secuencial: si el haz A se interrumpe antes que el haz B, se registra una entrada (A→B); si el haz B se interrumpe antes que el haz A, se registra una salida (B→A).
+La arquitectura vigente usa **cuatro módulos comerciales integrados FC-51/KY-033** (LED emisor IR de 940 nm, fototransistor receptor, comparador LM393 y potenciómetro de sensibilidad en una sola placa), organizados en **dos pares emisor-receptor** —uno por haz—, alineados perpendicularmente al eje de tránsito de la piquera. Como cada módulo integra emisor y receptor en la misma placa (diseño originalmente pensado para detección reflectiva, no de haz directo), no es posible formar los dos haces cruzados con solo dos unidades: se requiere un par completo (dos módulos enfrentados) por cada haz. La lógica de conteo es secuencial: si el haz A se interrumpe antes que el haz B, se registra una entrada (A→B); si el haz B se interrumpe antes que el haz A, se registra una salida (B→A).
 
 La separación entre los dos haces es de aproximadamente 4 mm, deliberadamente menor a la longitud del cuerpo de una obrera de *M. beecheii* (~10 mm), de modo que un mismo individuo interrumpa ambos haces en secuencia y no simultáneamente. El sensor se embebe en un barreno de aproximadamente 15 mm de diámetro practicado en una pared de madera de al menos 25 mm de espesor, alineado con el túnel de la piquera.
 
-Pines de conexión: GPIO25 (drive del LED IR), GPIO26 (haz A) y GPIO27 (haz B).
+Pines de conexión: cada par entrega al ESP32 la señal digital `OUT` de sus dos módulos —uno declarado receptor principal, el otro secundario, para redundancia/diagnóstico en banco, dado que ambos módulos de un par tienen fototransistor propio—: haz A → GPIO26 (principal) y GPIO25 (secundario); haz B → GPIO27 (principal) y GPIO33 (secundario). Los módulos no requieren señal de drive de LED desde el ESP32: el LED de cada uno se alimenta directamente de VCC/GND.
 
-Referencia: Muniz (conteo IR en Melipona). Costo estimado del sensor: ~$30–50 MXN.
+Referencia: Muniz (conteo IR en Melipona). Costo estimado por módulo: ~$30–50 MXN (cuatro módulos por nodo).
 
-**Nota de validación pendiente (diseño no cerrado):** los módulos comerciales de referencia para este tipo de sensor (FC-51/KY-033) especifican una distancia mínima de detección de 20–300 mm, mayor que el diámetro del barreno de ~15 mm donde se embebe el par emisor-receptor en este diseño. Esta discrepancia no está resuelta por diseño: debe confirmarse en banco, antes de la instalación en campo, que el par LED IR 940 nm + fototransistor usado detecta de forma fiable a la distancia real de montaje y sin falsos positivos por saturación a corta distancia. Tampoco hay mitigación integrada contra falsos positivos por luz solar IR directa; el diseño actual depende únicamente del blindaje mecánico del tubo de madera de la piquera. Ver `CLAUDE.md`, sección "Pendientes técnicos".
+**Nota de validación pendiente (diseño no cerrado):** los módulos FC-51/KY-033 especifican una distancia mínima de detección de 20–300 mm, mayor que el diámetro del barreno de ~15 mm donde se embeben. Esta discrepancia no está resuelta por diseño: debe confirmarse en banco, antes de la instalación en campo, que los módulos detectan de forma fiable a la distancia real de montaje y sin falsos positivos por saturación a corta distancia. Tampoco hay mitigación integrada contra falsos positivos por luz solar IR directa —a diferencia de un diseño con modulación IR activa del LED emisor, descartado en esta arquitectura—; se depende únicamente del blindaje mecánico del tubo de madera de la piquera. Si la validación en banco falla, se deja como alternativa a evaluar el rediseño con circuito discreto (fototransistor tipo PT333-3B + comparador LM393 + transistor driver para el LED), que sí permite ajustar libremente la distancia física y añadir modulación del emisor. Ver `software/sensor-IR-doble-haz/README.md` y `CLAUDE.md`, sección "Pendientes técnicos".
 
 <!-- REVISAR CON ASESOR: confirmar separación exacta entre haces y protocolo de montaje en la caja racional -->
 <!-- REVISAR CON ASESOR: validar en banco distancia mínima de detección real del sensor IR vs. diámetro del barreno de la piquera (ver nota arriba) -->
@@ -89,9 +89,10 @@ Todos los sensores convergen en un único nodo de borde (ESP32 DevKit V1), que c
 | SHT31 + MPU6050/6500 (I²C) | SDA | GPIO21 |
 | SHT31 + MPU6050/6500 (I²C) | SCL | GPIO22 |
 | DHT22 (1-Wire) | DATA | GPIO4 |
-| Contador IR doble haz | LED | GPIO25 |
-| Contador IR doble haz | Haz A | GPIO26 |
-| Contador IR doble haz | Haz B | GPIO27 |
+| Contador IR doble haz | Haz A (principal) | GPIO26 |
+| Contador IR doble haz | Haz A (secundario) | GPIO25 |
+| Contador IR doble haz | Haz B (principal) | GPIO27 |
+| Contador IR doble haz | Haz B (secundario) | GPIO33 |
 
 **Tabla 3.3 **Protocolos de comunicación y pines por sensor (ESP32 DevKit V1).
 
