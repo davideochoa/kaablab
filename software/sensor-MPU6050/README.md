@@ -20,6 +20,33 @@ los conceptos (Nyquist, DLPF, FIFO) como la configuración concreta.
 | `mpu6050_polling.ino` | Ruta A: polling con librería, tasa alta de muestreo |
 | `mpu6050_interrupt_fifo.ino` | Ruta B (opcional): interrupción INT + FIFO interno |
 | `diagrama_conexion.svg` | Esquema de conexión ESP32 DevKit V1 ↔ MPU6050/MPU6500 |
+| `concepto_vibracion.svg` | Diagrama conceptual: qué es la vibración estructural medida y su rango de frecuencia objetivo |
+
+---
+
+## 0. ¿Qué mide este sensor y en qué rango?
+
+![Concepto: vibración estructural medida por el MPU6050](./concepto_vibracion.svg)
+
+El MPU6050 es un **acelerómetro MEMS**: mide aceleración lineal en sus
+tres ejes, no sonido. En este proyecto, montado **en contacto directo con
+la madera de la colmena**, esa aceleración captura la **vibración
+estructural** — el movimiento mecánico de la pared del nido cuando las
+abejas la excitan directamente golpeándola o presionándola con el cuerpo,
+a diferencia del sonido aéreo (variación de presión que viaja por el
+aire, captado por el INMP441 — ver `../sensor-INMP441/README.md`). Es la
+vía por la que *M. beecheii*, como el resto de los meliponinos, expresa
+señalización relacionada con el forrajeo y ciertos comportamientos
+sociales mediante vibración del sustrato (dos Santos et al., 2025).
+
+**Rango de frecuencia objetivo: 300–600 Hz**, banda reportada por Hrncir
+et al. (2006) para señalización vibracional en meliponinos asociada al
+forrajeo/comunicación (título completo pendiente en
+`thesis/referencias.md`). Como ya se documenta en la sección 2.2, el ADC
+del acelerómetro del MPU6050 tiene una limitación de hardware que deja el
+**Nyquist real en ~500 Hz** — al límite del extremo superior de esta
+banda, sin margen —, por lo que la cobertura completa de 600 Hz debe
+confirmarse empíricamente en banco (sección 5).
 
 ---
 

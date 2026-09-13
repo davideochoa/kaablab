@@ -35,6 +35,7 @@ validado originalmente en Apis mellifera.
   de la colonia. NO comportamiento defensivo (los meliponinos expresan
   defensa por vibración de sustrato, no sonido aéreo — dos Santos et al. 2025).
 - Rango INMP441: 60 Hz–15 kHz (Suárez Carvajal 2025). NO "50–10,000 Hz".
+  Confirmado y documentado en software/sensor-INMP441/README.md.
 - MPU6050: sensor primario para comportamiento defensivo vía vibración
   estructural. Montar en contacto directo con la madera de la colmena.
 - SHT31 interno: se autocalibraba por encima de ~80–85% HR.
@@ -77,6 +78,17 @@ Umbrales provisionales de HR (confirmar con asesor):
 - Revisar libro de José Quezada sobre temperatura en M. beecheii (Cap. 2)
 - Anotar dimensiones cuerpo de abeja y separación de haces en figuras IR
 - Convertir referencias.md a formato .bib BibTeX
+- Validación de banco pendiente — contador IR doble haz (FC-51/KY-033):
+  la distancia mínima de detección especificada por el módulo (20–300 mm)
+  excede el diámetro del tubo de la piquera (~15 mm), y no hay mitigación
+  integrada contra falsos positivos por luz solar IR — se depende del
+  blindaje mecánico del tubo de madera. Debe probarse en banco antes de
+  instalar en campo; no darlo por diseño cerrado.
+- Validación de banco pendiente — MPU6050: el ADC del acelerómetro
+  muestrea internamente a 1 kHz fijo, independiente de `SMPLRT_DIV`,
+  dejando el Nyquist real del canal de aceleración en ~500 Hz — al límite
+  del extremo superior de la banda objetivo (300–600 Hz), sin margen. Ver
+  software/sensor-MPU6050/README.md, sección 2.2.
 
 ## Pendientes institucionales
 
@@ -95,7 +107,10 @@ kaablab/
 │   ├── mpu6050/
 │   ├── ir_counter/
 │   └── esp32_main/
-├── software/kaablab/
+├── software/
+│   ├── kaablab/
+│   ├── sensor-MPU6050/     # doc: config muestreo vibración estructural (README, .ino, SVG)
+│   └── sensor-INMP441/     # doc: config muestreo audio I²S (README, .ino, SVG)
 ├── thesis/
 │   ├── preliminares/
 │   ├── capitulo-1-proposito-y-organizacion/capitulo-1.md

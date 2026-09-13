@@ -54,7 +54,10 @@ Pines de conexión: GPIO25 (drive del LED IR), GPIO26 (haz A) y GPIO27 (haz B).
 
 Referencia: Muniz (conteo IR en Melipona). Costo estimado del sensor: ~$30–50 MXN.
 
+**Nota de validación pendiente (diseño no cerrado):** los módulos comerciales de referencia para este tipo de sensor (FC-51/KY-033) especifican una distancia mínima de detección de 20–300 mm, mayor que el diámetro del barreno de ~15 mm donde se embebe el par emisor-receptor en este diseño. Esta discrepancia no está resuelta por diseño: debe confirmarse en banco, antes de la instalación en campo, que el par LED IR 940 nm + fototransistor usado detecta de forma fiable a la distancia real de montaje y sin falsos positivos por saturación a corta distancia. Tampoco hay mitigación integrada contra falsos positivos por luz solar IR directa; el diseño actual depende únicamente del blindaje mecánico del tubo de madera de la piquera. Ver `CLAUDE.md`, sección "Pendientes técnicos".
+
 <!-- REVISAR CON ASESOR: confirmar separación exacta entre haces y protocolo de montaje en la caja racional -->
+<!-- REVISAR CON ASESOR: validar en banco distancia mínima de detección real del sensor IR vs. diámetro del barreno de la piquera (ver nota arriba) -->
 
 ### 3.2.4 Fusión sensorial ponderada por confianza
 
