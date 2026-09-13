@@ -24,7 +24,7 @@ validado originalmente en Apis mellifera.
 | INMP441 | InvenSense (EUA) | Audio aéreo, piquera interior | Nivel acústico / vitalidad colonia |
 | MPU6050 / GY-521 | TDK InvenSense | Vibración estructural | Comportamiento defensivo (sustrato) |
 | IR doble haz | LED 940nm + fototransistor | Conteo tráfico piquera | Entradas / salidas de forrajeras |
-| ESP32-CAM | Espressif | Edge device | Coordinación y almacenamiento |
+| ESP32 DevKit V1 | Espressif | Edge device | Adquisición, coordinación y almacenamiento |
 | Raspberry Pi 4 4GB | Raspberry Pi Foundation | Inferencia IA (Sem. 3) | Clasificación en campo |
 
 ## Decisiones de diseño confirmadas
@@ -42,12 +42,18 @@ validado originalmente en Apis mellifera.
 - Variable diagnóstica térmica: contraste SHT31(interno) - DHT22(externo),
   no el valor absoluto interno solo (M. beecheii es termoconformadora con
   desfase de 5–6 h — Moo-Valle et al. 2000).
-- Sensor IR doble haz: GPIO25 (LED drive), GPIO32 (haz A), GPIO33 (haz B).
+- Sensor IR doble haz: GPIO25 (LED drive), GPIO26 (haz A), GPIO27 (haz B).
   Separación entre haces ~4 mm. Embebido en barreno ~15 mm en pared ≥25 mm.
   Lógica: A→B = entrada, B→A = salida. Modulación IR para rechazo de luz solar.
 - Frase "primero del mundo" → "primero documentado para la especie" en todo.
-- Conflicto GPIO14 pendiente: asignado como SCK (I²S INMP441) y SDA (I²C)
-  simultáneamente — reasignar antes del cableado final.
+- Dispositivo edge confirmado: ESP32 DevKit V1 (no ESP32-CAM). Mapeo de
+  pines confirmado, sin conflictos: I²C compartido SHT31+MPU6050/6500
+  (SDA=GPIO21, SCL=GPIO22); I²S INMP441 (SCK=GPIO14, WS=GPIO15, SD=GPIO32);
+  DHT22 1-Wire (DATA=GPIO4); IR doble haz (LED=GPIO25, haz A=GPIO26, haz
+  B=GPIO27). Ver thesis/capitulo-3.md, Tabla 3.3. Al ser DevKit V1 (no
+  ESP32-CAM/AI-Thinker), no aplican las restricciones de pines reservados
+  a cámara/PSRAM de ese módulo — no asumir esa limitación en tareas
+  futuras.
 
 ## Parámetros de medición confirmados por el asesor
 
@@ -67,7 +73,6 @@ Umbrales provisionales de HR (confirmar con asesor):
 
 ## Pendientes técnicos
 
-- Resolver conflicto GPIO14 antes del cableado final
 - Confirmar umbrales temp/HR con asesor antes de finalizar Cap. 3
 - Revisar libro de José Quezada sobre temperatura en M. beecheii (Cap. 2)
 - Anotar dimensiones cuerpo de abeja y separación de haces en figuras IR
