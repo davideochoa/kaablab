@@ -43,15 +43,24 @@ validado originalmente en Apis mellifera.
 - Variable diagnóstica térmica: contraste SHT31(interno) - DHT22(externo),
   no el valor absoluto interno solo (M. beecheii es termoconformadora con
   desfase de 5–6 h — Moo-Valle et al. 2000).
-- Sensor IR doble haz: GPIO25 (LED drive), GPIO26 (haz A), GPIO27 (haz B).
-  Separación entre haces ~4 mm. Embebido en barreno ~15 mm en pared ≥25 mm.
-  Lógica: A→B = entrada, B→A = salida. Modulación IR para rechazo de luz solar.
+- Sensor IR doble haz: arquitectura vigente usa 4 módulos comerciales
+  FC-51/KY-033 (2 pares emisor-receptor, uno por haz), NO 2 — cada módulo
+  integra emisor+receptor en la misma placa (reflectivo), por lo que no
+  puede formar haz directo cruzado con solo 2 unidades. Haz A: receptor
+  principal GPIO26, receptor secundario GPIO25 (mismo par, redundancia/
+  diagnóstico de banco). Haz B: receptor principal GPIO27, receptor
+  secundario GPIO33. Separación entre haces ~4 mm. Embebido en barreno
+  ~15 mm en pared ≥25 mm. Lógica: A→B = entrada, B→A = salida. SIN
+  mitigación integrada contra luz solar IR — el diseño discreto con
+  modulación IR fue descartado; se depende únicamente del blindaje
+  mecánico del tubo de madera. Ver software/sensor-IR-doble-haz/README.md.
 - Frase "primero del mundo" → "primero documentado para la especie" en todo.
 - Dispositivo edge confirmado: ESP32 DevKit V1 (no ESP32-CAM). Mapeo de
   pines confirmado, sin conflictos: I²C compartido SHT31+MPU6050/6500
   (SDA=GPIO21, SCL=GPIO22); I²S INMP441 (SCK=GPIO14, WS=GPIO15, SD=GPIO32);
-  DHT22 1-Wire (DATA=GPIO4); IR doble haz (LED=GPIO25, haz A=GPIO26, haz
-  B=GPIO27). Ver thesis/capitulo-3.md, Tabla 3.3. Al ser DevKit V1 (no
+  DHT22 1-Wire (DATA=GPIO4); IR doble haz, 4 módulos FC-51/KY-033 (haz A:
+  GPIO26 principal + GPIO25 secundario; haz B: GPIO27 principal + GPIO33
+  secundario). Ver thesis/capitulo-3.md, Tabla 3.3. Al ser DevKit V1 (no
   ESP32-CAM/AI-Thinker), no aplican las restricciones de pines reservados
   a cámara/PSRAM de ese módulo — no asumir esa limitación en tareas
   futuras.
