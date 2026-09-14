@@ -18,7 +18,8 @@ concreta para el ESP32 DevKit V1.
 | `concepto_capacitivo_sht31.svg` | Diagrama conceptual: principio capacitivo de película polimérica y rango de operación |
 | `arduino/sht31_lectura.ino` | Lectura de temperatura y humedad vía I²C con Adafruit SHT31 Library (ESP32) |
 | `arduino/diagrama_conexion.svg` | Esquema de conexión ESP32 DevKit V1 ↔ SHT31 |
-| `raspberry/` | Código Python y diagrama de conexión Raspberry Pi — pendiente, ver `docs/arquitectura-hardware/README.md` |
+| `raspberry/lectura_sht31.py` | Lectura equivalente en Python vía I²C con `smbus2` (Raspberry Pi 4, 2GB) |
+| `raspberry/diagrama_conexion.svg` | Esquema de conexión Raspberry Pi 4 Model B ↔ SHT31 |
 
 ---
 
@@ -114,7 +115,7 @@ para dos usos concretos en el pipeline del proyecto.
 
 Arquitectura dual del nodo de borde (ver `docs/arquitectura-hardware/README.md`):
 código Arduino/ESP32 vigente en [`arduino/`](./arduino/); código Python
-para Raspberry Pi pendiente en [`raspberry/`](./raspberry/).
+equivalente para Raspberry Pi en [`raspberry/`](./raspberry/).
 
 ### 3.1 ESP32 / Arduino
 
@@ -143,6 +144,53 @@ Puntos clave del código:
   DHT22 (secciones 1 y 2) se calculan en la capa de fusión del
   proyecto, no en este sketch de adquisición.
 
+### 3.2 Raspberry Pi
+
+Pin mapping confirmado (`docs/arquitectura-hardware/README.md`, sección
+4): **SDA = GPIO2 / pin físico 3, SCL = GPIO3 / pin físico 5** (bus I²C
+1, `/dev/i2c-1`) — **mismo bus compartido con el sensor de vibración**
+(`../sensor-vibracion/raspberry/lectura_mpu6050.py`), sin conflicto de
+direcciones (SHT31 en 0x44/0x45, MPU6050/6500 en 0x68/0x69).
+
+Ver [`raspberry/lectura_sht31.py`](./raspberry/lectura_sht31.py).
+
+Usa la librería **smbus2** (`pip install smbus2`), por la misma razón
+que la versión Python del sensor de vibración (ver
+`../sensor-vibracion/raspberry/lectura_mpu6050.py`): acceso explícito
+al modo de medición exacto — aquí, comando "single shot, alta
+repetibilidad, **sin clock stretching**" (`0x2400`) — en vez de
+depender de que una librería de alto nivel
+(`adafruit-circuitpython-sht31d`) lo exponga de forma directa.
+
+Nota de confiabilidad — a diferencia del DHT22 (ver
+`../sensor-temperatura-humedad-basico/README.md`, sección 3.2): el
+SHT31 usa **I²C estándar**, no un protocolo de timing crítico de un
+solo hilo, por lo que **no hereda** el riesgo de jitter de planificador
+documentado en `docs/arquitectura-hardware/README.md`, sección 3.2 (ese
+riesgo es específico del protocolo de un solo hilo del DHT22). Lo que
+sí comparte este sensor es el **bus I²C físico** con el MPU6050
+(muestreado a alta frecuencia, ~2667 Hz) — el script incluye en su
+docstring un análisis de throughput, replicando el cálculo ya hecho
+para ese sensor (`../sensor-vibracion/README.md`, sección 2.3):
+
+- El comando sin clock stretching se eligió deliberadamente para que
+  los ~15-20 ms de conversión interna del SHT31 transcurran con el bus
+  **libre**, sin bloquearlo para el MPU6050 (el equivalente, a nivel de
+  bus I²C, del riesgo de `delay()` bloqueante ya identificado para
+  ESP32).
+- Cálculo de ocupación: una lectura completa del SHT31 ocupa el bus
+  ~900 µs, una vez por segundo (~0.09% de duty cycle) — despreciable
+  frente al ~48.6% de duty cycle continuo del MPU6050 a 400 kHz. El
+  riesgo real no es de ancho de banda agregado, sino de un jitter
+  puntual de hasta ~900 µs si una transacción del SHT31 se intercala
+  justo entre dos muestras consecutivas del MPU6050 — ver sección 5.
+- Verifica el CRC8 (Sensirion, polinomio 0x31) de cada campo antes de
+  aceptar una lectura, descartándola en caso de fallo (mismo criterio
+  que `isnan()` en la versión ESP32).
+- Imprime timestamp + temperatura + humedad por salida estándar en el
+  mismo formato CSV que la versión Arduino
+  (`timestamp_ms,temperatura_C,humedad_relativa_pct`).
+
 ---
 
 ## 4. Esquema de conexión
@@ -152,21 +200,36 @@ Ver [`arduino/diagrama_conexion.svg`](./arduino/diagrama_conexion.svg) (ESP32 De
 Incluye: VCC (3.3V), GND, SDA (GPIO21), SCL (GPIO22), y el pin `ADDR`
 (a GND en este proyecto, para dirección 0x44).
 
-El esquema de conexión para Raspberry Pi (mapeo GPIO BCM) se agregará en
-`raspberry/` en una tarea posterior; el mapeo de pines ya documentado
-está en `docs/arquitectura-hardware/README.md`, sección 4.
+Ver también [`raspberry/diagrama_conexion.svg`](./raspberry/diagrama_conexion.svg)
+(Raspberry Pi 4 Model B). Incluye: 3V3, GND, GPIO2/SDA1 (pin físico 3),
+GPIO3/SCL1 (pin físico 5) — mismo bus que
+`../sensor-vibracion/raspberry/` — y el pin `ADDR` (a GND, dirección
+0x44).
 
 ---
 
 ## 5. Nota de validación
 
 Este sensor **no requiere una prueba de banco crítica** como
-`sensor-trafico` o `sensor-vibracion`: es una arquitectura de
-temperatura/humedad ya validada en la tesis (ver
+`sensor-trafico` o `sensor-vibracion` en la plataforma ESP32: es una
+arquitectura de temperatura/humedad ya validada en la tesis (ver
 `thesis/capitulo-3-metodologia/capitulo-3.md`, sección 3.2.1), con
 componentes comerciales de comportamiento bien documentado.
 
-Sí se requiere, una vez instalado en campo:
+**La ruta Raspberry Pi sí requiere confirmar en banco** que la lectura
+periódica del SHT31 (1 Hz) no introduce **latencia perceptible** en el
+muestreo de alta frecuencia del MPU6050 al compartir el bus I²C: el
+análisis de throughput de la sección 3.2 estima esa latencia como
+despreciable en promedio (~0.09% de duty cycle), pero un jitter puntual
+de hasta ~900 µs por lectura del SHT31 debe confirmarse empíricamente,
+con analizador lógico sobre el bus compartido mientras ambos sensores
+leen de forma concurrente, comparando contra el presupuesto de jitter
+ya establecido para `sensor-vibracion`
+(`docs/arquitectura-hardware/README.md`, sección 3.1). Solo tras esa
+validación de banco debe considerarse el bus compartido viable para
+ambos sensores de forma simultánea.
+
+Adicionalmente, una vez instalado en campo (ambas plataformas):
 
 - **Verificar la divergencia DHT22 vs. SHT31** como diagnóstico
   continuo de deriva (sección 1): registrar ambas lecturas desde la
@@ -184,7 +247,10 @@ Sí se requiere, una vez instalado en campo:
 ## Referencias
 
 - Sensirion AG. *Datasheet SHT3x-DIS* — tecnología CMOSens®, rangos de
-  operación, direcciones I²C y comportamiento de autocalibración.
+  operación, direcciones I²C, comandos de medición (con/sin clock
+  stretching), fórmulas de conversión y cálculo de CRC8.
+- `../sensor-vibracion/README.md`, sección 2.3 (cálculo de throughput
+  del bus I²C, replicado aquí para el SHT31).
 - `thesis/capitulo-3-metodologia/capitulo-3.md`, secciones 3.2.1
   (fundamento físico SHT31/DHT22), 3.2.4 (fusión ponderada por
   confianza) y 3.4.5 (conversión a humedad absoluta, fórmula de

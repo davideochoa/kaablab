@@ -24,7 +24,7 @@ del proyecto — **ninguna reemplaza a la otra**:
 | Ruta | Plataforma | Estado de documentación |
 |---|---|---|
 | **A — Arduino/ESP32** | ESP32 DevKit V1, firmware en C++ (Arduino framework) | **Ya documentada y vigente.** Código (`.ino`) y diagrama de conexión completos en la subcarpeta `arduino/` de cada sensor: `software/sensor-vibracion/arduino/`, `software/sensor-audio/arduino/`, `software/sensor-trafico/arduino/`, `software/sensor-temperatura-humedad-basico/arduino/` y `software/sensor-temperatura-humedad-precision/arduino/`. El README conceptual (qué mide, rango, por qué) vive un nivel arriba, en la raíz de cada carpeta de sensor. |
-| **B — Raspberry Pi** | Raspberry Pi (modelo mínimo recomendado: sección 2), firmware en Python (Linux) | Arquitectura y mapeo de pines documentados en este archivo (secciones 2–4). Código Python de adquisición: **en progreso, sensor por sensor.** Disponible para el sensor de vibración estructural (`software/sensor-vibracion/raspberry/`, Ruta A únicamente, riesgo de jitter pendiente de validar en banco — sección 3.1), el sensor de sonido aéreo (`software/sensor-audio/raspberry/`, I²S por hardware/DMA — sin el mismo riesgo de jitter, sección 3) y el sensor de tráfico de forrajeo (`software/sensor-trafico/raspberry/`, detección por eventos GPIO — riesgo de orden de eventos en el conteo direccional, sección 3.3); pendiente para el resto. |
+| **B — Raspberry Pi** | Raspberry Pi (modelo mínimo recomendado: sección 2), firmware en Python (Linux) | Arquitectura y mapeo de pines documentados en este archivo (secciones 2–4). Código Python de adquisición disponible para los **cinco** sensores: vibración estructural (`software/sensor-vibracion/raspberry/`, Ruta A únicamente, riesgo de jitter pendiente de validar en banco — sección 3.1), sonido aéreo (`software/sensor-audio/raspberry/`, I²S por hardware/DMA — sin el mismo riesgo de jitter, sección 3), tráfico de forrajeo (`software/sensor-trafico/raspberry/`, detección por eventos GPIO — riesgo de orden de eventos en el conteo direccional, sección 3.3), temperatura/humedad básico (`software/sensor-temperatura-humedad-basico/raspberry/`, protocolo de un solo hilo vía `pigpio` — riesgo de confiabilidad confirmado, con mitigación parcial, pendiente de validar en banco — sección 3.2) y temperatura/humedad de precisión (`software/sensor-temperatura-humedad-precision/raspberry/`, I²C compartido con el sensor de vibración — throughput analizado, latencia puntual pendiente de confirmar en banco — sección 3.2). |
 
 Los cinco sensores son los mismos en ambas rutas — solo cambia el
 microcontrolador/computador que los lee y el lenguaje del firmware:
@@ -34,8 +34,8 @@ microcontrolador/computador que los lee y el lenguaje del firmware:
 | Sensor de vibración estructural | Comportamiento defensivo (sustrato) | I²C | `software/sensor-vibracion/arduino/` | `software/sensor-vibracion/raspberry/` (Ruta A; jitter pendiente de validar, sección 3.1) |
 | Sensor de sonido aéreo | Nivel acústico / vitalidad de la colonia | I²S | `software/sensor-audio/arduino/` | `software/sensor-audio/raspberry/` (I²S por hardware/DMA; validación de equivalencia pendiente, ver README del sensor sección 5.2) |
 | Sensor de tráfico de forrajeo | Conteo direccional en piquera | GPIO digital (4 señales) | `software/sensor-trafico/arduino/` | `software/sensor-trafico/raspberry/` (detección por eventos; orden A/B pendiente de validar, sección 3.3) |
-| Sensor de temperatura y humedad (rango básico) | Externo secundario | Protocolo propietario de un hilo | `software/sensor-temperatura-humedad-basico/arduino/` | ⏳ pendiente |
-| Sensor de temperatura y humedad (rango de precisión) | Interno primario | I²C | `software/sensor-temperatura-humedad-precision/arduino/` | ⏳ pendiente |
+| Sensor de temperatura y humedad (rango básico) | Externo secundario | Protocolo propietario de un hilo | `software/sensor-temperatura-humedad-basico/arduino/` | `software/sensor-temperatura-humedad-basico/raspberry/` (vía `pigpio`; riesgo de confiabilidad confirmado, mitigación parcial, pendiente de validar en banco, sección 3.2) |
+| Sensor de temperatura y humedad (rango de precisión) | Interno primario | I²C | `software/sensor-temperatura-humedad-precision/arduino/` | `software/sensor-temperatura-humedad-precision/raspberry/` (bus I²C compartido con vibración; throughput analizado, latencia puntual pendiente de confirmar en banco, sección 3.2) |
 
 **¿Por qué dos rutas de hardware?** El ESP32 DevKit V1 es la
 implementación de referencia del proyecto: bajo costo, bajo consumo
@@ -176,9 +176,24 @@ hardware/DMA) es el único sin este tipo de riesgo — ver
 
 ### 3.2 Confiabilidad del muestreo del sensor de temperatura/humedad básico
 
-**Riesgo explícito, pendiente de validación en banco antes de decidir
-si el sensor de temperatura/humedad básico se lee de forma confiable
-en Raspberry Pi.**
+**Riesgo confirmado, con mitigación parcial implementada — NO resuelto,
+pendiente de validación en banco antes de decidir si el sensor de
+temperatura/humedad básico se lee de forma confiable en Raspberry Pi.**
+
+`software/sensor-temperatura-humedad-basico/raspberry/lectura_dht22.py`
+ya implementa una mitigación parcial de este riesgo: usa la librería
+`pigpio`, cuyo daemon captura el timestamp de cada flanco GPIO (`tick`)
+desde un proceso separado que programa hardware de temporizador del
+SoC, fuera del planificador de procesos de Python — esto reduce, sin
+eliminar, la ventana de vulnerabilidad al jitter descrita más abajo, y
+el propio script agrega reintentos automáticos y logging de tasa de
+fallos para poder cuantificar el riesgo remanente. Esto **confirma**
+que el riesgo es real y mitigable, no que esté cerrado: la mitigación
+no cubre el timing del propio pulso de arranque (host manteniendo la
+línea en bajo antes de soltarla), que sigue dependiendo de
+`time.sleep()` en espacio de usuario — ver el docstring de ese script
+para el detalle completo. Ver también
+`software/sensor-temperatura-humedad-basico/README.md`, sección 5.
 
 El sensor de temperatura/humedad básico (rango básico, ver
 `software/sensor-temperatura-humedad-basico/README.md`, sección 3) usa
@@ -198,18 +213,22 @@ operativo de propósito general de por medio (ver
 `software/sensor-temperatura-humedad-basico/arduino/dht22_lectura.ino`,
 que usa la librería DHT sensor library para el bit-banging).
 
-**En Raspberry Pi, la misma lectura por software (bit-banging en
-espacio de usuario o incluso en un driver de kernel sin tiempo real)
-es más frágil.** El planificador de Linux puede interrumpir el proceso
-que está midiendo los pulsos —por las mismas razones descritas en la
+**En Raspberry Pi, la misma lectura por software es más frágil que en
+el ESP32 bare-metal**, incluso con la mitigación parcial vía `pigpio`
+ya implementada en
+`software/sensor-temperatura-humedad-basico/raspberry/lectura_dht22.py`
+(ver el recuadro de arriba). El planificador de Linux puede
+interrumpir el proceso host —por las mismas razones descritas en la
 sección 3.1: otros procesos, interrupciones de hardware, E/S de red, o
 la propia inferencia de TensorFlow Lite corriendo de forma
-concurrente— durante la ventana de ~5 ms que dura la transacción
-completa. Una interrupción de solo unas pocas decenas de microsegundos
-en el momento equivocado ya es suficiente para leer mal un bit
-(confundir un `0` con un `1`), lo que se traduce en **lecturas
-erróneas con mayor frecuencia** que en el ESP32, o en fallos de lectura
-directos (checksum inválido, timeout del protocolo).
+concurrente— durante partes de la transacción que sí dependen de
+`time.sleep()` en espacio de usuario (el pulso de arranque). Una
+interrupción de solo unas pocas decenas de microsegundos en el momento
+equivocado ya es suficiente para leer mal un bit (confundir un `0` con
+un `1`), lo que se traduce en **lecturas erróneas con mayor
+frecuencia** que en el ESP32, o en fallos de lectura directos
+(checksum inválido, timeout del protocolo) — mitigados, no eliminados,
+por los reintentos automáticos ya implementados en el script.
 
 **Esto queda marcado como pendiente de validación en banco, no como
 diseño cerrado.** Antes de decidir si el sensor de temperatura/humedad
@@ -221,9 +240,11 @@ canal simple —I²C, UART o incluso un par de GPIO con protocolo propio—
 en vez de que Raspberry Pi bit-banguee el protocolo propietario
 directamente), se requiere:
 
-1. Medir en banco la tasa de fallos/lecturas erróneas (`NAN`, checksum
-   inválido, timeout) del sensor de temperatura/humedad básico sobre
-   Raspberry Pi, comparada contra la tasa de fallos ya observada en
+1. Medir en banco, con el logging de tasa de fallos ya incluido en
+   `raspberry/lectura_dht22.py` (clase `RastreadorTasaFallos`), la tasa
+   de fallos/lecturas erróneas (checksum inválido, timeout) del sensor
+   de temperatura/humedad básico sobre Raspberry Pi durante al menos
+   24 h continuas, comparada contra la tasa de fallos ya observada en
    ESP32, bajo carga variable (con y sin inferencia concurrente, igual
    que en la sección 3.1).
 2. Si la tasa de fallos en Raspberry Pi resulta significativamente
@@ -352,17 +373,16 @@ sensores es el de la **ruta A (Arduino/ESP32)**, en la subcarpeta
 | `software/sensor-vibracion/` | Vibración estructural | ✅ `mpu6050_polling.ino`, `mpu6050_interrupt_fifo.ino`, `diagrama_conexion.svg` | ✅ `lectura_mpu6050.py` (Ruta A únicamente), `diagrama_conexion.svg` — ver sección 3.1 sobre el riesgo de jitter pendiente de validar en banco |
 | `software/sensor-audio/` | Sonido aéreo | ✅ `inmp441_i2s_capture.ino`, `diagrama_conexion.svg` | ✅ `captura_inmp441.py`, `diagrama_conexion.svg` — I²S por hardware/DMA, sin el riesgo de jitter de los sensores anteriores (ver README del sensor, sección 3.2); validación de equivalencia con ESP32 pendiente (sección 5.2) |
 | `software/sensor-trafico/` | Tráfico de forrajeo | ✅ `ir_doble_haz_conteo.ino`, `diagrama_conexion.svg` | ✅ `conteo_trafico.py`, `diagrama_conexion.svg` — detección por eventos GPIO, riesgo de orden A/B en el conteo direccional pendiente de validar (sección 3.3) |
-| `software/sensor-temperatura-humedad-basico/` | Temp/HR básico | ✅ `dht22_lectura.ino`, `diagrama_conexion.svg` | ⏳ pendiente (carpeta vacía) |
-| `software/sensor-temperatura-humedad-precision/` | Temp/HR precisión | ✅ `sht31_lectura.ino`, `diagrama_conexion.svg` | ⏳ pendiente (carpeta vacía) |
+| `software/sensor-temperatura-humedad-basico/` | Temp/HR básico | ✅ `dht22_lectura.ino`, `diagrama_conexion.svg` | ✅ `lectura_dht22.py` (vía `pigpio`), `diagrama_conexion.svg` — ver sección 3.2 sobre el riesgo de confiabilidad confirmado, con mitigación parcial, pendiente de validar en banco |
+| `software/sensor-temperatura-humedad-precision/` | Temp/HR precisión | ✅ `sht31_lectura.ino`, `diagrama_conexion.svg` | ✅ `lectura_sht31.py` (I²C vía `smbus2`), `diagrama_conexion.svg` — bus compartido con el sensor de vibración, throughput analizado (ver README del sensor, sección 3.2); latencia puntual pendiente de confirmar en banco (sección 3.2 de este documento) |
 
 **Este documento no incluye código Python.** Es exclusivamente de
 arquitectura y mapeo de pines; el código en sí vive en cada carpeta de
-sensor (columna anterior). El código Python para los sensores restantes
-se agregará **sensor por sensor, en tareas posteriores**, dentro de la
-subcarpeta `raspberry/` ya creada en cada uno — incluyendo su propio
-diagrama de conexión (mapeo GPIO BCM de la sección 4) — para mantener
-juntas, bajo la misma carpeta de sensor, ambas implementaciones
-(Arduino y Python) del mismo sensor.
+sensor (columna anterior). Los cinco sensores ya cuentan con código
+Python equivalente en su subcarpeta `raspberry/`; lo pendiente en todos
+los casos (secciones 3.1–3.3) es la **validación de banco** de los
+riesgos de temporización específicos de cada uno bajo Linux, no la
+implementación del código en sí.
 
 ---
 

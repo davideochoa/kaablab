@@ -18,7 +18,8 @@ concreta para el ESP32 DevKit V1.
 | `concepto_capacitivo_dht22.svg` | Diagrama conceptual: principio capacitivo higroscópico y rango de operación |
 | `arduino/dht22_lectura.ino` | Lectura de temperatura y humedad con la librería DHT sensor library (ESP32) |
 | `arduino/diagrama_conexion.svg` | Esquema de conexión ESP32 DevKit V1 ↔ DHT22 |
-| `raspberry/` | Código Python y diagrama de conexión Raspberry Pi — pendiente, ver `docs/arquitectura-hardware/README.md` |
+| `raspberry/lectura_dht22.py` | Lectura equivalente en Python vía `pigpio` (Raspberry Pi 4, 2GB) |
+| `raspberry/diagrama_conexion.svg` | Esquema de conexión Raspberry Pi 4 Model B ↔ DHT22 |
 
 ---
 
@@ -108,7 +109,7 @@ para dos usos concretos en el pipeline del proyecto.
 
 Arquitectura dual del nodo de borde (ver `docs/arquitectura-hardware/README.md`):
 código Arduino/ESP32 vigente en [`arduino/`](./arduino/); código Python
-para Raspberry Pi pendiente en [`raspberry/`](./raspberry/).
+equivalente para Raspberry Pi en [`raspberry/`](./raspberry/).
 
 ### 3.1 ESP32 / Arduino
 
@@ -139,32 +140,96 @@ Puntos clave del código:
   SHT31 (secciones 1 y 2) se calculan en la capa de fusión del
   proyecto, no en este sketch de adquisición.
 
+### 3.2 Raspberry Pi
+
+Pin mapping confirmado (`docs/arquitectura-hardware/README.md`, sección
+4): **DATA = GPIO4 (pin físico 7)** — mismo pin BCM que en ESP32.
+
+Ver [`raspberry/lectura_dht22.py`](./raspberry/lectura_dht22.py).
+
+Usa la librería **`pigpio`** (`pip install pigpio`, requiere el daemon
+`pigpiod` corriendo en background), **no** `adafruit-circuitpython-dht`
+ni el paquete legado `Adafruit_DHT`. Nota técnica importante, ya
+documentada en el docstring del propio script: `adafruit-circuitpython-dht`
+**no** usa `pigpio` internamente — es una confusión frecuente. Esa
+librería hace bit-banging en espacio de usuario, con el mismo riesgo de
+jitter del planificador de Linux ya documentado en
+`docs/arquitectura-hardware/README.md`, sección 3.2. El daemon
+`pigpiod`, en cambio, captura el timestamp de cada flanco GPIO
+(`tick`) desde un proceso separado que programa hardware de
+temporizador del SoC, fuera del planificador de procesos de Python —
+esto **mitiga, sin eliminar,** ese riesgo: ver la sección "NOTA TECNICA
+SOBRE LA LIBRERIA ELEGIDA" en el propio script para el detalle
+completo de qué cubre esta mitigación y qué no.
+
+Puntos clave del código:
+
+- Decodifica el protocolo bit a bit mediante un callback de flancos de
+  `pigpio` (`pigpio.EITHER_EDGE`) y `pigpio.tickDiff()`, inspirado en
+  la técnica del script de referencia "DHT22.py" de joan2937 (autor de
+  `pigpio`) — ver el docstring del módulo para el detalle de la
+  reimplementación propia de este proyecto.
+- Implementa **reintentos automáticos** (`MAX_REINTENTOS = 3`,
+  `RETARDO_ENTRE_REINTENTOS_S` respeta el límite de tasa del sensor):
+  el DHT22 falla intermitentemente incluso en ESP32 (ver sección 3.1);
+  en Raspberry el riesgo es mayor por el jitter ya documentado.
+- Implementa **logging de tasa de fallos** (`RastreadorTasaFallos`):
+  registra cada intento (éxito/fallo) sobre una ventana móvil y de
+  forma acumulada, para poder **cuantificar en banco** si el riesgo de
+  timing de la sección 3.2 de `docs/arquitectura-hardware/README.md`
+  se materializa en la práctica, comparando contra la tasa de fallos
+  ya conocida en la versión ESP32 (sección 3.1) — ver sección 5.
+- Verifica el checksum de la trama de 40 bits antes de aceptar una
+  lectura, descartándola en caso de fallo en vez de propagarla al
+  pipeline de fusión (mismo criterio que `isnan()` en la versión
+  ESP32).
+- Imprime timestamp + temperatura + humedad por salida estándar en el
+  mismo formato CSV que la versión Arduino
+  (`timestamp_ms,temperatura_C,humedad_relativa_pct`).
+
 ---
 
 ## 4. Esquema de conexión
 
 Ver [`arduino/diagrama_conexion.svg`](./arduino/diagrama_conexion.svg) (ESP32 DevKit V1).
 
-El esquema de conexión para Raspberry Pi (mapeo GPIO BCM) se agregará en
-`raspberry/` en una tarea posterior; el mapeo de pines ya documentado
-está en `docs/arquitectura-hardware/README.md`, sección 4.
+Ver también [`raspberry/diagrama_conexion.svg`](./raspberry/diagrama_conexion.svg)
+(Raspberry Pi 4 Model B).
 
-Incluye: VCC (3.3–5V), GND, DATA (GPIO4), y la resistencia pull-up de
-10 kΩ entre DATA y VCC requerida por el protocolo del sensor (muchos
-módulos AM2302/DHT22 ya la incluyen integrada en la placa — verificar
-antes de añadir una externa).
+Ambos incluyen: alimentación, GND, DATA (GPIO4 en ambas plataformas), y
+la resistencia pull-up de 10 kΩ entre DATA y VCC requerida por el
+protocolo del sensor (muchos módulos AM2302/DHT22 ya la incluyen
+integrada en la placa — verificar antes de añadir una externa). El
+diagrama de Raspberry Pi además marca que GPIO4 coincide con el pin que
+Raspberry Pi OS reserva por defecto para el overlay 1-Wire estándar
+(`w1-gpio`) — no aplica aquí (protocolo propietario, no 1-Wire Dallas),
+ver `docs/arquitectura-hardware/README.md`, sección 4.
 
 ---
 
 ## 5. Nota de validación
 
 Este sensor **no requiere una prueba de banco crítica** como
-`sensor-trafico` o `sensor-vibracion`: es una arquitectura de
-temperatura/humedad ya validada en la tesis (ver
+`sensor-trafico` o `sensor-vibracion` en la plataforma ESP32: es una
+arquitectura de temperatura/humedad ya validada en la tesis (ver
 `thesis/capitulo-3-metodologia/capitulo-3.md`, sección 3.2.1), con
 componentes comerciales de comportamiento bien documentado.
 
-Sí se requiere, una vez instalado en campo:
+**La ruta Raspberry Pi sí requiere validación de banco explícita antes
+de darla por viable para este sensor** (ver
+`docs/arquitectura-hardware/README.md`, sección 3.2 — riesgo
+confirmado, con mitigación parcial vía `pigpio`, no resuelto): medir la
+**tasa de fallos/reintentos** de `raspberry/lectura_dht22.py` durante
+al menos **24 h continuas**, usando el logging de
+`RastreadorTasaFallos` ya incluido en el script, y comparar esa tasa
+contra la ya conocida en la versión ESP32 (sección 3.1) — con y sin
+inferencia de TensorFlow Lite corriendo de forma concurrente, igual que
+en la metodología ya establecida para `sensor-vibracion` (sección 3.1
+de `docs/arquitectura-hardware/README.md`). Solo tras esa validación de
+banco debe considerarse esta plataforma viable para este sensor
+específico.
+
+Adicionalmente, una vez instalado en campo (ambas plataformas):
 
 - **Verificar la divergencia DHT22 vs. SHT31** como diagnóstico
   continuo de deriva (sección 1): registrar ambas lecturas desde la
@@ -184,6 +249,9 @@ Sí se requiere, una vez instalado en campo:
 - Aosong (Guangzhou) Electronics. *Digital-output relative humidity &
   temperature sensor/module DHT22 (AM2302)* — datasheet, rangos de
   operación y protocolo de un solo hilo.
+- joan2937. *pigpio library* — http://abyz.me.uk/rpi/pigpio/ — daemon
+  de temporización por DMA para GPIO en Raspberry Pi; técnica de
+  decodificación DHT22 por callback de flancos + `tickDiff()`.
 - `thesis/capitulo-3-metodologia/capitulo-3.md`, secciones 3.2.1
   (fundamento físico SHT31/DHT22), 3.2.4 (fusión ponderada por
   confianza) y 3.4.5 (conversión a humedad absoluta, fórmula de
