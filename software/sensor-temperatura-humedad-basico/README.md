@@ -14,10 +14,11 @@ concreta para el ESP32 DevKit V1.
 
 | Archivo | Contenido |
 |---|---|
-| `README.md` | Este documento |
-| `dht22_lectura.ino` | Lectura de temperatura y humedad con la librería DHT sensor library |
-| `diagrama_conexion.svg` | Esquema de conexión ESP32 DevKit V1 ↔ DHT22 |
+| `README.md` | Este documento (conceptual, independiente de plataforma) |
 | `concepto_capacitivo_dht22.svg` | Diagrama conceptual: principio capacitivo higroscópico y rango de operación |
+| `arduino/dht22_lectura.ino` | Lectura de temperatura y humedad con la librería DHT sensor library (ESP32) |
+| `arduino/diagrama_conexion.svg` | Esquema de conexión ESP32 DevKit V1 ↔ DHT22 |
+| `raspberry/` | Código Python y diagrama de conexión Raspberry Pi — pendiente, ver `docs/arquitectura-hardware/README.md` |
 
 ---
 
@@ -103,9 +104,15 @@ para dos usos concretos en el pipeline del proyecto.
 
 ---
 
-## 3. Código de manejo del sensor (ESP32)
+## 3. Código de manejo del sensor
 
-Ver [`dht22_lectura.ino`](./dht22_lectura.ino).
+Arquitectura dual del nodo de borde (ver `docs/arquitectura-hardware/README.md`):
+código Arduino/ESP32 vigente en [`arduino/`](./arduino/); código Python
+para Raspberry Pi pendiente en [`raspberry/`](./raspberry/).
+
+### 3.1 ESP32 / Arduino
+
+Ver [`arduino/dht22_lectura.ino`](./arduino/dht22_lectura.ino).
 
 Usa la librería **DHT sensor library** de Adafruit (requiere la
 dependencia "Adafruit Unified Sensor", instalable junto con ella desde
@@ -136,7 +143,11 @@ Puntos clave del código:
 
 ## 4. Esquema de conexión
 
-Ver [`diagrama_conexion.svg`](./diagrama_conexion.svg).
+Ver [`arduino/diagrama_conexion.svg`](./arduino/diagrama_conexion.svg) (ESP32 DevKit V1).
+
+El esquema de conexión para Raspberry Pi (mapeo GPIO BCM) se agregará en
+`raspberry/` en una tarea posterior; el mapeo de pines ya documentado
+está en `docs/arquitectura-hardware/README.md`, sección 4.
 
 Incluye: VCC (3.3–5V), GND, DATA (GPIO4), y la resistencia pull-up de
 10 kΩ entre DATA y VCC requerida por el protocolo del sensor (muchos

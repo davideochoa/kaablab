@@ -15,10 +15,12 @@ concreta para el ESP32 DevKit V1.
 
 | Archivo | Contenido |
 |---|---|
-| `README.md` | Este documento |
-| `inmp441_i2s_capture.ino` | Configuración y lectura no bloqueante del driver I²S |
-| `diagrama_conexion.svg` | Esquema de conexión ESP32 DevKit V1 ↔ INMP441 |
+| `README.md` | Este documento (conceptual, independiente de plataforma) |
 | `concepto_nivel_acustico.svg` | Diagrama conceptual: qué es el nivel acústico medido y su rango de frecuencia |
+| `arduino/inmp441_i2s_capture.ino` | Configuración y lectura no bloqueante del driver I²S (ESP32) |
+| `arduino/diagrama_conexion.svg` | Esquema de conexión ESP32 DevKit V1 ↔ INMP441 |
+| `raspberry/captura_inmp441.py` | Captura equivalente en Python vía I²S con `sounddevice` (Raspberry Pi 4, 2GB) |
+| `raspberry/diagrama_conexion.svg` | Esquema de conexión Raspberry Pi 4 Model B ↔ INMP441 |
 
 ---
 
@@ -153,9 +155,15 @@ misma línea I²S para este proyecto.
 
 ---
 
-## 3. Código de manejo del sensor (ESP32)
+## 3. Código de manejo del sensor
 
-Ver [`inmp441_i2s_capture.ino`](./inmp441_i2s_capture.ino).
+Arquitectura dual del nodo de borde (ver `docs/arquitectura-hardware/README.md`):
+código Arduino/ESP32 vigente en [`arduino/`](./arduino/); código Python
+equivalente para Raspberry Pi en [`raspberry/`](./raspberry/) (sección 3.2).
+
+### 3.1 ESP32 / Arduino
+
+Ver [`arduino/inmp441_i2s_capture.ino`](./arduino/inmp441_i2s_capture.ino).
 
 Pin mapping confirmado del proyecto (`CLAUDE.md`,
 `thesis/capitulo-3-metodologia/capitulo-3.md` Tabla 3.3):
@@ -183,18 +191,78 @@ Puntos clave del código:
   timestamp + valor por puerto serie en formato CSV, listo para capturar
   y analizar (p. ej. verificar aliasing/saturación) en banco.
 
+### 3.2 Raspberry Pi
+
+Pin mapping confirmado (`docs/arquitectura-hardware/README.md`, sección
+4): **BCLK = GPIO18 / pin físico 12, LRCLK (WS) = GPIO19 / pin físico
+35, DIN (SD) = GPIO20 / pin físico 38**. L/R a GND, igual que en ESP32
+(canal izquierdo, mono).
+
+Ver [`raspberry/captura_inmp441.py`](./raspberry/captura_inmp441.py).
+
+Requiere habilitar el bus I²S en `/boot/config.txt`
+(`dtparam=i2s=on` + overlay de tarjeta de sonido I²S para micrófono
+genérico) para que el sensor aparezca como dispositivo de captura ALSA
+— ver el docstring del script para el detalle y para qué queda
+pendiente de confirmar según la imagen de Raspberry Pi OS usada.
+
+Usa la librería **sounddevice** (`pip install sounddevice`, requiere
+PortAudio), elegida sobre `pyalsaaudio` porque entrega la captura
+directamente como arreglos NumPy — el mismo formato que usará el resto
+del pipeline de extracción de características del proyecto (MFCCs, ZCR,
+centroide espectral).
+
+**Ventaja de esta plataforma específica para este sensor** (contraste
+explícito con `../sensor-vibracion/raspberry/` y
+`../sensor-temperatura-humedad-basico/raspberry/`, ver
+`docs/arquitectura-hardware/README.md`, secciones 3.1 y 3.2): el I²S en
+Raspberry Pi 4 usa un periférico de **hardware** dedicado (bloque
+PCM/I2S del SoC) con transferencia por **DMA** gestionada por el driver
+ALSA/kernel — el proceso de Python no mide timing por software como sí
+ocurre al leer el MPU6050 por I²C o el sensor básico de temperatura/
+humedad por su protocolo de un solo cable. El riesgo de jitter de Linux
+no-RT documentado para esos dos sensores **no aplica de la misma forma
+aquí**; ver el docstring del script para el análisis completo. Esto no
+exime de la validación de banco de la sección 5 — solo cambia qué se
+está validando (paridad de calidad de señal, no tasa de muestreo real).
+
+Puntos clave del código:
+
+- Configura `samplerate=16000`, `channels=1`, `dtype='int32'` — misma
+  configuración que la versión ESP32 (secciones 2.1–2.4).
+- Usa un *callback* de `sounddevice.InputStream` (el driver ALSA invoca
+  la función cuando hay un bloque nuevo disponible) en vez de un bucle
+  de polling — análogo, a nivel de patrón, a la Ruta B por interrupción
+  del sensor de vibración, aunque aquí es el comportamiento estándar de
+  la librería, no una elección de diseño para mitigar jitter.
+- Reporta explícitamente cualquier `status` no vacío del callback
+  (xruns/underrun/overrun del driver ALSA): a diferencia del jitter de
+  espacio de usuario de otros sensores, un xrun aquí es evidencia de
+  pérdida real de datos en el buffer DMA.
+- Extrae los 24 bits válidos de cada muestra de 32 bits (`>>8`, misma
+  nota de validación que el código Arduino) e imprime timestamp + valor
+  por salida estándar en el mismo formato CSV
+  (`timestamp_us,sample_24bit`) que la versión ESP32.
+
 ---
 
 ## 4. Esquema de conexión
 
-Ver [`diagrama_conexion.svg`](./diagrama_conexion.svg).
+Ver [`arduino/diagrama_conexion.svg`](./arduino/diagrama_conexion.svg) (ESP32 DevKit V1).
 
 Incluye: VDD (3.3V), GND, SCK (GPIO14), WS (GPIO15), SD (GPIO32), y L/R
 (a GND, canal mono).
 
+Ver también [`raspberry/diagrama_conexion.svg`](./raspberry/diagrama_conexion.svg)
+(Raspberry Pi 4 Model B). Incluye: 3V3, GND, GPIO18/BCLK (pin físico 12),
+GPIO19/LRCLK (pin físico 35), GPIO20/DIN (pin físico 38), y L/R a GND
+(canal mono, igual que en ESP32).
+
 ---
 
 ## 5. Validación requerida antes de instalación en campo
+
+### 5.1 ESP32 / Arduino
 
 **No dar por resuelta esta configuración únicamente por inspección de
 código o datasheet.** Antes de instalar el sensor en una colmena, se
@@ -225,6 +293,41 @@ colonia:
 
 Solo después de esta validación de banco se debe considerar la
 configuración lista para cableado final en campo.
+
+### 5.2 Raspberry Pi — validación de equivalencia con ESP32
+
+A diferencia de la validación de banco del sensor de vibración
+estructural o del sensor básico de temperatura/humedad en Raspberry Pi
+(donde se espera y se valida una **degradación** frente al ESP32 por el
+riesgo de jitter de Linux no-RT — ver `docs/arquitectura-hardware/README.md`,
+secciones 3.1 y 3.2), aquí **se espera que ambas plataformas sean
+equivalentes**: el I²S se lee por hardware/DMA en ambos casos (sección
+3.2 de este documento). La validación de banco confirma esa expectativa
+en vez de medir una degradación esperada:
+
+1. **Grabar el mismo tono conocido o el mismo zumbido de vuelo real**
+   (idealmente en la misma sesión, alternando el micrófono entre ESP32
+   y Raspberry Pi, o con dos INMP441 idénticos colocados lado a lado)
+   usado en la validación de la sección 5.1.
+2. **Comparar espectro (FFT) y amplitud** de ambas capturas: no debe
+   haber diferencias significativas de contenido frecuencial ni de
+   nivel entre la captura del ESP32 y la de Raspberry Pi.
+3. **Confirmar ausencia de xruns** (`status` no vacío reportado por el
+   callback de `sounddevice`, ver sección 3.2) durante la captura en
+   Raspberry Pi — un xrun indicaría pérdida de datos que no tiene
+   equivalente en la captura del ESP32.
+4. **Confirmar la tasa de muestreo real** en Raspberry Pi (conteo de
+   muestras recibidas por segundo contra las 16,000 configuradas),
+   igual que el punto 4 de la sección 5.1.
+5. **Si se detectan diferencias significativas** entre plataformas
+   (a diferencia del resultado esperado), tratar como hallazgo a
+   investigar — por ejemplo, verificar el overlay I²S usado y la
+   configuración exacta del driver ALSA — antes de asumir que ambas
+   rutas son intercambiables para este sensor.
+
+Solo después de esta validación de equivalencia se debe considerar la
+ruta Raspberry Pi lista para uso intercambiable con ESP32 en este
+sensor.
 
 ---
 

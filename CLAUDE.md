@@ -118,9 +118,13 @@ kaablab/
 │   └── esp32_main/
 ├── software/
 │   ├── kaablab/
-│   ├── sensor-vibracion/   # doc: config muestreo vibración estructural (README, .ino, SVG)
-│   ├── sensor-audio/       # doc: config muestreo audio I²S (README, .ino, SVG)
-│   └── sensor-trafico/     # doc: config conteo tráfico IR doble haz (README, .ino, SVG)
+│   ├── sensor-vibracion/                        # README + SVG conceptual (independiente de plataforma)
+│   │   ├── arduino/                             #   código ESP32 (.ino) + diagrama de conexión (vigente)
+│   │   └── raspberry/                           #   código Python + diagrama de conexión (pendiente)
+│   ├── sensor-audio/                            # misma estructura arduino/ + raspberry/
+│   ├── sensor-trafico/                          # misma estructura arduino/ + raspberry/
+│   ├── sensor-temperatura-humedad-basico/       # misma estructura arduino/ + raspberry/
+│   └── sensor-temperatura-humedad-precision/    # misma estructura arduino/ + raspberry/
 ├── thesis/
 │   ├── preliminares/
 │   ├── capitulo-1-proposito-y-organizacion/capitulo-1.md
@@ -132,6 +136,7 @@ kaablab/
 │   └── referencias.md
 ├── data/
 └── docs/
+    └── arquitectura-hardware/   # arquitectura dual ESP32/Raspberry Pi, mapeo de pines RPi
 ```
 
 ## Convenciones

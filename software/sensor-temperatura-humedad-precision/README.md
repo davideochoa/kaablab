@@ -14,10 +14,11 @@ concreta para el ESP32 DevKit V1.
 
 | Archivo | Contenido |
 |---|---|
-| `README.md` | Este documento |
-| `sht31_lectura.ino` | Lectura de temperatura y humedad vía I²C con Adafruit SHT31 Library |
-| `diagrama_conexion.svg` | Esquema de conexión ESP32 DevKit V1 ↔ SHT31 |
+| `README.md` | Este documento (conceptual, independiente de plataforma) |
 | `concepto_capacitivo_sht31.svg` | Diagrama conceptual: principio capacitivo de película polimérica y rango de operación |
+| `arduino/sht31_lectura.ino` | Lectura de temperatura y humedad vía I²C con Adafruit SHT31 Library (ESP32) |
+| `arduino/diagrama_conexion.svg` | Esquema de conexión ESP32 DevKit V1 ↔ SHT31 |
+| `raspberry/` | Código Python y diagrama de conexión Raspberry Pi — pendiente, ver `docs/arquitectura-hardware/README.md` |
 
 ---
 
@@ -109,9 +110,15 @@ para dos usos concretos en el pipeline del proyecto.
 
 ---
 
-## 3. Código de manejo del sensor (ESP32)
+## 3. Código de manejo del sensor
 
-Ver [`sht31_lectura.ino`](./sht31_lectura.ino).
+Arquitectura dual del nodo de borde (ver `docs/arquitectura-hardware/README.md`):
+código Arduino/ESP32 vigente en [`arduino/`](./arduino/); código Python
+para Raspberry Pi pendiente en [`raspberry/`](./raspberry/).
+
+### 3.1 ESP32 / Arduino
+
+Ver [`arduino/sht31_lectura.ino`](./arduino/sht31_lectura.ino).
 
 Pin mapping confirmado del proyecto: **SDA = GPIO21, SCL = GPIO22**
 (bus I²C compartido con el MPU6050, ver `../sensor-vibracion/README.md`).
@@ -140,10 +147,14 @@ Puntos clave del código:
 
 ## 4. Esquema de conexión
 
-Ver [`diagrama_conexion.svg`](./diagrama_conexion.svg).
+Ver [`arduino/diagrama_conexion.svg`](./arduino/diagrama_conexion.svg) (ESP32 DevKit V1).
 
 Incluye: VCC (3.3V), GND, SDA (GPIO21), SCL (GPIO22), y el pin `ADDR`
 (a GND en este proyecto, para dirección 0x44).
+
+El esquema de conexión para Raspberry Pi (mapeo GPIO BCM) se agregará en
+`raspberry/` en una tarea posterior; el mapeo de pines ya documentado
+está en `docs/arquitectura-hardware/README.md`, sección 4.
 
 ---
 

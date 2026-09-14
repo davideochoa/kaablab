@@ -16,11 +16,13 @@ los conceptos (Nyquist, DLPF, FIFO) como la configuración concreta.
 
 | Archivo | Contenido |
 |---|---|
-| `README.md` | Este documento |
-| `mpu6050_polling.ino` | Ruta A: polling con librería, tasa alta de muestreo |
-| `mpu6050_interrupt_fifo.ino` | Ruta B (opcional): interrupción INT + FIFO interno |
-| `diagrama_conexion.svg` | Esquema de conexión ESP32 DevKit V1 ↔ MPU6050/MPU6500 |
+| `README.md` | Este documento (conceptual, independiente de plataforma) |
 | `concepto_vibracion.svg` | Diagrama conceptual: qué es la vibración estructural medida y su rango de frecuencia objetivo |
+| `arduino/mpu6050_polling.ino` | Ruta A: polling con librería, tasa alta de muestreo (ESP32) |
+| `arduino/mpu6050_interrupt_fifo.ino` | Ruta B (opcional): interrupción INT + FIFO interno (ESP32) |
+| `arduino/diagrama_conexion.svg` | Esquema de conexión ESP32 DevKit V1 ↔ MPU6050/MPU6500 |
+| `raspberry/lectura_mpu6050.py` | Ruta A equivalente en Python: polling vía I²C con `smbus2` (Raspberry Pi 4, 2GB) |
+| `raspberry/diagrama_conexion.svg` | Esquema de conexión Raspberry Pi 4 Model B ↔ MPU6050/MPU6500 |
 
 ---
 
@@ -194,13 +196,20 @@ independientes.
 
 ---
 
-## 3. Código de manejo del sensor (ESP32)
+## 3. Código de manejo del sensor
+
+Arquitectura dual del nodo de borde (ver `docs/arquitectura-hardware/README.md`):
+código Arduino/ESP32 vigente en [`arduino/`](./arduino/); código Python
+equivalente para Raspberry Pi (Ruta A únicamente, ver sección 3.2) en
+[`raspberry/`](./raspberry/).
+
+### 3.1 ESP32 / Arduino
 
 Pin mapping confirmado del proyecto: **SDA = GPIO21, SCL = GPIO22**.
 
-### 3.1 Ruta A — Polling con librería (recomendada para primera prueba)
+#### 3.1.1 Ruta A — Polling con librería (recomendada para primera prueba)
 
-Ver [`mpu6050_polling.ino`](./mpu6050_polling.ino).
+Ver [`arduino/mpu6050_polling.ino`](./arduino/mpu6050_polling.ino).
 
 Usa la librería **I2Cdevlib** (`MPU6050.h`, de Jeff Rowberg —
 https://github.com/jrowberg/i2cdevlib), porque expone `setRate()` y
@@ -221,9 +230,9 @@ Puntos clave del código:
   formato CSV, listo para capturar con un terminal serie o script y
   analizar (p. ej. FFT) en banco.
 
-### 3.2 Ruta B — Interrupción + FIFO (opcional, solo si Ruta A pierde muestras)
+#### 3.1.2 Ruta B — Interrupción + FIFO (opcional, solo si Ruta A pierde muestras)
 
-Ver [`mpu6050_interrupt_fifo.ino`](./mpu6050_interrupt_fifo.ino).
+Ver [`arduino/mpu6050_interrupt_fifo.ino`](./arduino/mpu6050_interrupt_fifo.ino).
 
 Solo implementar esta ruta si la prueba de banco de la Ruta A (sección 5)
 muestra pérdida de muestras. Usa el pin `INT` (data-ready) del MPU6050 y
@@ -237,18 +246,67 @@ El pin `INT` sugerido en el código (GPIO4) **no está confirmado contra el
 mapeo global de pines del proyecto** (`firmware/esp32_main`) — verificar
 que no choque con otro sensor antes de cablear.
 
+### 3.2 Raspberry Pi
+
+Pin mapping confirmado (`docs/arquitectura-hardware/README.md`, sección
+4): **SDA = GPIO2 / pin físico 3, SCL = GPIO3 / pin físico 5** (bus I²C
+1, `/dev/i2c-1`).
+
+Ver [`raspberry/lectura_mpu6050.py`](./raspberry/lectura_mpu6050.py).
+Equivalente Python de la **Ruta A únicamente** (polling) — no hay
+equivalente Python de la Ruta B (interrupción + FIFO) todavía.
+
+Usa la librería **smbus2** (`pip install smbus2`), con acceso directo a
+los registros del MPU6050, por la misma razón por la que la versión
+Arduino usa I2Cdevlib en vez de `Adafruit_MPU6050` (sección 3.1): la
+librería de alto nivel `mpu6050-raspberrypi` no siempre expone de forma
+directa `SMPLRT_DIV`/`DLPF_CFG`.
+
+Puntos clave del código:
+
+- Configura `DLPF_CFG=0` y `SMPLRT_DIV=2` — **la misma configuración
+  objetivo que la versión Arduino** (sección 2.1): Sample Rate ≈ 2667 Hz.
+- Sufre la misma limitación de hardware documentada en la sección 2.2
+  (Nyquist real del acelerómetro ≈ 500 Hz): es una limitación del propio
+  sensor, no de la plataforma que lo lee.
+- **Riesgo específico de esta plataforma:** a diferencia del firmware
+  bare-metal del ESP32, Linux no es un sistema operativo de tiempo real.
+  El script documenta extensamente en comentarios (sección "Manejo de
+  temporización" al inicio del archivo) por qué **no puede garantizar
+  2667 Hz estables** en espacio de usuario estándar de Python, y estima
+  una tasa real sostenible, de bajo jitter, del orden de **500–1000 Hz**
+  — ver también `docs/arquitectura-hardware/README.md`, sección 3.1
+  (misma clase de riesgo ya documentada ahí para este sensor).
+- Mitigación de mejor esfuerzo implementada: hilo de muestreo dedicado,
+  promoción a planificación de tiempo real POSIX (`SCHED_FIFO` vía
+  `os.sched_setscheduler()`, requiere privilegios) y fijación de
+  afinidad de CPU (`os.sched_setaffinity()`), con busy-wait sobre
+  `time.perf_counter()` en vez de `time.sleep()` (cuya granularidad en
+  Linux no-RT es demasiado gruesa para un intervalo de ~375 µs).
+- Imprime timestamp + valores crudos de aceleración por salida estándar
+  en el mismo formato CSV que la versión Arduino
+  (`timestamp_us,ax,ay,az`), para mantener compatibilidad con el resto
+  del pipeline de captura/análisis.
+
 ---
 
 ## 4. Esquema de conexión
 
-Ver [`diagrama_conexion.svg`](./diagrama_conexion.svg).
+Ver [`arduino/diagrama_conexion.svg`](./arduino/diagrama_conexion.svg) (ESP32 DevKit V1).
 
 Incluye: VCC (3.3V), GND, SDA (GPIO21), SCL (GPIO22), y el pin INT
 (marcado como opcional, solo necesario para la Ruta B).
 
+Ver también [`raspberry/diagrama_conexion.svg`](./raspberry/diagrama_conexion.svg)
+(Raspberry Pi 4 Model B). Incluye: 3V3, GND, GPIO2/SDA1 (pin físico 3) y
+GPIO3/SCL1 (pin físico 5) — sin pin INT, ya que el código Python
+(sección 3.2) implementa solo el equivalente de la Ruta A.
+
 ---
 
 ## 5. Validación requerida antes de instalación en campo
+
+### 5.1 ESP32 / Arduino
 
 **No dar por resuelta la Ruta A únicamente por inspección de código.**
 Antes de instalar el sensor en una colmena, se requiere una prueba de
@@ -271,6 +329,44 @@ sobre el que se monte el sensor):
 
 Solo después de esta validación de banco se debe considerar la
 configuración lista para cableado final en campo.
+
+### 5.2 Raspberry Pi — validación de la tasa de muestreo real (pendiente)
+
+**Riesgo explícito, no diseño cerrado** (ver también
+`docs/arquitectura-hardware/README.md`, sección 3.1). El código de
+`raspberry/lectura_mpu6050.py` configura el sensor para 2667 Hz — la
+misma tasa objetivo que la versión ESP32 —, pero **esa es la tasa
+configurada en el sensor, no una garantía de la tasa real de muestreo
+que Python logre sostener en Raspberry Pi** (ver la sección "Manejo de
+temporización" en los comentarios del propio script).
+
+Antes de considerar esta plataforma viable para el sensor de vibración
+estructural específicamente (a diferencia del resto de los sensores,
+donde el riesgo de jitter es irrelevante — ver
+`docs/arquitectura-hardware/README.md`, sección 3.1), se requiere medir
+en banco:
+
+1. **Tasa de muestreo real lograda**, con timestamps de alta resolución
+   (`time.perf_counter_ns()`, ya incluido en la salida CSV del script):
+   calcular el intervalo real entre muestras consecutivas y compararlo
+   contra los ~375 µs teóricos (2667 Hz).
+2. **Jitter** (variación del intervalo entre muestras) con y sin
+   promoción a `SCHED_FIFO` exitosa, y con y sin inferencia de
+   TensorFlow Lite corriendo de forma concurrente en el mismo equipo.
+3. **Pérdida de muestras** frente a la tasa configurada, bajo las mismas
+   condiciones.
+4. Comparar el resultado contra la estimación de ingeniería del propio
+   script (500–1000 Hz sostenibles, sección 3.2) y contra el límite ya
+   conocido del sensor (Nyquist real del acelerómetro ≈ 500 Hz, sección
+   2.2): si la tasa real medida en Raspberry Pi cae por debajo de ese
+   límite del sensor, la plataforma degrada la señal más allá de lo que
+   el propio MPU6050 ya limita, y debe preferirse mantener este sensor
+   en un **ESP32 dedicado** aunque el resto de los sensores migre a
+   Raspberry Pi (arquitectura híbrida ya planteada en
+   `docs/arquitectura-hardware/README.md`, sección 3.1).
+
+Solo después de esta validación de banco se debe considerar la ruta
+Raspberry Pi viable para el sensor de vibración estructural.
 
 ---
 
