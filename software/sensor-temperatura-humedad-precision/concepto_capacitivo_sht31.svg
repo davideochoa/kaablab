@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 460" width="760" height="460" font-family="Segoe UI, Arial, sans-serif">
+  <title>Concepto: sensor capacitivo de película polimérica del SHT31</title>
+  <rect x="0" y="0" width="760" height="460" fill="#ffffff"/>
+
+  <text x="380" y="28" text-anchor="middle" font-size="18" font-weight="bold" fill="#1a1a1a">
+    ¿Qué mide el SHT31? Capacitancia, no humedad directamente
+  </text>
+  <text x="380" y="46" text-anchor="middle" font-size="12" fill="#555555">
+    Película polimérica capacitiva (CMOSens®, Sensirion) — convertida a %HR por calibración interna del chip
+  </text>
+
+  <!-- ===== Corte transversal del sensor capacitivo ===== -->
+  <text x="180" y="80" text-anchor="middle" font-size="13" font-weight="bold" fill="#1a1a1a">Corte del elemento sensor</text>
+
+  <!-- electrodo inferior -->
+  <rect x="90" y="230" width="180" height="14" fill="#8a8a8a"/>
+  <text x="70" y="240" text-anchor="end" font-size="10.5" fill="#555555">electrodo</text>
+
+  <!-- pelicula polimerica (dielectrico) -->
+  <rect x="90" y="160" width="180" height="70" fill="#cfe0f5" stroke="#2c5aa0" stroke-width="1.5"/>
+  <text x="180" y="190" text-anchor="middle" font-size="10.5" fill="#1a3a66">película polimérica</text>
+  <text x="180" y="204" text-anchor="middle" font-size="10.5" fill="#1a3a66">(dieléctrico)</text>
+
+  <!-- electrodo superior (rejilla, permite paso de vapor) -->
+  <rect x="90" y="146" width="180" height="14" fill="#8a8a8a" opacity="0.85"/>
+  <text x="70" y="156" text-anchor="end" font-size="10.5" fill="#555555">electrodo</text>
+
+  <!-- moleculas de vapor de agua entrando -->
+  <circle cx="115" cy="115" r="4" fill="#2c5aa0"/>
+  <circle cx="145" cy="105" r="4" fill="#2c5aa0"/>
+  <circle cx="180" cy="118" r="4" fill="#2c5aa0"/>
+  <circle cx="215" cy="103" r="4" fill="#2c5aa0"/>
+  <circle cx="245" cy="116" r="4" fill="#2c5aa0"/>
+  <text x="180" y="90" text-anchor="middle" font-size="10.5" fill="#2c5aa0">vapor de agua del aire</text>
+  <path d="M115 119 L115 146 M145 109 L145 146 M180 122 L180 146 M215 107 L215 146 M245 120 L245 146"
+        stroke="#2c5aa0" stroke-width="1" stroke-dasharray="3,2" opacity="0.6"/>
+
+  <!-- flecha hacia capacitancia -->
+  <path d="M270 195 L320 195" stroke="#1a1a1a" stroke-width="2" marker-end="url(#arrow2)"/>
+  <text x="295" y="185" text-anchor="middle" font-size="10">C</text>
+
+  <!-- simbolo capacitor variable -->
+  <line x1="330" y1="175" x2="330" y2="215" stroke="#1a1a1a" stroke-width="2.5"/>
+  <line x1="345" y1="175" x2="345" y2="215" stroke="#1a1a1a" stroke-width="2.5"/>
+  <path d="M320 165 L355 225" stroke="#c0392b" stroke-width="2"/>
+  <text x="337" y="240" text-anchor="middle" font-size="10.5" fill="#1a1a1a">capacitancia variable</text>
+  <text x="337" y="253" text-anchor="middle" font-size="9.5" fill="#555555">(↑ humedad → ↑ C)</text>
+
+  <!-- flecha hacia chip / calibracion -->
+  <path d="M337 260 L337 300" stroke="#1a1a1a" stroke-width="2" marker-end="url(#arrow2)"/>
+
+  <rect x="230" y="300" width="220" height="55" rx="6" fill="#eef3fb" stroke="#2c5aa0" stroke-width="2"/>
+  <text x="340" y="320" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1a1a1a">CMOSens® (chip SHT31)</text>
+  <text x="340" y="335" text-anchor="middle" font-size="10" fill="#1a1a1a">calibración digital de fábrica</text>
+  <text x="340" y="348" text-anchor="middle" font-size="10" fill="#1a1a1a">C → %HR, salida vía I²C</text>
+
+  <!-- nota clave -->
+  <rect x="30" y="370" width="410" height="70" rx="6" fill="#fff8e6" stroke="#8a6d00" stroke-width="1"/>
+  <text x="42" y="388" font-size="10.5" fill="#1a1a1a">El sensor nunca mide "%HR" directamente: mide un cambio de</text>
+  <text x="42" y="402" font-size="10.5" fill="#1a1a1a">capacitancia eléctrica en la película polimérica al absorber vapor</text>
+  <text x="42" y="416" font-size="10.5" fill="#1a1a1a">de agua. La conversión a %HR ocurre en el propio chip (CMOSens),</text>
+  <text x="42" y="430" font-size="10.5" fill="#1a1a1a">que entrega el valor ya calibrado por I²C.</text>
+
+  <!-- ===== Rango de operacion ===== -->
+  <text x="600" y="80" text-anchor="middle" font-size="13" font-weight="bold" fill="#1a1a1a">Rango de operación</text>
+
+  <!-- barra HR -->
+  <text x="480" y="115" font-size="11" fill="#1a1a1a">Humedad relativa</text>
+  <line x1="480" y1="130" x2="720" y2="130" stroke="#1a1a1a" stroke-width="1.5"/>
+  <rect x="480" y="122" width="240" height="16" fill="#cfe8d8"/>
+  <text x="480" y="150" font-size="10" fill="#555555">0%</text>
+  <text x="720" y="150" text-anchor="end" font-size="10" fill="#555555">100% HR</text>
+  <text x="600" y="118" text-anchor="middle" font-size="10" fill="#227a3d">0–100% HR (sin saturación)</text>
+
+  <!-- barra temperatura -->
+  <text x="480" y="190" font-size="11" fill="#1a1a1a">Temperatura</text>
+  <line x1="480" y1="205" x2="720" y2="205" stroke="#1a1a1a" stroke-width="1.5"/>
+  <rect x="480" y="197" width="240" height="16" fill="#cfe8d8"/>
+  <text x="480" y="225" font-size="10" fill="#555555">−40 °C</text>
+  <text x="720" y="225" text-anchor="end" font-size="10" fill="#555555">125 °C</text>
+  <text x="600" y="193" text-anchor="middle" font-size="10" fill="#227a3d">−40 a 125 °C</text>
+
+  <!-- caja de datos clave -->
+  <rect x="480" y="245" width="240" height="110" rx="6" fill="#eefbf1" stroke="#227a3d" stroke-width="1.5"/>
+  <text x="492" y="264" font-size="11" font-weight="bold" fill="#1a1a1a">SHT31</text>
+  <text x="492" y="282" font-size="10.5" fill="#1a1a1a">HR: 0–100% (todo el rango)</text>
+  <text x="492" y="298" font-size="10.5" fill="#1a1a1a">Temp: −40 a 125 °C</text>
+  <text x="492" y="314" font-size="10.5" fill="#1a1a1a">Precisión HR: ±2% típica</text>
+  <text x="492" y="330" font-size="10.5" fill="#1a1a1a">Interfaz: I²C (0x44/0x45)</text>
+  <text x="492" y="346" font-size="10.5" fill="#1a1a1a">Bus compartido con MPU6050</text>
+
+  <text x="600" y="380" text-anchor="middle" font-size="10" fill="#8a3226">Por encima de ~80–85% HR: activa ciclo de autocalibración interna</text>
+  <text x="600" y="394" text-anchor="middle" font-size="10" fill="#8a3226">(ver README §2 y CLAUDE.md — no es saturación, sí afecta el peso en la fusión)</text>
+
+  <defs>
+    <marker id="arrow2" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#1a1a1a"/>
+    </marker>
+  </defs>
+</svg>
