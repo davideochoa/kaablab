@@ -34,7 +34,7 @@ la madera de la colmena**, esa aceleración captura la **vibración
 estructural** — el movimiento mecánico de la pared del nido cuando las
 abejas la excitan directamente golpeándola o presionándola con el cuerpo,
 a diferencia del sonido aéreo (variación de presión que viaja por el
-aire, captado por el INMP441 — ver `../sensor-INMP441/README.md`). Es la
+aire, captado por el INMP441 — ver `../sensor-audio/README.md`). Es la
 vía por la que *M. beecheii*, como el resto de los meliponinos, expresa
 señalización relacionada con el forrajeo y ciertos comportamientos
 sociales mediante vibración del sustrato (dos Santos et al., 2025).

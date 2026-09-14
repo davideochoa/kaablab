@@ -35,7 +35,7 @@ validado originalmente en Apis mellifera.
   de la colonia. NO comportamiento defensivo (los meliponinos expresan
   defensa por vibración de sustrato, no sonido aéreo — dos Santos et al. 2025).
 - Rango INMP441: 60 Hz–15 kHz (Suárez Carvajal 2025). NO "50–10,000 Hz".
-  Confirmado y documentado en software/sensor-INMP441/README.md.
+  Confirmado y documentado en software/sensor-audio/README.md.
 - MPU6050: sensor primario para comportamiento defensivo vía vibración
   estructural. Montar en contacto directo con la madera de la colmena.
 - SHT31 interno: se autocalibraba por encima de ~80–85% HR.
@@ -53,7 +53,7 @@ validado originalmente en Apis mellifera.
   ~15 mm en pared ≥25 mm. Lógica: A→B = entrada, B→A = salida. SIN
   mitigación integrada contra luz solar IR — el diseño discreto con
   modulación IR fue descartado; se depende únicamente del blindaje
-  mecánico del tubo de madera. Ver software/sensor-IR-doble-haz/README.md.
+  mecánico del tubo de madera. Ver software/sensor-trafico/README.md.
 - Frase "primero del mundo" → "primero documentado para la especie" en todo.
 - Dispositivo edge confirmado: ESP32 DevKit V1 (no ESP32-CAM). Mapeo de
   pines confirmado, sin conflictos: I²C compartido SHT31+MPU6050/6500
@@ -97,7 +97,7 @@ Umbrales provisionales de HR (confirmar con asesor):
   muestrea internamente a 1 kHz fijo, independiente de `SMPLRT_DIV`,
   dejando el Nyquist real del canal de aceleración en ~500 Hz — al límite
   del extremo superior de la banda objetivo (300–600 Hz), sin margen. Ver
-  software/sensor-MPU6050/README.md, sección 2.2.
+  software/sensor-vibracion/README.md, sección 2.2.
 
 ## Pendientes institucionales
 
@@ -118,8 +118,9 @@ kaablab/
 │   └── esp32_main/
 ├── software/
 │   ├── kaablab/
-│   ├── sensor-MPU6050/     # doc: config muestreo vibración estructural (README, .ino, SVG)
-│   └── sensor-INMP441/     # doc: config muestreo audio I²S (README, .ino, SVG)
+│   ├── sensor-vibracion/   # doc: config muestreo vibración estructural (README, .ino, SVG)
+│   ├── sensor-audio/       # doc: config muestreo audio I²S (README, .ino, SVG)
+│   └── sensor-trafico/     # doc: config conteo tráfico IR doble haz (README, .ino, SVG)
 ├── thesis/
 │   ├── preliminares/
 │   ├── capitulo-1-proposito-y-organizacion/capitulo-1.md
