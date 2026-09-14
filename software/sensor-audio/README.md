@@ -4,7 +4,7 @@ Sensor de audio aéreo del sistema KaabLab. El INMP441 es un micrófono MEMS
 con salida digital **I²S** (no PDM), usado como proxy de **vitalidad y
 estado general de la colonia** en *Melipona beecheii* — **no** de
 comportamiento defensivo, el cual esta especie expresa por vibración de
-sustrato y se captura con el MPU6050 (ver `../sensor-MPU6050/README.md` y
+sustrato y se captura con el MPU6050 (ver `../sensor-vibracion/README.md` y
 `CLAUDE.md`, sección "Decisiones de diseño confirmadas").
 
 Documento dirigido a nivel licenciatura en mecatrónica: se explican tanto
@@ -30,7 +30,7 @@ El INMP441 es un **micrófono MEMS**: su membrana responde a variaciones
 de **presión sonora que viajan por el aire** dentro del tubo de la
 piquera y la cavidad del nido — **sonido aéreo**, a diferencia de la
 vibración mecánica del sustrato de la madera que capta el MPU6050 (ver
-`../sensor-MPU6050/README.md`). En este proyecto se usa como proxy del
+`../sensor-vibracion/README.md`). En este proyecto se usa como proxy del
 **nivel acústico general y la vitalidad de la colonia**, no del
 comportamiento defensivo (que en *M. beecheii*, como en el resto de los
 meliponinos, se expresa por vibración de sustrato, no por sonido aéreo —
@@ -68,7 +68,7 @@ para *M. beecheii*:
 2025) quedan por debajo del rango útil de este micrófono de aire. Por eso
 el proyecto usa una arquitectura sensorial complementaria: INMP441 para
 audio aéreo (esta carpeta) + MPU6050 para vibración estructural (ver
-`../sensor-MPU6050/`). Ningún sensor por sí solo cubre ambas bandas.
+`../sensor-vibracion/`). Ningún sensor por sí solo cubre ambas bandas.
 
 ---
 
@@ -102,7 +102,7 @@ es un solo cambio de constante si el bench de la sección 5 lo justifica.
 
 ### 2.2 Por qué el INMP441 no tiene la limitación de Nyquist interno del MPU6050
 
-El MPU6050 (ver `../sensor-MPU6050/README.md`, sección 2.2) tiene una
+El MPU6050 (ver `../sensor-vibracion/README.md`, sección 2.2) tiene una
 limitación de hardware documentada: su ADC de aceleración actualiza su
 valor internamente a **1 kHz fijo**, sin importar la tasa a la que el
 firmware lea el registro — leer más rápido que eso solo produce muestras

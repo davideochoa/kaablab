@@ -93,7 +93,7 @@ void loop() {
   // Lectura no bloqueante: ticks_to_wait=0 retorna de inmediato con lo que
   // ya esta disponible en el buffer DMA interno del periferico I2S, sin
   // detener el bucle principal (analogo a la nota de la seccion 2.3 del
-  // README de sensor-MPU6050: evitar bloquear otras tareas del ESP32 -
+  // README de sensor-vibracion: evitar bloquear otras tareas del ESP32 -
   // WiFi, otros sensores - mientras se espera al sensor).
   esp_err_t result = i2s_read(I2S_PORT, readBuffer, sizeof(readBuffer),
                                &bytesRead, 0);

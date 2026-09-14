@@ -1,7 +1,7 @@
 # Contador IR doble haz (FC-51 / KY-033) — conteo direccional de tráfico en piquera
 
 Sensor de conteo de tráfico de forrajeo del sistema KaabLab. A diferencia
-del INMP441 y el MPU6050 (ver `../sensor-INMP441/` y `../sensor-MPU6050/`),
+del INMP441 y el MPU6050 (ver `../sensor-audio/` y `../sensor-vibracion/`),
 este sensor no mide una magnitud continua con un rango de frecuencia: mide
 **eventos discretos de cruce** (entrada/salida) por la piquera, usados
 como proxy de la actividad de forrajeo y la vitalidad general de la
