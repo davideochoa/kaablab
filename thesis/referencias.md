@@ -8,9 +8,7 @@ Chin-Canché, [Nombres pendientes]. et al. (2026). [Título del artículo de ref
 
 Cruz-López, L., Malo, E. A., Rojas, J. C., & Morgan, E. D. (2005). Chemical composition and stimulatory olfactory response of the mandibular gland secretion in *Melipona beecheii*. *Journal of Chemical Ecology, 31*(6), 1257-1268.
 
-dos Santos, [...]. et al. (2025). [Título completo pendiente — vibración de sustrato / comportamiento defensivo en meliponinos].
-
-<!-- PENDIENTE: completar datos bibliográficos -->
+dos Santos, F. J., Bomfim, I. G. A., Cavalcante, M. C., Coelho, A. A. da P., & Gomes, D. G. (2025). Intranidal vibrational sensing mechanisms in stingless bees: an exploratory study. *Engenharia Agrícola, 45*(especial 2, ConBAP 2024), e20250069. https://doi.org/10.1590/1809-4430-Eng.Agric.v45nespe220250069/2025
 
 Hrncir, M., Barth, F. G., & Tautz, J. (2000). [Título completo pendiente — vibración torácica en Melipona].
 
@@ -30,6 +28,10 @@ Macías-Macías, J. O., Tapia-González, J. M., Contreras-Escareño, F., & Queza
 
 <!-- PENDIENTE: completar datos bibliográficos -->
 
+Medina-Medina, [Nombres pendientes]. et al. (2014). [Título completo pendiente — manejo de desechos, observación conductual sistemática en *Melipona beecheii*].
+
+<!-- PENDIENTE: completar datos bibliográficos -->
+
 Moo-Valle, H., Quezada-Euán, J. J. G., & Wenseleers, T. (2000). [Título completo pendiente — termorregulación en *M. beecheii*].
 
 <!-- PENDIENTE: completar datos bibliográficos -->
@@ -37,6 +39,8 @@ Moo-Valle, H., Quezada-Euán, J. J. G., & Wenseleers, T. (2000). [Título comple
 Muniz, [Nombres pendientes]. (s.f.). [Título completo pendiente — conteo por infrarrojo en Melipona sp.].
 
 <!-- PENDIENTE: completar datos bibliográficos -->
+
+Pat Fernández, L. A., Anguebes Franceschi, F., Pat Fernández, J. M., Hernández Bahena, P., & Ramos Reyes, R. (2018). Condición y perspectivas de la meliponicultura en comunidades mayas de la reserva de la biósfera Los Petenes, Campeche, México. Estudios de Cultura Maya, 52, 227-254. https://doi.org/10.19130/iifl.ecm.2018.52.939
 
 Quezada-Euán, J. J. G. (2018). *Stingless Bees of Mexico: The Biology, Management and Conservation of an Ancient Heritage*. Springer.
 
@@ -55,11 +59,10 @@ Las siguientes referencias ya son citadas en los capítulos existentes pero no f
 - Bennett, E. (1831). [Descripción original de *Melipona beecheii*].
 - Cauich Kumul, R. et al. (2015). [Propiedades de la miel de *M. beecheii*].
 - Chin-Canché et al. (2026). Ver entrada arriba.
-- Lóriga Peña, W. et al. (2015). [Amenazas bióticas en colmenas de *M. beecheii*].
-- Ramírez-Miranda, F. et al. (2023). [Propiedades antioxidantes/antimicrobianas de la miel].
+- Ramírez-Miranda, I., Moguel-Ordóñez, Y., Acevedo-Fernández, J. J., & Betancur-Ancona, D. (2023). Calidad microbiológica y actividad antibacteriana de miel producida por Melipona beecheii en Yucatán, México. Revista MVZ Córdoba, 28(2), e3175. https://doi.org/10.21897/rmvz.3175
 - Schurischuster, S., & Kampel, M. (2020). VarroaDataset. Zenodo. https://doi.org/10.5281/zenodo.4085044
 - Uthoff, C. et al. (2023). [Estándar de n=13 MFCC en bioacústica de colmenas].
-- Villanueva-Gutiérrez, R. et al. (2014). [Declive de *M. beecheii* por deforestación y agroquímicos].
+- Villanueva-Gutiérrez, R., Roubik, D. W., Colli-Ucán, W., Güemez-Ricalde, F. J., & Buchmann, S. L. (2013). A critical view of colony losses in managed Mayan honey-making bees (Apidae: Meliponini) in the heart of Zona Maya. Journal of the Kansas Entomological Society, 86(4), 352–362. https://doi.org/10.2317/JKES130131.1
 - Yang, A. (2022). Beehive sounds [Dataset]. Kaggle. kaggle.com/datasets/annajyang/beehive-sounds
 
 <!-- PENDIENTE: completar datos bibliográficos de todas las entradas de esta sección -->
