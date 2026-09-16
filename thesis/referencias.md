@@ -6,6 +6,8 @@ Chin-Canché, [Nombres pendientes]. et al. (2026). [Título del artículo de ref
 
 <!-- PENDIENTE: completar datos bibliográficos -->
 
+Cruz-López, L., Malo, E. A., Rojas, J. C., & Morgan, E. D. (2005). Chemical composition and stimulatory olfactory response of the mandibular gland secretion in *Melipona beecheii*. *Journal of Chemical Ecology, 31*(6), 1257-1268.
+
 dos Santos, [...]. et al. (2025). [Título completo pendiente — vibración de sustrato / comportamiento defensivo en meliponinos].
 
 <!-- PENDIENTE: completar datos bibliográficos -->
@@ -22,6 +24,8 @@ Hrncir, M., Barth, F. G., & Tautz, J. (2008). [Título completo pendiente — se
 
 <!-- PENDIENTE: completar datos bibliográficos -->
 
+Justino, A. R., & Hartfelder, K. (2024). A versatile recording device for the analysis of continuous daily external activity in colonies of highly eusocial bees. *Journal of Comparative Physiology A, 210*(6), 885-900. https://doi.org/10.1007/s00359-024-01709-2
+
 Macías-Macías, J. O., Tapia-González, J. M., Contreras-Escareño, F., & Quezada-Euán, J. J. G. (2011). [Título completo pendiente — temperatura crítica / LT50 en *Melipona beecheii*].
 
 <!-- PENDIENTE: completar datos bibliográficos -->
@@ -31,6 +35,12 @@ Moo-Valle, H., Quezada-Euán, J. J. G., & Wenseleers, T. (2000). [Título comple
 <!-- PENDIENTE: completar datos bibliográficos -->
 
 Muniz, [Nombres pendientes]. (s.f.). [Título completo pendiente — conteo por infrarrojo en Melipona sp.].
+
+<!-- PENDIENTE: completar datos bibliográficos -->
+
+Quezada-Euán, J. J. G. (2018). *Stingless Bees of Mexico: The Biology, Management and Conservation of an Ancient Heritage*. Springer.
+
+Roubik, D. W. (2006). [Título completo pendiente — balance hídrico / humedad en abejas sin aguijón, citado en Quezada-Euán (2018), p. 51].
 
 <!-- PENDIENTE: completar datos bibliográficos -->
 
