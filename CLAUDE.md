@@ -60,7 +60,8 @@ validado originalmente en Apis mellifera.
   (SDA=GPIO21, SCL=GPIO22); I²S INMP441 (SCK=GPIO14, WS=GPIO15, SD=GPIO32);
   DHT22 1-Wire (DATA=GPIO4); IR doble haz, 4 módulos FC-51/KY-033 (haz A:
   GPIO26 principal + GPIO25 secundario; haz B: GPIO27 principal + GPIO33
-  secundario). Ver thesis/capitulo-3.md, Tabla 3.3. Al ser DevKit V1 (no
+  secundario). Ver thesis/capitulo-2-materiales-y-metodos/capitulo-2.md,
+  Tabla 2.3. Al ser DevKit V1 (no
   ESP32-CAM/AI-Thinker), no aplican las restricciones de pines reservados
   a cámara/PSRAM de ese módulo — no asumir esa limitación en tareas
   futuras.
@@ -68,7 +69,7 @@ validado originalmente en Apis mellifera.
 ## Parámetros de medición confirmados por el asesor
 
 Temperatura, humedad y decibeles (nivel acústico de actividad).
-Establecer rangos de bajo a alto nivel en Capítulo 3.
+Establecer rangos de bajo a alto nivel en el Capítulo II.
 
 Umbrales provisionales de temperatura (confirmar con asesor):
 - < 28°C: alerta baja (brood development range, Roubik & Peralta 1983)
@@ -123,11 +124,11 @@ kaablab/
 │   └── sensor-trafico/     # doc: config conteo tráfico IR doble haz (README, .ino, SVG)
 ├── thesis/
 │   ├── preliminares/
-│   ├── capitulo-1-proposito-y-organizacion/capitulo-1.md
-│   ├── capitulo-2-marco-teorico/capitulo-2.md
-│   ├── capitulo-3-metodologia/capitulo-3.md
-│   ├── capitulo-4-resultados-y-discusiones/capitulo-4.md
-│   ├── capitulo-5-conclusiones-y-recomendaciones/capitulo-5.md
+│   ├── capitulo-1-antecedentes-planteamiento-objetivos/capitulo-1.md
+│   ├── capitulo-2-materiales-y-metodos/capitulo-2.md
+│   ├── capitulo-3-resultados-y-discusiones/capitulo-3.md
+│   ├── capitulo-4-recomendaciones/capitulo-4.md
+│   ├── capitulo-5-conclusiones/capitulo-5.md
 │   ├── figuras/ ← SVG únicamente, no PNG
 │   └── referencias.md
 ├── data/

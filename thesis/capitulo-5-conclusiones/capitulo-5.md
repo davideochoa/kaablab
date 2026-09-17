@@ -1,4 +1,4 @@
-# CAPÍTULO 5. CONCLUSIONES Y RECOMENDACIONES
+# CAPÍTULO V. CONCLUSIONES
 
 ## 5.1 Conclusiones
 
@@ -6,7 +6,7 @@ El presente protocolo documenta la factibilidad científica y metodológica del 
 
 - El artículo de referencia (Chin-Canché et al., 2026) valida los pipelines con métricas sólidas y código disponible, estableciendo un punto de partida técnico concreto y no especulativo.
 
-- El análisis de transferibilidad (Tabla 4.1) confirma que, tras excluir el módulo de visión no transferible a *M. beecheii* (*Varroa destructor* no la parasita), cerca del 40% de los componentes restantes son directamente reutilizables (extracción MFCC, XGBoost/Gradient Boosting, optimizador de hiperparámetros). Las contribuciones originales centrales de esta tesis son:
+- El análisis de transferibilidad (Tabla 3.1) confirma que, tras excluir el módulo de visión no transferible a *M. beecheii* (*Varroa destructor* no la parasita), cerca del 40% de los componentes restantes son directamente reutilizables (extracción MFCC, XGBoost/Gradient Boosting, optimizador de hiperparámetros). Las contribuciones originales centrales de esta tesis son:
 
   1. El primer dataset multimodal documentado de *M. beecheii* (audio aéreo + vibración estructural + conteo IR de tráfico en piquera + variables ambientales interna/externa).
   2. La arquitectura sensorial heterogénea con rangos complementarios.
@@ -19,13 +19,3 @@ El presente protocolo documenta la factibilidad científica y metodológica del 
 - El protocolo de preprocesamiento convierte una limitación del trabajo previo en una contribución metodológica concreta. Un modelo entrenado con datos de alta calidad siempre supera a un modelo más sofisticado entrenado con datos ruidosos.
 
 - El cronograma de cuatro semestres es realista porque los pipelines bioacústico y de optimización ya están implementados. El trabajo principal es la recolección de datos y el reentrenamiento, con la adición de la validación de la arquitectura sensorial y del sensor IR de conteo en el primer semestre.
-
-## 5.2 Recomendaciones
-
-- Confirmar tempranamente la cobertura de conectividad en cada meliponario para decidir entre transmisión WiFi y respaldo local con sincronización diferida; de optarse por LoRa para telemetría, incorporar el módulo de radio y el gateway correspondientes al presupuesto.
-
-- Iniciar la fase de aclimatación e instrumentación con suficiente antelación al etiquetado, dado el período de adaptación de 2–4 semanas de la colonia (sección 3.6).
-
-- Documentar desde el inicio la divergencia entre el SHT31 interno y el DHT22 externo que se aparte del patrón día/noche esperado de termoconformidad (sección 3.2.1) como indicador de posible contaminación por propóleos del sensor interno, para anticipar el mantenimiento de sensores.
-
-- Extender, una vez validado el sistema, la metodología a otras especies del género Melipona, reutilizando el pipeline, el protocolo de preprocesamiento y el diseño del sensor IR de conteo.

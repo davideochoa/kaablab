@@ -37,7 +37,7 @@ que una abeja cruza el tubo de la piquera, interrumpe primero un haz
 infrarrojo y luego el otro, en un orden que depende de si entra o sale.
 Lo que se registra es un **conteo de eventos por unidad de tiempo**
 (entradas y salidas agregadas por intervalo, típicamente cada 5 minutos —
-ver `thesis/capitulo-3-metodologia/capitulo-3.md`, sección 3.9.2), no una
+ver `thesis/capitulo-2-materiales-y-metodos/capitulo-2.md`, sección 2.9.2), no una
 señal de audio o vibración que deba muestrearse a una tasa fija.
 
 La "unidad de medida" relevante aquí no es Hz sino:
@@ -73,7 +73,7 @@ originalmente para detección por reflexión, no por haz directo). Para
 lograr los **dos haces independientes y espacialmente separados** que
 requiere la lógica de conteo direccional (Haz A y Haz B, ~4 mm de
 separación a lo largo del eje del túnel — ver
-`thesis/capitulo-3-metodologia/capitulo-3.md`, sección 3.2.3), el diseño
+`thesis/capitulo-2-materiales-y-metodos/capitulo-2.md`, sección 2.2.3), el diseño
 requiere **dos pares emisor-receptor — es decir, 4 módulos físicos en
 total**: dos formando el Haz A (uno a cada lado del tubo) y dos formando
 el Haz B, desplazados ~4 mm respecto al primer par.
@@ -133,8 +133,8 @@ GPIO25 quedó libre para este uso porque el diseño discreto anterior (que
 lo usaba como línea de drive de un LED IR) fue descartado en favor de los
 módulos FC-51/KY-033 — ver `CLAUDE.md`, sección "Decisiones de diseño
 confirmadas". GPIO33 es un GPIO de propósito general sin uso previo en el
-mapeo de pines del proyecto (ver `thesis/capitulo-3-metodologia/capitulo-3.md`,
-Tabla 3.3), sin conflicto con I²C (21/22), I²S (14/15/32) ni el 1-Wire del
+mapeo de pines del proyecto (ver `thesis/capitulo-2-materiales-y-metodos/capitulo-2.md`,
+Tabla 2.3), sin conflicto con I²C (21/22), I²S (14/15/32) ni el 1-Wire del
 DHT22 (4).
 
 Puntos clave del código:
@@ -211,7 +211,7 @@ evaluar:
   compatibles con el diámetro real del tubo.
 - **Rediseño con el circuito discreto** (fototransistor **PT333-3B** +
   comparador **LM393** + transistor driver para el LED, descrito en
-  `thesis/capitulo-3-metodologia/capitulo-3.md`, sección 3.2.3) —
+  `thesis/capitulo-2-materiales-y-metodos/capitulo-2.md`, sección 2.2.3) —
   descartado previamente en favor de los módulos integrados por
   simplicidad de ensamblaje, pero que sí permite ajustar libremente la
   distancia física y la modulación del emisor/receptor sin las
@@ -235,5 +235,5 @@ listo para cableado final en campo.
   especificada y ajuste del potenciómetro de sensibilidad. Confirmar
   edición/proveedor exacto del lote de módulos usado antes de la entrega
   final de la tesis.
-- `thesis/capitulo-3-metodologia/capitulo-3.md`, sección 3.2.3 — diseño
+- `thesis/capitulo-2-materiales-y-metodos/capitulo-2.md`, sección 2.2.3 — diseño
   de referencia con circuito discreto (PT333-3B + LM393 + 2N2222).

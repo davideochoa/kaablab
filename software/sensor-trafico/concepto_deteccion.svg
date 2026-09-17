@@ -64,5 +64,5 @@
   <text x="392" y="382" font-size="10.5" fill="#1a1a1a">Unidad de medida: conteo de eventos</text>
   <text x="392" y="396" font-size="10.5" fill="#1a1a1a">(entradas, salidas) agregado por intervalo,</text>
   <text x="392" y="410" font-size="10.5" fill="#1a1a1a">no Hz ni un rango espectral — ver README §0</text>
-  <text x="392" y="424" font-size="10.5" fill="#1a1a1a">y capitulo-3.md §3.9.2 (agregación cada 5 min).</text>
+  <text x="392" y="424" font-size="10.5" fill="#1a1a1a">y capitulo-2.md §2.9.2 (agregación cada 5 min).</text>
 </svg>

@@ -93,7 +93,7 @@ para dos usos concretos en el pipeline del proyecto.
    pipeline de fusión del proyecto convierte temperatura + %HR a
    **humedad absoluta (HA, en g/m³)** mediante la aproximación de
    Magnus, ya usada en el proyecto (ver
-   `thesis/capitulo-3-metodologia/capitulo-3.md`, sección 3.4.5):
+   `thesis/capitulo-2-materiales-y-metodos/capitulo-2.md`, sección 2.4.5):
 
    ```
    HA = 6.112 × e^(17.67·T / (T+243.5)) × HR / (461.5 × (T+273.15))
@@ -152,7 +152,7 @@ Incluye: VCC (3.3V), GND, SDA (GPIO21), SCL (GPIO22), y el pin `ADDR`
 Este sensor **no requiere una prueba de banco crítica** como
 `sensor-trafico` o `sensor-vibracion`: es una arquitectura de
 temperatura/humedad ya validada en la tesis (ver
-`thesis/capitulo-3-metodologia/capitulo-3.md`, sección 3.2.1), con
+`thesis/capitulo-2-materiales-y-metodos/capitulo-2.md`, sección 2.2.1), con
 componentes comerciales de comportamiento bien documentado.
 
 Sí se requiere, una vez instalado en campo:
@@ -166,7 +166,7 @@ Sí se requiere, una vez instalado en campo:
 - Confirmar en campo que la frecuencia de eventos de autocalibración
   interna (por encima de ~80–85% HR, sección 0) es consistente con lo
   esperado por la fusión ponderada por confianza (ver
-  `thesis/capitulo-3-metodologia/capitulo-3.md`, sección 3.2.4, Paso 1).
+  `thesis/capitulo-2-materiales-y-metodos/capitulo-2.md`, sección 2.2.4, Paso 1).
 
 ---
 
@@ -174,7 +174,7 @@ Sí se requiere, una vez instalado en campo:
 
 - Sensirion AG. *Datasheet SHT3x-DIS* — tecnología CMOSens®, rangos de
   operación, direcciones I²C y comportamiento de autocalibración.
-- `thesis/capitulo-3-metodologia/capitulo-3.md`, secciones 3.2.1
+- `thesis/capitulo-2-materiales-y-metodos/capitulo-2.md`, secciones 2.2.1
   (fundamento físico SHT31/DHT22), 3.2.4 (fusión ponderada por
   confianza) y 3.4.5 (conversión a humedad absoluta, fórmula de
   Magnus).

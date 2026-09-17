@@ -10,7 +10,7 @@
  * Ver README.md (secciones 2 y 3) para la justificación completa de esta
  * configuración antes de modificarla.
  *
- * Pin mapping confirmado del proyecto (CLAUDE.md, thesis/capitulo-3.md Tabla 3.3):
+ * Pin mapping confirmado del proyecto (CLAUDE.md, thesis/capitulo-2-materiales-y-metodos/capitulo-2.md Tabla 2.3):
  *   SCK (bit clock)           = GPIO14
  *   WS  (word select / LRCLK) = GPIO15
  *   SD  (datos)               = GPIO32

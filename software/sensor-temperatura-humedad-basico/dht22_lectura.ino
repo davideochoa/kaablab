@@ -68,8 +68,8 @@ void loop() {
 
     // La conversion a humedad absoluta (formula de Magnus) y el
     // contraste con el SHT31 interno se calculan en la capa de fusion
-    // del proyecto (thesis/capitulo-3-metodologia/capitulo-3.md,
-    // secciones 3.2.1 y 3.4.5), no en este sketch de adquisicion.
+    // del proyecto (thesis/capitulo-2-materiales-y-metodos/capitulo-2.md,
+    // secciones 2.2.1 y 2.4.5), no en este sketch de adquisicion.
   }
 
   // Espacio para otras tareas no bloqueantes del ESP32 (WiFi, otros sensores).

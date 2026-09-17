@@ -1,6 +1,6 @@
-# CAPÍTULO 3. METODOLOGÍA (MATERIALES Y MÉTODOS)
+# CAPÍTULO II. MATERIALES Y MÉTODOS
 
-## 3.1 Enfoque y diseño de investigación
+## 2.1 Enfoque y diseño de investigación
 
 La investigación adopta un enfoque mixto: cuantitativo en la evaluación del desempeño de los modelos de IA y de la arquitectura sensorial, y cualitativo en la evaluación de usabilidad. El diseño es experimental-aplicado, orientado al desarrollo y validación de un sistema tecnológico en condiciones reales.
 
@@ -8,9 +8,9 @@ La investigación adopta un enfoque mixto: cuantitativo en la evaluación del de
 | --- | --- | --- |
 | Experimental-aplicado | Mixto (cuantitativo + cualitativo) | Experimental en módulos IA y sensores · No experimental en fase cualitativa |
 
-**Tabla 3.1 **Diseño general de la investigación.
+**Tabla 2.1 **Diseño general de la investigación.
 
-## 3.2 Arquitectura sensorial heterogénea con rangos complementarios
+## 2.2 Arquitectura sensorial heterogénea con rangos complementarios
 
 Una contribución de diseño original de esta tesis es la arquitectura sensorial heterogénea, que supera la arquitectura homogénea del artículo de referencia en tres dimensiones: fabricante distinto, principio físico distinto y rango de medición complementario. El principio que la fundamenta es que un sensor electrónico no mide directamente la magnitud física de interés, sino un fenómeno eléctrico secundario —variación de capacitancia, resistencia o voltaje— que convierte a la magnitud deseada mediante una función de calibración con limitaciones físicas conocidas (saturación, histéresis, deriva, sensibilidad al rango).
 
@@ -22,9 +22,9 @@ Una contribución de diseño original de esta tesis es la arquitectura sensorial
 | Vibración estructural / defensivo | MPU6050 | Acelerómetro MEMS | 1–50 Hz | Comportamiento defensivo (sustrato) | Requiere contacto con madera |
 | Conteo de tráfico | IR doble haz | Módulo integrado FC-51/KY-033 (LED 940 nm + fototransistor + comparador LM393), 4 módulos / 2 pares | Direccional (entrada/salida) | Proxy de forrajeo y vitalidad | Sensible a luz solar directa sin filtro; distancia mínima de detección (20–300 mm) mayor al diámetro del tubo (~15 mm), pendiente de validar |
 
-**Tabla 3.2 **Arquitectura sensorial heterogénea: fabricante, principio físico, rango, rol y limitación por sensor.
+**Tabla 2.2 **Arquitectura sensorial heterogénea: fabricante, principio físico, rango, rol y limitación por sensor.
 
-### 3.2.1 Fundamento físico de la humedad: SHT31 interno primario y DHT22 externo secundario
+### 2.2.1 Fundamento físico de la humedad: SHT31 interno primario y DHT22 externo secundario
 
 El SHT31 y el DHT22 son ambos sensores capacitivos de humedad, pero se asignan a ubicaciones y roles distintos en la colmena. El SHT31 se instala como sensor **interno primario**: su sonda encapsulada mide el microclima directamente dentro de la cavidad del nido, con precisión declarada de ±2% HR en todo el rango 0–100%. El DHT22 se instala como sensor **externo secundario**, expuesto a las condiciones ambientales fuera de la colmena, sin contacto con el microclima interno.
 
@@ -36,13 +36,13 @@ La separación física interno/externo convierte la comparación entre ambos sen
 
 <!-- REVISAR CON ASESOR: confirmar umbrales de temperatura y HR provisionales listados en CLAUDE.md antes de fijarlos en el vector de características -->
 
-### 3.2.2 Fundamento físico del INMP441 y el MPU6050 como sensores complementarios
+### 2.2.2 Fundamento físico del INMP441 y el MPU6050 como sensores complementarios
 
 El INMP441 es un micrófono MEMS (Micro-Electro-Mechanical System). Contiene una membrana muy delgada que vibra con las variaciones de presión del aire (sonido aéreo). Esa vibración modifica la capacitancia entre la membrana y una placa fija, y el circuito convierte esa variación en voltaje. Su rango frecuencial efectivo es aproximadamente 60 Hz–15 kHz (Suárez Carvajal, 2025), lo que lo hace adecuado para captar el **nivel acústico general y el estado de vitalidad de la colonia** —no el comportamiento defensivo—, pero insensible a las vibraciones estructurales del nido en el rango de 1–50 Hz.
 
 Las meliponinas, incluida *M. beecheii*, expresan su comportamiento defensivo mediante vibración del sustrato del nido —vibraciones que se transmiten por la madera de la colmena y no como ondas de presión aérea (dos Santos et al., 2025). El comportamiento defensivo, por tanto, no es un fenómeno acústico aéreo y no puede inferirse confiablemente a partir del INMP441; su rol en esta arquitectura se limita al nivel acústico como proxy de vitalidad y actividad general de la colonia. El MPU6050 es un acelerómetro MEMS de 6 ejes (3 de aceleración + 3 de giroscopio), montado en contacto directo con la madera de la colmena, que captura el rango de vibración estructural de 1–50 Hz donde ocurre la señalización defensiva. Los dos sensores son físicamente complementarios y cubren fenómenos distintos: el INMP441 aporta nivel acústico/vitalidad; el MPU6050 aporta comportamiento defensivo vía vibración estructural.
 
-### 3.2.3 Sensor IR doble haz — conteo de tráfico en piquera
+### 2.2.3 Sensor IR doble haz — conteo de tráfico en piquera
 
 El sensor IR doble haz añade un cuarto tipo de señal a la arquitectura: el conteo direccional de tráfico de forrajeras en la piquera, como proxy de la actividad de forrajeo y de la vitalidad general de la colonia.
 
@@ -59,27 +59,27 @@ Precedente parcial en congéneres: Justino y Hartfelder (2024), quienes registra
 <!-- REVISAR CON ASESOR: confirmar separación exacta entre haces y protocolo de montaje en la caja racional -->
 <!-- REVISAR CON ASESOR: validar en banco distancia mínima de detección real del sensor IR vs. diámetro del barreno de la piquera (ver nota arriba) -->
 
-### 3.2.4 Fusión sensorial ponderada por confianza
+### 2.2.4 Fusión sensorial ponderada por confianza
 
-La fusión sensorial ponderada por confianza asigna a cada sensor un peso dinámico que depende de si la lectura actual está dentro de su rango de máxima precisión, y se complementa con el contraste interno-externo descrito en la sección 3.2.1. El algoritmo opera en tres pasos:
+La fusión sensorial ponderada por confianza asigna a cada sensor un peso dinámico que depende de si la lectura actual está dentro de su rango de máxima precisión, y se complementa con el contraste interno-externo descrito en la sección 2.2.1. El algoritmo opera en tres pasos:
 
 - **Paso 1 — Detección de rango: **para cada lectura ambiental, se determina si está dentro del rango óptimo del sensor. Si la lectura del SHT31 interno supera 80–85% HR (umbral de aproximación a su autocalibración), su peso se reduce progresivamente durante el evento de recalibración.
 
-- **Paso 2 — Contraste interno-externo: **se calcula la diferencia entre la lectura interna (SHT31) y la externa (DHT22). Esta diferencia no se trata como error de medición a promediar, sino como variable diagnóstica de termoconformidad (sección 3.2.1). Si el patrón día/noche de esa diferencia se aparta del comportamiento esperado (mayor estabilidad interna durante el día, seguimiento más cercano del exterior durante la noche), se marca como posible anomalía.
+- **Paso 2 — Contraste interno-externo: **se calcula la diferencia entre la lectura interna (SHT31) y la externa (DHT22). Esta diferencia no se trata como error de medición a promediar, sino como variable diagnóstica de termoconformidad (sección 2.2.1). Si el patrón día/noche de esa diferencia se aparta del comportamiento esperado (mayor estabilidad interna durante el día, seguimiento más cercano del exterior durante la noche), se marca como posible anomalía.
 
 - **Paso 3 — Vector final: **el valor interno (SHT31), el valor externo (DHT22) y su contraste se concatenan como tres campos distintos del vector de características, en lugar de fusionarse en un único valor promediado, preservando la información diagnóstica de cada rol.
 
 Para la señal acústica, las características extraídas del INMP441 (MFCCs, ZCR, centroide espectral) y del MPU6050 (energía de vibración por bandas de frecuencia, pico de vibración, varianza de aceleración) se concatenan como bloques separados del vector de características, permitiendo al modelo aprender la contribución independiente de cada fuente. El conteo IR (entradas, salidas, tasa neta por intervalo) se concatena como un bloque adicional.
 
-## 3.3 Instrumentación y flujo de adquisición de datos (IoT)
+## 2.3 Instrumentación y flujo de adquisición de datos (IoT)
 
 El subsistema IoT cumple una función central: convertir el estado físico de la colmena en registros digitales fiables y entregarlos al subsistema de IA como un dataset estructurado. Se describe en tres bloques: la conexión de los sensores al nodo de cómputo, su disposición física en la colmena, y el flujo del dato desde la captura hasta el almacenamiento.
 
-### 3.3.1 Conexión de los sensores
+### 2.3.1 Conexión de los sensores
 
-Todos los sensores convergen en un único nodo de borde (ESP32 DevKit V1), que concentra la adquisición y la primera etapa de transmisión. La heterogeneidad de la arquitectura obliga a convivir varios protocolos distintos en el mismo microcontrolador: 1-Wire para el DHT22, I²C para el SHT31 y el MPU6050/6500 (que comparten bus con direcciones 0x44 y 0x68 sin conflicto), I²S para el micrófono digital INMP441, y GPIO digital para el sensor IR doble haz. Resistencias pull-up de 10 kΩ estabilizan la línea de datos del DHT22 y el bus I²C. La Figura 3.1 resume la conexión y la Tabla 3.3 detalla los protocolos y pines.
+Todos los sensores convergen en un único nodo de borde (ESP32 DevKit V1), que concentra la adquisición y la primera etapa de transmisión. La heterogeneidad de la arquitectura obliga a convivir varios protocolos distintos en el mismo microcontrolador: 1-Wire para el DHT22, I²C para el SHT31 y el MPU6050/6500 (que comparten bus con direcciones 0x44 y 0x68 sin conflicto), I²S para el micrófono digital INMP441, y GPIO digital para el sensor IR doble haz. Resistencias pull-up de 10 kΩ estabilizan la línea de datos del DHT22 y el bus I²C. La Figura 2.1 resume la conexión y la Tabla 2.3 detalla los protocolos y pines.
 
-**Figura 3.1 **Conexión de los sensores al nodo de borde.
+**Figura 2.1 **Conexión de los sensores al nodo de borde.
 
 | Sensor | Señal | Pin |
 | --- | --- | --- |
@@ -94,49 +94,49 @@ Todos los sensores convergen en un único nodo de borde (ESP32 DevKit V1), que c
 | Contador IR doble haz | Haz B (principal) | GPIO27 |
 | Contador IR doble haz | Haz B (secundario) | GPIO33 |
 
-**Tabla 3.3 **Protocolos de comunicación y pines por sensor (ESP32 DevKit V1).
+**Tabla 2.3 **Protocolos de comunicación y pines por sensor (ESP32 DevKit V1).
 
 Direcciones I²C del bus compartido: SHT31 en 0x44 u 0x45, MPU6050/6500 en 0x68 u 0x69 — sin conflicto entre sí.
 
-### 3.3.2 Disposición física en la colmena
+### 2.3.2 Disposición física en la colmena
 
-El principio de instalación es no invasivo: solo las sondas de los sensores penetran la cavidad; la electrónica de cómputo, alimentación y comunicación permanece en el exterior dentro de una caja IP65. La sonda encapsulada del SHT31 se introduce al interior de la cavidad como sensor primario de microclima; el DHT22 permanece montado en el exterior de la colmena, protegido de la lluvia directa, como sensor secundario de referencia ambiental; el INMP441 capta el sonido aéreo dentro de la cavidad; el MPU6050 se fija en contacto directo con la madera para registrar la vibración estructural; y el sensor IR doble haz se embebe en el barreno de la piquera (sección 3.2.3). Se respeta un período de aclimatación de 2–4 semanas antes de iniciar el etiquetado (véase también sección 3.6), y el barniz conformal protege la placa salvo el elemento sensor del DHT22 y el orificio del micrófono (Figura 3.2).
+El principio de instalación es no invasivo: solo las sondas de los sensores penetran la cavidad; la electrónica de cómputo, alimentación y comunicación permanece en el exterior dentro de una caja IP65. La sonda encapsulada del SHT31 se introduce al interior de la cavidad como sensor primario de microclima; el DHT22 permanece montado en el exterior de la colmena, protegido de la lluvia directa, como sensor secundario de referencia ambiental; el INMP441 capta el sonido aéreo dentro de la cavidad; el MPU6050 se fija en contacto directo con la madera para registrar la vibración estructural; y el sensor IR doble haz se embebe en el barreno de la piquera (sección 2.2.3). Se respeta un período de aclimatación de 2–4 semanas antes de iniciar el etiquetado (véase también sección 2.6), y el barniz conformal protege la placa salvo el elemento sensor del DHT22 y el orificio del micrófono (Figura 2.2).
 
-**Figura 3.2 **Disposición física de la instrumentación en la colmena.
+**Figura 2.2 **Disposición física de la instrumentación en la colmena.
 
-### 3.3.3 Flujo del dato: de la captura al dataset
+### 2.3.3 Flujo del dato: de la captura al dataset
 
-El ESP32 opera en muestreo periódico (5 minutos activo / 55 dormido) para preservar autonomía. Cada ciclo escribe las lecturas en un buffer local en microSD y, cuando hay enlace disponible, las transmite de forma inalámbrica. Conviene una precisión de ingeniería: el audio solo puede viajar por WiFi, que ofrece ancho de banda suficiente; LoRa queda reservado para telemetría ambiental y de conteo IR ligera en sitios remotos sin cobertura. Por ello el diseño es inalámbrico con respaldo local: si no hay enlace, el dato espera en la microSD y se sincroniza de forma diferida. En el servidor, el meliponicultor etiqueta los registros por observación directa y se consolidan en el dataset (audio y vibración en Parquet; conteo IR y variables ambientales en series de tiempo estructuradas), publicado finalmente en Zenodo (Figura 3.3).
+El ESP32 opera en muestreo periódico (5 minutos activo / 55 dormido) para preservar autonomía. Cada ciclo escribe las lecturas en un buffer local en microSD y, cuando hay enlace disponible, las transmite de forma inalámbrica. Conviene una precisión de ingeniería: el audio solo puede viajar por WiFi, que ofrece ancho de banda suficiente; LoRa queda reservado para telemetría ambiental y de conteo IR ligera en sitios remotos sin cobertura. Por ello el diseño es inalámbrico con respaldo local: si no hay enlace, el dato espera en la microSD y se sincroniza de forma diferida. En el servidor, el meliponicultor etiqueta los registros por observación directa y se consolidan en el dataset (audio y vibración en Parquet; conteo IR y variables ambientales en series de tiempo estructuradas), publicado finalmente en Zenodo (Figura 2.3).
 
-**Figura 3.3 **Flujo del dato desde la captura hasta el dataset.
+**Figura 2.3 **Flujo del dato desde la captura hasta el dataset.
 
-## 3.4 Protocolo de preprocesamiento de señal
+## 2.4 Protocolo de preprocesamiento de señal
 
 El artículo de referencia no documentó ningún protocolo de preprocesamiento de señal antes de la extracción de características. Esta tesis introduce un protocolo formal, justificado por la naturaleza indirecta de las mediciones sensoriales y las condiciones climáticas tropicales de Campeche.
 
-### 3.4.1 Filtro de media móvil sobre variables ambientales
+### 2.4.1 Filtro de media móvil sobre variables ambientales
 
 Antes de concatenar las variables ambientales al vector de características, se aplica un filtro de media móvil de ventana de 5 muestras sobre temperatura y HR, tanto interna (SHT31) como externa (DHT22). Este filtro suaviza los picos espurios causados por la histéresis del DHT22, el ruido eléctrico de la batería y las variaciones abruptas de HR durante aguaceros. La ventana de 5 muestras equivale a 5 minutos de lecturas (una muestra por minuto), suficiente para suavizar picos transitorios sin introducir latencia significativa en la detección de cambios reales del estado de la colmena.
 
-### 3.4.2 Pre-énfasis sobre la señal de audio
+### 2.4.2 Pre-énfasis sobre la señal de audio
 
 Antes de la extracción de MFCCs, se aplica un filtro de pre-énfasis de primer orden sobre la señal de audio cruda: y[n] = x[n] − 0.97 · x[n−1]. Este filtro amplifica las frecuencias altas relativas a las bajas, compensando la tendencia natural del micrófono INMP441 a captar con mayor energía las frecuencias graves. El pre-énfasis mejora la discriminabilidad de los coeficientes MFCC de orden alto, que capturan información sobre los armónicos y la textura fina de la señal acústica de la colmena.
 
-### 3.4.3 Umbral de energía RMS para descarte de segmentos silenciosos
+### 2.4.3 Umbral de energía RMS para descarte de segmentos silenciosos
 
 No todos los segmentos de 60 segundos contienen señal de colmena útil. Durante períodos de baja actividad nocturna, o si el micrófono se desconecta momentáneamente, el segmento puede contener principalmente ruido de fondo. Se calcula la energía RMS (Root Mean Square) de cada segmento y se descarta si cae por debajo de un umbral empírico determinado durante la fase de calibración inicial en cada meliponario. Los segmentos descartados se registran como datos faltantes y no se usan para entrenamiento ni inferencia.
 
-### 3.4.4 Normalización Z-score del vector de características
+### 2.4.4 Normalización Z-score del vector de características
 
 Antes de entrenar los modelos, el vector de características completo —MFCCs, ZCR, centroide espectral, variables ambientales interna/externa y su contraste, características de vibración del MPU6050 y conteo IR— se normaliza mediante Z-score por colmena: a cada valor se le resta la media y se divide entre la desviación estándar calculada sobre el conjunto de entrenamiento de esa colmena. Esto garantiza que las variables de diferentes escalas tengan contribuciones comparables al modelo, sin que ninguna domine por su magnitud absoluta. El artículo de referencia no documentó esta normalización, lo que puede haber favorecido a variables de mayor escala en los modelos sensibles a la escala (SVM).
 
-### 3.4.5 Conversión de humedad relativa a humedad absoluta
+### 2.4.5 Conversión de humedad relativa a humedad absoluta
 
 La humedad relativa (HR) depende de la temperatura: la misma cantidad real de vapor de agua produce lecturas de HR completamente distintas si la temperatura cambia. Por ejemplo, 10 g/m³ de vapor de agua producen HR = 57.8% a 20 °C, HR = 32.9% a 30 °C y HR = 25.3% a 35 °C, sin que el contenido de vapor haya variado. Concatenar HR directamente al vector de características, como hace el artículo de referencia, introduce una covariancia artificial con la temperatura que puede confundir al modelo.
 
-Antes de concatenar las variables ambientales, se convierte la humedad relativa a humedad absoluta (HA, en g/m³) mediante la aproximación de Magnus: HA = 6.112 × e^(17.67·T/(T+243.5)) × HR / (461.5 × (T+273.15)), donde T es la temperatura en grados Celsius y HR la humedad relativa en tanto por uno. El resultado es el contenido real de vapor de agua, físicamente relevante para el desarrollo de hongos, la ventilación colectiva de *M. beecheii* y las condiciones patológicas de la colmena. La conversión se aplica tanto al SHT31 interno como al DHT22 externo, conservándose ambos valores de humedad absoluta —y su contraste— como campos independientes del vector de características (sección 3.2.4), en lugar de fusionarse en un único valor promediado.
+Antes de concatenar las variables ambientales, se convierte la humedad relativa a humedad absoluta (HA, en g/m³) mediante la aproximación de Magnus: HA = 6.112 × e^(17.67·T/(T+243.5)) × HR / (461.5 × (T+273.15)), donde T es la temperatura en grados Celsius y HR la humedad relativa en tanto por uno. El resultado es el contenido real de vapor de agua, físicamente relevante para el desarrollo de hongos, la ventilación colectiva de *M. beecheii* y las condiciones patológicas de la colmena. La conversión se aplica tanto al SHT31 interno como al DHT22 externo, conservándose ambos valores de humedad absoluta —y su contraste— como campos independientes del vector de características (sección 2.2.4), en lugar de fusionarse en un único valor promediado.
 
-## 3.5 Arquitectura del sistema KaabLab completo
+## 2.5 Arquitectura del sistema KaabLab completo
 
 El sistema KaabLab para *M. beecheii* se organiza en cuatro capas funcionales, que expanden las tres del artículo de referencia con la adición de la capa de preprocesamiento:
 
@@ -148,7 +148,7 @@ El sistema KaabLab para *M. beecheii* se organiza en cuatro capas funcionales, q
 
 - **Capa de alertas y evidencia: **umbral de confianza 0.7; registro de clase + confianza + timestamp en JSON local; sincronización diferida.
 
-## 3.6 Consideraciones de interferencia del hardware IoT en *M. beecheii*
+## 2.6 Consideraciones de interferencia del hardware IoT en *M. beecheii*
 
 <!-- REVISAR CON ASESOR: confirmar protocolo de aclimatación y si requiere registro de comportamiento antes/después de instalación -->
 
@@ -168,45 +168,45 @@ Protocolo de instalación mínimamente invasiva:
 - El ESP32 opera en modo de transmisión periódica (5 minutos activo / 55 dormido), no WiFi continuo, para minimizar el tiempo de exposición a campos electromagnéticos.
 - La electrónica de procesamiento, alimentación y comunicación se monta externamente a la colmena; solo las sondas de los sensores (SHT31, INMP441, MPU6050) y el sensor IR penetran o hacen contacto con la cavidad o sus paredes.
 
-## 3.7 Pipeline de procesamiento y evaluación (IA)
+## 2.7 Pipeline de procesamiento y evaluación (IA)
 
-El subsistema de IA toma el dataset crudo y lo transforma, etapa por etapa, en un diagnóstico de la condición de la colmena. Entran cuatro modalidades alineadas por timestamp: audio aéreo (INMP441), vibración estructural (MPU6050), variables ambientales interna/externa (SHT31 + DHT22) y conteo de tráfico en piquera (IR doble haz). La limpieza aplica el protocolo de preprocesamiento descrito en la sección 3.4. La extracción de características produce, del audio, los MFCC, ZCR, centroide y rolloff espectral; del MPU6050, la energía de vibración por bandas, el pico y la varianza de aceleración; del sensor IR, entradas, salidas y tasa neta por intervalo; concatenados con la humedad absoluta interna/externa y su contraste. El clasificador bioacústico —XGBoost / Gradient Boosting— integra estas fuentes para producir el diagnóstico de la condición de la colmena (objetivo AUC-ROC ≥ 0.85, F1 ≥ 0.80) —sana, anomalía bioacústica o anomalía de vibración/comportamiento defensivo—, con registro de evidencia cuando la confianza supera 0.7 (Figura 3.4).
+El subsistema de IA toma el dataset crudo y lo transforma, etapa por etapa, en un diagnóstico de la condición de la colmena. Entran cuatro modalidades alineadas por timestamp: audio aéreo (INMP441), vibración estructural (MPU6050), variables ambientales interna/externa (SHT31 + DHT22) y conteo de tráfico en piquera (IR doble haz). La limpieza aplica el protocolo de preprocesamiento descrito en la sección 2.4. La extracción de características produce, del audio, los MFCC, ZCR, centroide y rolloff espectral; del MPU6050, la energía de vibración por bandas, el pico y la varianza de aceleración; del sensor IR, entradas, salidas y tasa neta por intervalo; concatenados con la humedad absoluta interna/externa y su contraste. El clasificador bioacústico —XGBoost / Gradient Boosting— integra estas fuentes para producir el diagnóstico de la condición de la colmena (objetivo AUC-ROC ≥ 0.85, F1 ≥ 0.80) —sana, anomalía bioacústica o anomalía de vibración/comportamiento defensivo—, con registro de evidencia cuando la confianza supera 0.7 (Figura 2.4).
 
-**Figura 3.4 **Pipeline de procesamiento y evaluación de IA.
+**Figura 2.4 **Pipeline de procesamiento y evaluación de IA.
 
-## 3.8 Justificación técnica de las decisiones de diseño de IA
+## 2.8 Justificación técnica de las decisiones de diseño de IA
 
-### 3.8.1 Número de coeficientes MFCC (n = 13)
+### 2.8.1 Número de coeficientes MFCC (n = 13)
 
 La selección de n = 13 coeficientes MFCC sigue el estándar de la literatura de bioacústica de colmenas (Uthoff et al., 2023) y fue validada en el artículo de referencia: CV F1 = 0.9336 ± 0.0085 con XGBoost. Con n = 13, cada coeficiente se representa con media y desviación estándar, generando 26 valores acústicos por segmento. Valores mayores incrementan la dimensionalidad sin aportar información discriminativa adicional y elevan el riesgo de sobreajuste con datasets pequeños.
 
-### 3.8.2 Validación cruzada de 3 pliegues
+### 2.8.2 Validación cruzada de 3 pliegues
 
 Con datasets estimados de 2,000–5,000 registros, la diferencia en el balance sesgo-varianza entre 3-fold y 5-fold CV es mínima. El artículo de referencia lo demostró: desviaciones estándar de F1 de 0.0085 con 3-fold CV y 7,100 registros. La ganancia de la fase bayesiana sobre la búsqueda aleatoria fue de 0.0005 F1, confirmando que 20 iteraciones de búsqueda aleatoria identifican adecuadamente las regiones óptimas del espacio de hiperparámetros.
 
-### 3.8.3 XGBoost y Gradient Boosting
+### 2.8.3 XGBoost y Gradient Boosting
 
 Su superioridad sobre redes neuronales profundas para datos tabulares con datasets pequeños se explica por tres razones: la regularización L1+L2 reduce el sobreajuste; el boosting secuencial reduce sesgo y varianza simultáneamente; y no requieren normalización estricta. Superaron a Regresión Logística y KNN por 5–14 pp de F1 en el artículo de referencia.
 
-## 3.9 Protocolo de construcción del dataset
+## 2.9 Protocolo de construcción del dataset
 
-### 3.9.1 Recolección de datos bioacústicos, de vibración y ambientales
+### 2.9.1 Recolección de datos bioacústicos, de vibración y ambientales
 
 Segmentos de 60 segundos a 22,050 Hz (INMP441) y datos de vibración estructural simultáneos (MPU6050 a 100 Hz), con variables ambientales interna (SHT31) y externa (DHT22) registradas por separado. Seis clases de estado de salud siguiendo la taxonomía del artículo de referencia. Etiquetado por observación directa del meliponicultor. Meta: ≥ 1,000 registros de *M. beecheii* en el primer semestre.
 
-### 3.9.2 Recolección de datos de conteo IR en piquera
+### 2.9.2 Recolección de datos de conteo IR en piquera
 
-Registro continuo de cruces de haz (entradas y salidas) del sensor IR doble haz, agregado en intervalos de 5 minutos alineados con el resto de las modalidades. Etiquetado indirecto por correlación con observación directa de actividad de forrajeo. Meta de precisión de conteo por definir durante la calibración del Semestre 1 (sección 3.10).
+Registro continuo de cruces de haz (entradas y salidas) del sensor IR doble haz, agregado en intervalos de 5 minutos alineados con el resto de las modalidades. Etiquetado indirecto por correlación con observación directa de actividad de forrajeo. Meta de precisión de conteo por definir durante la calibración del Semestre 1 (sección 2.10).
 
-### 3.9.3 Manejo del desbalance de clases
+### 2.9.3 Manejo del desbalance de clases
 
 AUC-ROC como métrica principal, funciones de pérdida ponderadas, data augmentation extensivo y SMOTE si el desbalance supera 1:10.
 
-### 3.9.4 Partición y almacenamiento del dataset
+### 2.9.4 Partición y almacenamiento del dataset
 
 División 70/15/15 con estratificación por clase. Formato Parquet (audio y vibración) y series de tiempo estructuradas (ambientales y conteo IR). Publicación en Zenodo CC BY 4.0 al concluir.
 
-## 3.10 Métricas de evaluación
+## 2.10 Métricas de evaluación
 
 | **Módulo** | **Métrica** | **Umbral objetivo** | **Ref. *Apis mellifera*** |
 | --- | --- | --- | --- |
@@ -218,4 +218,4 @@ División 70/15/15 con estratificación por clase. Formato Parquet (audio y vibr
 | Sistema — autonomía IoT | Horas de operación | ≥ 72 h | N/A |
 | Sistema — latencia de alerta | Detección a alerta | < 60 s | N/A |
 
-**Tabla 3.4 **Métricas de evaluación con umbrales objetivo y benchmarks de referencia.
+**Tabla 2.4 **Métricas de evaluación con umbrales objetivo y benchmarks de referencia.

@@ -1,14 +1,14 @@
-# CAPÍTULO 4. RESULTADOS Y DISCUSIONES
+# CAPÍTULO III. RESULTADOS Y DISCUSIONES
 
-## 4.1 Estado actual del proyecto: evidencia técnica disponible
+## 3.1 Estado actual del proyecto: evidencia técnica disponible
 
 El proyecto cuenta con una base técnica concreta y verificable que distingue esta investigación de una propuesta especulativa. Los avances se organizan en cuatro niveles de evidencia. Por tratarse de un protocolo en fase de Seminario II, los resultados se presentan como evidencia preliminar y resultados esperados.
 
-### 4.1.1 Baseline validado: pipeline completo para *Apis mellifera*
+### 3.1.1 Baseline validado: pipeline completo para *Apis mellifera*
 
 El artículo de referencia (Chin-Canché et al., 2026) es evidencia de código ejecutado, modelos entrenados y métricas publicadas en revista arbitrada. Los pipelines bee_audio_analysis y varroa_vision están disponibles públicamente. Los hiperparámetros óptimos documentados son: SVM kernel RBF con C = 34.22, γ = scale (CV F1 = 0.94 en clasificación de salud); Gradient Boosting con learning rate = 0.03, max_depth = 8, 436 estimadores, subsample = 0.836 (CV F1 = 0.9823 en detección de ausencia de reina). La ganancia de la fase bayesiana sobre la búsqueda aleatoria fue de apenas 0.0005 F1.
 
-### 4.1.2 Repositorios públicos con código y datos
+### 3.1.2 Repositorios públicos con código y datos
 
 - **GitHub: **github.com/guillermochin/kaablab-bee-congress-2026-figures
 
@@ -18,7 +18,7 @@ El artículo de referencia (Chin-Canché et al., 2026) es evidencia de código e
 
 - **BeeAudio**** Dataset: **kaggle.com — annajyang/beehive-sounds
 
-### 4.1.3 Análisis de transferibilidad del pipeline
+### 3.1.3 Análisis de transferibilidad del pipeline
 
 | **Componente** | **Estado** | **Acción requerida** |
 | --- | --- | --- |
@@ -30,17 +30,17 @@ El artículo de referencia (Chin-Canché et al., 2026) es evidencia de código e
 | Preprocesamiento de señal | No existe | Diseño e implementación completos |
 | Sensor IR doble haz | No existe en artículo de referencia | Diseño original de esta tesis |
 
-**Tabla 4.1 **Análisis de transferibilidad del pipeline KAABLAB al dominio de *Melipona beecheii*.
+**Tabla 3.1 **Análisis de transferibilidad del pipeline KAABLAB al dominio de *Melipona beecheii*.
 
-El artículo de referencia incluye además un módulo de visión computacional (CNN ligera y YOLOv8 sobre imágenes OV2640, entrenado con el VarroaDataset) orientado a la detección de *Varroa destructor*. Dado que *Varroa* no parasita a *M. beecheii*, este componente no es transferible al dominio de esta tesis y se excluye del pipeline activo; se menciona aquí únicamente como contexto histórico del artículo de referencia y no forma parte de la Tabla 4.1.
+El artículo de referencia incluye además un módulo de visión computacional (CNN ligera y YOLOv8 sobre imágenes OV2640, entrenado con el VarroaDataset) orientado a la detección de *Varroa destructor*. Dado que *Varroa* no parasita a *M. beecheii*, este componente no es transferible al dominio de esta tesis y se excluye del pipeline activo; se menciona aquí únicamente como contexto histórico del artículo de referencia y no forma parte de la Tabla 3.1.
 
-### 4.1.4 Problemas técnicos identificados y estrategias de mitigación
+### 3.1.4 Problemas técnicos identificados y estrategias de mitigación
 
 - **Desajuste acústico de dominio. ***M. beecheii* no produce tooting/quacking y los patrones circadianos de California no aplican. Los umbrales deben aprenderse desde cero con datos propios.
 
-- **Degradación del DHT22 externo en condiciones tropicales. **La HR exterior frecuentemente supera el 85% en temporada de lluvias, y el DHT22 no se recupera del evento de saturación. Mitigación: el SHT31 interno, de mayor precisión y con autocalibración por encima de 80–85% HR, actúa como sensor primario; el DHT22 se conserva como referencia externa secundaria y como insumo del contraste interno-externo (sección 3.2.1).
+- **Degradación del DHT22 externo en condiciones tropicales. **La HR exterior frecuentemente supera el 85% en temporada de lluvias, y el DHT22 no se recupera del evento de saturación. Mitigación: el SHT31 interno, de mayor precisión y con autocalibración por encima de 80–85% HR, actúa como sensor primario; el DHT22 se conserva como referencia externa secundaria y como insumo del contraste interno-externo (sección 2.2.1).
 
-- **Deriva por contaminación de propóleos en el SHT31 interno. **El material higroscópico del SHT31, al estar dentro de la cavidad, puede absorber resinas y partículas propias del microclima del nido, alterando su constante dieléctrica. Mitigación: dado que el DHT22 externo no está expuesto a propóleos, una divergencia creciente entre ambos que se aparte del patrón día/noche esperado de termoconformidad (sección 3.2.1) sirve como indicador automático de posible contaminación del sensor interno.
+- **Deriva por contaminación de propóleos en el SHT31 interno. **El material higroscópico del SHT31, al estar dentro de la cavidad, puede absorber resinas y partículas propias del microclima del nido, alterando su constante dieléctrica. Mitigación: dado que el DHT22 externo no está expuesto a propóleos, una divergencia creciente entre ambos que se aparte del patrón día/noche esperado de termoconformidad (sección 2.2.1) sirve como indicador automático de posible contaminación del sensor interno.
 
 - **Vibración estructural no capturada. ***M. beecheii* usa vibración del sustrato en 1–50 Hz, no captable por el INMP441. Mitigación: MPU6050 en contacto directo con la colmena.
 
@@ -48,7 +48,7 @@ El artículo de referencia incluye además un módulo de visión computacional (
 
 - **Autonomía energética. **RPi4 ~5 W → ~7.4 h con 10,000 mAh. Mitigación: muestreo periódico, detección de movimiento y panel solar 10–20 W.
 
-### 4.1.5 Validación de arquitectura con datos sintéticos
+### 3.1.5 Validación de arquitectura con datos sintéticos
 
 Como cuarto nivel de evidencia, se implementó un prototipo ejecutable de extremo a extremo del pipeline de KaabLab, alimentado con un conjunto de datos sintéticos generados programáticamente. Su propósito es validar que la arquitectura de procesamiento es correcta y funcional antes de iniciar la recolección en campo, evitando comprometer recursos en una infraestructura cuyo flujo no haya sido verificado.
 
@@ -58,13 +58,13 @@ El generador sintético produce, para cada unidad de observación, tres señales
 
  
 
-Sobre estos datos se ejecuta el protocolo completo: las cinco etapas de preprocesamiento descritas en el Capítulo 3, la extracción del vector de características enriquecido (13 MFCC, ZCR, centroide y rolloff espectral, descriptores de vibración del MPU6050 y variables ambientales interna/externa con su contraste) y el entrenamiento del clasificador Gradient Boosting, implementado con XGBoost. El prototipo se organiza de forma modular —generación de datos, preprocesamiento, extracción de características, modelo y evaluación— de modo que, al disponer de datos reales, únicamente se sustituye el módulo de generación por el de carga, conservando intacto el resto del flujo.
+Sobre estos datos se ejecuta el protocolo completo: las cinco etapas de preprocesamiento descritas en el Capítulo II, la extracción del vector de características enriquecido (13 MFCC, ZCR, centroide y rolloff espectral, descriptores de vibración del MPU6050 y variables ambientales interna/externa con su contraste) y el entrenamiento del clasificador Gradient Boosting, implementado con XGBoost. El prototipo se organiza de forma modular —generación de datos, preprocesamiento, extracción de características, modelo y evaluación— de modo que, al disponer de datos reales, únicamente se sustituye el módulo de generación por el de carga, conservando intacto el resto del flujo.
 
 La evaluación contrasta las métricas obtenidas con los umbrales definidos en la hipótesis (AUC-ROC ≥ 0.85 y F1 ≥ 0.80) e incorpora dos experimentos de ablación: con y sin la fusión de variables ambientales, para cuantificar el aporte de la arquitectura sensorial heterogénea (H1b); y con y sin los descriptores de vibración, para cuantificar el aporte del MPU6050 (H1a).
 
-Es necesario delimitar el alcance de esta validación con precisión metodológica. Dado que las etiquetas de clase se asignan por construcción durante la generación, las métricas obtenidas verifican que la arquitectura del pipeline es correcta y capaz de aprender cuando existe señal discriminativa, pero no constituyen un resultado biológico ni evidencia sobre el comportamiento real de *M. beecheii*. La generación de datos empíricos de campo de la especie permanece como la contribución central de la tesis (Sección 4.2).
+Es necesario delimitar el alcance de esta validación con precisión metodológica. Dado que las etiquetas de clase se asignan por construcción durante la generación, las métricas obtenidas verifican que la arquitectura del pipeline es correcta y capaz de aprender cuando existe señal discriminativa, pero no constituyen un resultado biológico ni evidencia sobre el comportamiento real de *M. beecheii*. La generación de datos empíricos de campo de la especie permanece como la contribución central de la tesis (sección 3.2).
 
-## 4.2 Contribuciones originales esperadas
+## 3.2 Contribuciones originales esperadas
 
 - **Primer dataset multimodal de *M. beecheii*. **Audio aéreo + vibración estructural + conteo IR de tráfico en piquera + variables ambientales interna/externa, etiquetados por estado de salud. Publicación en Zenodo CC BY 4.0.
 
@@ -80,7 +80,7 @@ Es necesario delimitar el alcance de esta validación con precisión metodológi
 
 - **Metodología transferible. **Pipeline reproducible extensible a otras especies del género Melipona.
 
-## 4.3 Discusión
+## 3.3 Discusión
 
-Los resultados esperados se apoyan en una base técnica verificable: un pipeline ya validado en *Apis mellifera* y un análisis de transferibilidad (Tabla 4.1) que, tras excluir el módulo de visión no transferible a *M. beecheii*, estima reutilizable directamente cerca del 40% de los componentes restantes (extracción MFCC, XGBoost/Gradient Boosting y el optimizador de hiperparámetros), con otro componente parcialmente reutilizable (arquitectura sensorial) y dos completamente nuevos (preprocesamiento de señal y sensor IR). La discusión central es que la calidad del dato —garantizada por la arquitectura sensorial heterogénea y el protocolo de preprocesamiento— es el factor determinante del desempeño en el clima tropical de Campeche, por encima de la sofisticación del modelo. La validación de campo del Semestre 1 permitirá contrastar empíricamente las hipótesis H1e (superioridad de la arquitectura heterogénea) y H1b (aporte de la fusión sensorial), que son las contribuciones más novedosas del trabajo.
+Los resultados esperados se apoyan en una base técnica verificable: un pipeline ya validado en *Apis mellifera* y un análisis de transferibilidad (Tabla 3.1) que, tras excluir el módulo de visión no transferible a *M. beecheii*, estima reutilizable directamente cerca del 40% de los componentes restantes (extracción MFCC, XGBoost/Gradient Boosting y el optimizador de hiperparámetros), con otro componente parcialmente reutilizable (arquitectura sensorial) y dos completamente nuevos (preprocesamiento de señal y sensor IR). La discusión central es que la calidad del dato —garantizada por la arquitectura sensorial heterogénea y el protocolo de preprocesamiento— es el factor determinante del desempeño en el clima tropical de Campeche, por encima de la sofisticación del modelo. La validación de campo del Semestre 1 permitirá contrastar empíricamente las hipótesis H1e (superioridad de la arquitectura heterogénea) y H1b (aporte de la fusión sensorial), que son las contribuciones más novedosas del trabajo.
 
