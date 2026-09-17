@@ -1,0 +1,13 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.DS_Store
+.ipynb_checkpoints/
+
+# Artefactos generados (reproducibles con: python -m kaablab.main)
+dataset_sintetico.csv
+resultados.json
+registro_ejecucion.txt

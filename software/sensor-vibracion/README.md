@@ -233,9 +233,10 @@ y los datos se acumulan en su FIFO interno hasta que el ESP32 los retira
 en bloque. Esto evita que el `delay()`/polling bloqueante consuma ciclos
 del procesador.
 
-El pin `INT` sugerido en el código (GPIO4) **no está confirmado contra el
-mapeo global de pines del proyecto** (`firmware/esp32_main`) — verificar
-que no choque con otro sensor antes de cablear.
+El pin `INT` usado en el código es **GPIO13**, confirmado contra el
+mapeo global de pines del proyecto (`thesis/capitulo-2-materiales-y-metodos/capitulo-2.md`,
+Tabla 2.3) — reasignado desde GPIO4 para evitar el choque con el DATA
+del DHT22 (GPIO4, 1-Wire).
 
 ---
 

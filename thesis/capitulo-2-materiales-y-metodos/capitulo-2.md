@@ -79,6 +79,8 @@ El subsistema IoT cumple una función central: convertir el estado físico de la
 
 Todos los sensores convergen en un único nodo de borde (ESP32 DevKit V1), que concentra la adquisición y la primera etapa de transmisión. La heterogeneidad de la arquitectura obliga a convivir varios protocolos distintos en el mismo microcontrolador: 1-Wire para el DHT22, I²C para el SHT31 y el MPU6050/6500 (que comparten bus con direcciones 0x44 y 0x68 sin conflicto), I²S para el micrófono digital INMP441, y GPIO digital para el sensor IR doble haz. Resistencias pull-up de 10 kΩ estabilizan la línea de datos del DHT22 y el bus I²C. La Figura 2.1 resume la conexión y la Tabla 2.3 detalla los protocolos y pines.
 
+![Figura 2.1](figuras/figura_2_1_conexion_sensores.svg)
+
 **Figura 2.1 **Conexión de los sensores al nodo de borde.
 
 | Sensor | Señal | Pin |
@@ -93,20 +95,25 @@ Todos los sensores convergen en un único nodo de borde (ESP32 DevKit V1), que c
 | Contador IR doble haz | Haz A (secundario) | GPIO25 |
 | Contador IR doble haz | Haz B (principal) | GPIO27 |
 | Contador IR doble haz | Haz B (secundario) | GPIO33 |
+| MPU6050/6500 (interrupción opcional) | INT (Ruta B, opcional) | GPIO13 |
 
 **Tabla 2.3 **Protocolos de comunicación y pines por sensor (ESP32 DevKit V1).
 
-Direcciones I²C del bus compartido: SHT31 en 0x44 u 0x45, MPU6050/6500 en 0x68 u 0x69 — sin conflicto entre sí.
+Direcciones I²C del bus compartido: SHT31 en 0x44 u 0x45, MPU6050/6500 en 0x68 u 0x69 — sin conflicto entre sí. Opcionalmente, si el muestreo por polling del bus I²C muestra pérdida de muestras en la prueba de banco, el MPU6050/6500 puede operar además por interrupción data-ready, usando GPIO13 para la señal INT — sin conflicto con el resto del mapeo de pines.
 
 ### 2.3.2 Disposición física en la colmena
 
 El principio de instalación es no invasivo: solo las sondas de los sensores penetran la cavidad; la electrónica de cómputo, alimentación y comunicación permanece en el exterior dentro de una caja IP65. La sonda encapsulada del SHT31 se introduce al interior de la cavidad como sensor primario de microclima; el DHT22 permanece montado en el exterior de la colmena, protegido de la lluvia directa, como sensor secundario de referencia ambiental; el INMP441 capta el sonido aéreo dentro de la cavidad; el MPU6050 se fija en contacto directo con la madera para registrar la vibración estructural; y el sensor IR doble haz se embebe en el barreno de la piquera (sección 2.2.3). Se respeta un período de aclimatación de 2–4 semanas antes de iniciar el etiquetado (véase también sección 2.6), y el barniz conformal protege la placa salvo el elemento sensor del DHT22 y el orificio del micrófono (Figura 2.2).
+
+![Figura 2.2](figuras/figura_2_2_disposicion_fisica.svg)
 
 **Figura 2.2 **Disposición física de la instrumentación en la colmena.
 
 ### 2.3.3 Flujo del dato: de la captura al dataset
 
 El ESP32 opera en muestreo periódico (5 minutos activo / 55 dormido) para preservar autonomía. Cada ciclo escribe las lecturas en un buffer local en microSD y, cuando hay enlace disponible, las transmite de forma inalámbrica. Conviene una precisión de ingeniería: el audio solo puede viajar por WiFi, que ofrece ancho de banda suficiente; LoRa queda reservado para telemetría ambiental y de conteo IR ligera en sitios remotos sin cobertura. Por ello el diseño es inalámbrico con respaldo local: si no hay enlace, el dato espera en la microSD y se sincroniza de forma diferida. En el servidor, el meliponicultor etiqueta los registros por observación directa y se consolidan en el dataset (audio y vibración en Parquet; conteo IR y variables ambientales en series de tiempo estructuradas), publicado finalmente en Zenodo (Figura 2.3).
+
+![Figura 2.3](figuras/figura_2_3_flujo_datos.svg)
 
 **Figura 2.3 **Flujo del dato desde la captura hasta el dataset.
 
