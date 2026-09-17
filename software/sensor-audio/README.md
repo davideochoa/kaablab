@@ -44,8 +44,10 @@ específicas (ver sección 1 más abajo para el detalle completo):
 - **Actividad de vuelo en piquera:** 200–500 Hz
 - **Alarma / intrusos:** hasta 5,000–8,000 Hz
 
-Las vibraciones estructurales de 1–50 Hz quedan **fuera del alcance** de
-este micrófono de aire; por eso se complementa con el MPU6050.
+Las vibraciones estructurales de 180–500 Hz (vuelo ~180–250 Hz, forrajeo/
+reclutamiento ~300–600 Hz capado a ≤500 Hz por el Nyquist real del MPU6050;
+Hrncir et al., 2000/2006/2008) quedan **fuera del alcance** de este
+micrófono de aire; por eso se complementa con el MPU6050.
 
 ---
 
@@ -64,7 +66,10 @@ para *M. beecheii*:
 | Alarma / intrusos | hasta 5,000–8,000 Hz | Extremo superior de interés, aún dentro del rango plano del sensor |
 
 **Fuera de alcance del INMP441:** las vibraciones estructurales de
-**1–50 Hz** (comportamiento defensivo por sustrato, dos Santos et al.
+**180–500 Hz** (vuelo ~180–250 Hz, forrajeo/reclutamiento ~300–600 Hz
+capado a ≤500 Hz por el Nyquist real del MPU6050; Hrncir et al.,
+2000/2006/2008; el hecho de que el comportamiento defensivo se exprese por
+sustrato y no por sonido aéreo está documentado por dos Santos et al.,
 2025) quedan por debajo del rango útil de este micrófono de aire. Por eso
 el proyecto usa una arquitectura sensorial complementaria: INMP441 para
 audio aéreo (esta carpeta) + MPU6050 para vibración estructural (ver

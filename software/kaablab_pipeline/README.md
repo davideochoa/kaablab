@@ -17,14 +17,16 @@ kaablab/
 ├── datagen/               # generación sintética
 │   ├── audio_gen.py       #   señal acústica (INMP441)
 │   ├── env_gen.py         #   series ambientales (DHT22 + SHT31)
-│   └── vibration_gen.py   #   vibración estructural (MPU6050)
+│   ├── vibration_gen.py   #   vibración estructural (MPU6050)
+│   └── traffic_gen.py     #   tráfico direccional de piquera (IR doble haz)
 ├── preprocessing/         # protocolo de 5 etapas
 │   ├── env_fusion.py      #   1) Magnus HR->HA  2) fusión ponderada por confianza
 │   ├── smoothing.py       #   3) media móvil
 │   └── audio_prep.py      #   4) pre-énfasis   5a) gate de energía RMS
 ├── features/
 │   ├── acoustic_feats.py  #   13 MFCC + ZCR + centroide + rolloff
-│   └── vibration_feats.py #   RMS, frecuencia dominante, energía por banda
+│   ├── vibration_feats.py #   RMS, frecuencia dominante, energía por banda
+│   └── traffic_feats.py   #   entradas/salidas/tasa neta (media y desviación)
 ├── dataset.py             # genera+preprocesa+extrae -> tabla de características
 ├── models/train_health.py # clasificador XGBoost (Gradient Boosting)
 ├── evaluation/metrics.py  # AUC-ROC (OvR macro), F1 macro, matriz de confusión
