@@ -134,6 +134,11 @@ kaablab/
 └── docs/
 ```
 
+## Documentos de referencia
+
+- Formato oficial de la tesis (ITESCAM): ver thesis/docs/FORMATO_TESIS.md —
+  aplicar en la redacción y el ensamblado final del documento.
+
 ## Convenciones
 
 - Commits en español, formato imperativo corto

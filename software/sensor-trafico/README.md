@@ -224,8 +224,12 @@ listo para cableado final en campo.
 
 ## Referencias
 
-- Muniz, [Nombres pendientes]. (s.f.). [Título completo pendiente —
-  conteo por infrarrojo en *Melipona* sp.]. Ver `thesis/referencias.md`.
+- Justino, A. R., & Hartfelder, K. (2024). A versatile recording device
+  for the analysis of continuous daily external activity in colonies of
+  highly eusocial bees. *Journal of Comparative Physiology A, 210*(6),
+  885-900. https://doi.org/10.1007/s00359-024-01709-2 — precedente
+  parcial: detector IR simple, no direccional, en *M. quadrifasciata*.
+  Ver `thesis/referencias.md`.
 - Datasheets de los módulos FC-51 y KY-033 (fabricante genérico,
   variable según proveedor) — sección de distancia de detección
   especificada y ajuste del potenciómetro de sensibilidad. Confirmar
