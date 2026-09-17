@@ -1,0 +1,203 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 1320" width="1500" height="1320" font-family="Segoe UI, Arial, sans-serif">
+  <title>Figura 2.1 — Conexión de los sensores al nodo de borde</title>
+  <rect x="0" y="0" width="1500" height="1320" fill="#ffffff"/>
+
+  <text x="750" y="34" text-anchor="middle" font-size="20" font-weight="bold" fill="#1a1a1a">
+    Conexión de los sensores al nodo de borde
+  </text>
+  <text x="750" y="56" text-anchor="middle" font-size="12" fill="#555555">
+    KaabLab — ESP32 DevKit V1, arquitectura sensorial heterogénea (Tabla 2.3) — esquema, no a escala
+  </text>
+
+  <!-- ESP32 DevKit V1 box -->
+  <rect x="40" y="90" width="260" height="1080" rx="8" fill="#eef3fb" stroke="#2c5aa0" stroke-width="2"/>
+  <text x="170" y="120" text-anchor="middle" font-size="16" font-weight="bold" fill="#1a1a1a">ESP32 DevKit V1</text>
+  <text x="170" y="138" text-anchor="middle" font-size="11" fill="#555555">nodo de borde (Tabla 2.3)</text>
+
+  <!-- Power pins -->
+  <circle cx="292" cy="175" r="4" fill="#2c5aa0"/>
+  <text x="280" y="180" text-anchor="end" font-size="13" fill="#1a1a1a">3V3 (común)</text>
+
+  <circle cx="292" cy="233" r="4" fill="#555555"/>
+  <text x="280" y="238" text-anchor="end" font-size="13" fill="#1a1a1a">GND (común)</text>
+
+  <!-- I2S group -->
+  <text x="280" y="270" text-anchor="end" font-size="10" fill="#7a2ca0">— Bus I²S (INMP441) —</text>
+
+  <circle cx="292" cy="291" r="4" fill="#7a2ca0"/>
+  <text x="280" y="296" text-anchor="end" font-size="13" fill="#1a1a1a">GPIO14 (SCK)</text>
+
+  <circle cx="292" cy="349" r="4" fill="#7a2ca0"/>
+  <text x="280" y="354" text-anchor="end" font-size="13" fill="#1a1a1a">GPIO15 (WS)</text>
+
+  <circle cx="292" cy="407" r="4" fill="#7a2ca0"/>
+  <text x="280" y="412" text-anchor="end" font-size="13" fill="#1a1a1a">GPIO32 (SD)</text>
+
+  <!-- I2C group -->
+  <text x="280" y="444" text-anchor="end" font-size="10" fill="#2c5aa0">— Bus I²C compartido (SHT31 + MPU6050) —</text>
+
+  <circle cx="292" cy="465" r="4" fill="#2c5aa0"/>
+  <text x="280" y="470" text-anchor="end" font-size="13" fill="#1a1a1a">GPIO21 (SDA)</text>
+
+  <circle cx="292" cy="523" r="4" fill="#2c5aa0"/>
+  <text x="280" y="528" text-anchor="end" font-size="13" fill="#1a1a1a">GPIO22 (SCL)</text>
+
+  <!-- INT (optional) -->
+  <text x="280" y="560" text-anchor="end" font-size="10" fill="#8a6d00">— MPU6050, Ruta B —</text>
+
+  <circle cx="292" cy="581" r="4" fill="#8a6d00"/>
+  <text x="280" y="586" text-anchor="end" font-size="13" fill="#1a1a1a">GPIO13 (INT, opcional)</text>
+
+  <!-- 1-Wire -->
+  <text x="280" y="618" text-anchor="end" font-size="10" fill="#c0392b">— 1-Wire (DHT22) —</text>
+
+  <circle cx="292" cy="639" r="4" fill="#c0392b"/>
+  <text x="280" y="644" text-anchor="end" font-size="13" fill="#1a1a1a">GPIO4 (DATA)</text>
+
+  <!-- IR group -->
+  <text x="280" y="676" text-anchor="end" font-size="10" fill="#7a5a30">— Sensor IR doble haz —</text>
+
+  <circle cx="292" cy="697" r="4" fill="#c0392b"/>
+  <text x="280" y="702" text-anchor="end" font-size="13" fill="#1a1a1a">GPIO26 (Haz A ppal.)</text>
+
+  <circle cx="292" cy="755" r="4" fill="#e08a3c"/>
+  <text x="280" y="760" text-anchor="end" font-size="13" fill="#1a1a1a">GPIO25 (Haz A sec.)</text>
+
+  <circle cx="292" cy="813" r="4" fill="#227a3d"/>
+  <text x="280" y="818" text-anchor="end" font-size="13" fill="#1a1a1a">GPIO27 (Haz B ppal.)</text>
+
+  <circle cx="292" cy="871" r="4" fill="#7a2ca0"/>
+  <text x="280" y="876" text-anchor="end" font-size="13" fill="#1a1a1a">GPIO33 (Haz B sec.)</text>
+
+  <!-- ===================== INMP441 box ===================== -->
+  <rect x="1120" y="110" width="320" height="200" rx="8" fill="#eefbf1" stroke="#227a3d" stroke-width="2"/>
+  <text x="1280" y="140" text-anchor="middle" font-size="15" font-weight="bold" fill="#1a1a1a">INMP441</text>
+  <text x="1280" y="158" text-anchor="middle" font-size="11" fill="#555555">micrófono MEMS I²S — nivel acústico</text>
+  <text x="1135" y="190" font-size="10.5" fill="#555555">Alimentación: VDD 3.3V, GND (común)</text>
+
+  <circle cx="1128" cy="230" r="4" fill="#7a2ca0"/>
+  <text x="1145" y="235" font-size="13" fill="#1a1a1a">SCK</text>
+
+  <circle cx="1128" cy="260" r="4" fill="#7a2ca0"/>
+  <text x="1145" y="265" font-size="13" fill="#1a1a1a">WS</text>
+
+  <circle cx="1128" cy="290" r="4" fill="#7a2ca0"/>
+  <text x="1145" y="295" font-size="13" fill="#1a1a1a">SD</text>
+
+  <!-- ===================== SHT31 box ===================== -->
+  <rect x="1120" y="340" width="320" height="170" rx="8" fill="#eefbf1" stroke="#227a3d" stroke-width="2"/>
+  <text x="1280" y="368" text-anchor="middle" font-size="15" font-weight="bold" fill="#1a1a1a">SHT31</text>
+  <text x="1280" y="385" text-anchor="middle" font-size="11" fill="#555555">interno primario — temp/HR</text>
+  <text x="1135" y="412" font-size="10.5" fill="#555555">Alimentación: VCC 3.3V, GND (común)</text>
+
+  <circle cx="1128" cy="448" r="4" fill="#2c5aa0"/>
+  <text x="1145" y="453" font-size="13" fill="#1a1a1a">SDA</text>
+
+  <circle cx="1128" cy="478" r="4" fill="#2c5aa0"/>
+  <text x="1145" y="483" font-size="13" fill="#1a1a1a">SCL</text>
+
+  <!-- ===================== MPU6050 box ===================== -->
+  <rect x="1120" y="540" width="320" height="200" rx="8" fill="#eefbf1" stroke="#227a3d" stroke-width="2"/>
+  <text x="1280" y="568" text-anchor="middle" font-size="15" font-weight="bold" fill="#1a1a1a">MPU6050 / MPU6500</text>
+  <text x="1280" y="585" text-anchor="middle" font-size="11" fill="#555555">vibración estructural</text>
+  <text x="1135" y="612" font-size="10.5" fill="#555555">Alimentación: VCC 3.3V, GND (común)</text>
+
+  <circle cx="1128" cy="645" r="4" fill="#2c5aa0"/>
+  <text x="1145" y="650" font-size="13" fill="#1a1a1a">SDA</text>
+
+  <circle cx="1128" cy="675" r="4" fill="#2c5aa0"/>
+  <text x="1145" y="680" font-size="13" fill="#1a1a1a">SCL</text>
+
+  <circle cx="1128" cy="705" r="4" fill="#8a6d00"/>
+  <text x="1145" y="710" font-size="13" fill="#1a1a1a">INT (Ruta B, opcional)</text>
+
+  <!-- ===================== DHT22 box ===================== -->
+  <rect x="1120" y="770" width="320" height="150" rx="8" fill="#eefbf1" stroke="#227a3d" stroke-width="2"/>
+  <text x="1280" y="798" text-anchor="middle" font-size="15" font-weight="bold" fill="#1a1a1a">DHT22 / AM2302</text>
+  <text x="1280" y="815" text-anchor="middle" font-size="11" fill="#555555">externo secundario — temp/HR</text>
+  <text x="1135" y="845" font-size="10.5" fill="#555555">Alimentación: VCC 3.3–5V, GND (común)</text>
+
+  <circle cx="1128" cy="875" r="4" fill="#c0392b"/>
+  <text x="1145" y="880" font-size="13" fill="#1a1a1a">DATA</text>
+
+  <!-- ===================== Sensor IR doble haz box ===================== -->
+  <rect x="1120" y="950" width="320" height="220" rx="8" fill="#fdf8ef" stroke="#7a5a30" stroke-width="2"/>
+  <text x="1280" y="978" text-anchor="middle" font-size="15" font-weight="bold" fill="#1a1a1a">Sensor IR doble haz</text>
+  <text x="1280" y="995" text-anchor="middle" font-size="10.5" fill="#555555">4 módulos FC-51/KY-033 — conteo direccional</text>
+  <text x="1135" y="1022" font-size="10.5" fill="#555555">Alimentación: VCC 3.3–5V, GND (común, 4 módulos)</text>
+
+  <circle cx="1128" cy="1055" r="4" fill="#c0392b"/>
+  <text x="1145" y="1060" font-size="13" fill="#1a1a1a">OUT — Haz A principal</text>
+
+  <circle cx="1128" cy="1080" r="4" fill="#e08a3c"/>
+  <text x="1145" y="1085" font-size="13" fill="#1a1a1a">OUT — Haz A secundario</text>
+
+  <circle cx="1128" cy="1105" r="4" fill="#227a3d"/>
+  <text x="1145" y="1110" font-size="13" fill="#1a1a1a">OUT — Haz B principal</text>
+
+  <circle cx="1128" cy="1130" r="4" fill="#7a2ca0"/>
+  <text x="1145" y="1135" font-size="13" fill="#1a1a1a">OUT — Haz B secundario</text>
+
+  <!-- ===================== Connections (signal pins only) ===================== -->
+  <!-- I2S -> INMP441 -->
+  <line x1="300" y1="291" x2="1120" y2="230" stroke="#7a2ca0" stroke-width="1.8"/>
+  <line x1="300" y1="349" x2="1120" y2="260" stroke="#7a2ca0" stroke-width="1.8"/>
+  <line x1="300" y1="407" x2="1120" y2="290" stroke="#7a2ca0" stroke-width="1.8"/>
+
+  <!-- I2C -> SHT31 -->
+  <line x1="300" y1="465" x2="1120" y2="448" stroke="#2c5aa0" stroke-width="1.8"/>
+  <line x1="300" y1="523" x2="1120" y2="478" stroke="#2c5aa0" stroke-width="1.8"/>
+
+  <!-- I2C -> MPU6050 (bus compartido, mismo origen) -->
+  <line x1="300" y1="465" x2="1120" y2="645" stroke="#2c5aa0" stroke-width="1.8"/>
+  <line x1="300" y1="523" x2="1120" y2="675" stroke="#2c5aa0" stroke-width="1.8"/>
+
+  <!-- INT -> MPU6050 (opcional, punteado) -->
+  <line x1="300" y1="581" x2="1120" y2="705" stroke="#8a6d00" stroke-width="1.8" stroke-dasharray="7,5"/>
+
+  <!-- 1-Wire -> DHT22 -->
+  <line x1="300" y1="639" x2="1120" y2="875" stroke="#c0392b" stroke-width="1.8"/>
+
+  <!-- IR -->
+  <line x1="300" y1="697" x2="1120" y2="1055" stroke="#c0392b" stroke-width="1.8"/>
+  <line x1="300" y1="755" x2="1120" y2="1080" stroke="#e08a3c" stroke-width="1.8"/>
+  <line x1="300" y1="813" x2="1120" y2="1105" stroke="#227a3d" stroke-width="1.8"/>
+  <line x1="300" y1="871" x2="1120" y2="1130" stroke="#7a2ca0" stroke-width="1.8"/>
+
+  <!-- Bus junction dots (fan-out I2C) -->
+  <circle cx="300" cy="465" r="4" fill="#2c5aa0"/>
+  <circle cx="300" cy="523" r="4" fill="#2c5aa0"/>
+
+  <!-- ===================== Legend ===================== -->
+  <rect x="40" y="1210" width="14" height="14" fill="#2c5aa0"/>
+  <text x="60" y="1221" font-size="10.5" fill="#1a1a1a">I²C compartido (SHT31 + MPU6050)</text>
+
+  <rect x="330" y="1210" width="14" height="14" fill="#7a2ca0"/>
+  <text x="350" y="1221" font-size="10.5" fill="#1a1a1a">I²S (INMP441) / Haz B secundario (IR)</text>
+
+  <rect x="680" y="1210" width="14" height="14" fill="#c0392b"/>
+  <text x="700" y="1221" font-size="10.5" fill="#1a1a1a">1-Wire (DHT22) / Haz A principal (IR)</text>
+
+  <rect x="1030" y="1210" width="14" height="14" fill="#e08a3c"/>
+  <text x="1050" y="1221" font-size="10.5" fill="#1a1a1a">Haz A secundario (IR)</text>
+
+  <rect x="40" y="1235" width="14" height="14" fill="#227a3d"/>
+  <text x="60" y="1246" font-size="10.5" fill="#1a1a1a">Alimentación / Haz B principal (IR)</text>
+
+  <rect x="330" y="1235" width="14" height="14" fill="#8a6d00"/>
+  <text x="350" y="1246" font-size="10.5" fill="#1a1a1a">INT — MPU6050, Ruta B (opcional, punteado)</text>
+
+  <rect x="680" y="1235" width="14" height="14" fill="#555555"/>
+  <text x="700" y="1246" font-size="10.5" fill="#1a1a1a">GND común</text>
+
+  <!-- ===================== Footer note ===================== -->
+  <text x="750" y="1275" text-anchor="middle" font-size="10" fill="#777777">
+    Alimentación (3V3/GND) común a los 5 sensores; se omite como línea individual por claridad — ver el diagrama de cada
+  </text>
+  <text x="750" y="1290" text-anchor="middle" font-size="10" fill="#777777">
+    sensor en software/sensor-*/diagrama_conexion.svg para el detalle completo de alimentación y pull-ups.
+  </text>
+  <text x="750" y="1305" text-anchor="middle" font-size="10" fill="#777777">
+    GPIO13 (INT, Ruta B opcional del MPU6050) no choca con GPIO4 (DATA del DHT22) — ver Tabla 2.3.
+  </text>
+</svg>

@@ -17,10 +17,10 @@
  * Pin mapping confirmado del proyecto:
  *   SDA = GPIO21
  *   SCL = GPIO22
- * Pin INT sugerido (NO CONFIRMADO contra el mapeo global de pines del
- * proyecto en firmware/esp32_main): GPIO4. Verificar que no choque con
- * otro sensor (IR doble haz usa GPIO25/32/33; INMP441 usa pines I2S,
- * ver conflicto pendiente de GPIO14 en CLAUDE.md) antes de cablear.
+ *   INT = GPIO13 (Ruta B, opcional) — confirmado en
+ *   thesis/capitulo-2-materiales-y-metodos/capitulo-2.md, Tabla 2.3.
+ *   Reasignado desde GPIO4 para evitar el choque con el DATA del DHT22
+ *   (GPIO4, 1-Wire).
  */
 
 #include <Wire.h>
@@ -30,7 +30,7 @@ MPU6050 mpu;
 
 const uint8_t SDA_PIN = 21;
 const uint8_t SCL_PIN = 22;
-const uint8_t INT_PIN = 4; // ver advertencia arriba: confirmar antes de cablear
+const uint8_t INT_PIN = 13; // Ruta B, opcional — ver Tabla 2.3
 
 const uint8_t SMPLRT_DIV_TARGET = 2; // ver README.md sección 2.1: ~2667 Hz, Nyquist ~1333 Hz
 const uint8_t PACKET_SIZE = 6;       // accel X/Y/Z, 2 bytes cada eje

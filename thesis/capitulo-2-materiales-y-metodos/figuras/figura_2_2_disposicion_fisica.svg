@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1300 860" width="1300" height="860" font-family="Segoe UI, Arial, sans-serif">
+  <title>Figura 2.2 — Disposición física de la instrumentación en la colmena</title>
+  <rect x="0" y="0" width="1300" height="860" fill="#ffffff"/>
+
+  <text x="650" y="34" text-anchor="middle" font-size="20" font-weight="bold" fill="#1a1a1a">
+    Disposición física de la instrumentación en la colmena
+  </text>
+  <text x="650" y="56" text-anchor="middle" font-size="12" fill="#555555">
+    KaabLab — corte transversal esquemático de una colmena racional (sección 2.3.2) — no a escala
+  </text>
+
+  <!-- Hive outer body -->
+  <rect x="260" y="110" width="560" height="520" rx="12" fill="#f5e6c8" stroke="#8a6d3a" stroke-width="3"/>
+  <text x="540" y="94" text-anchor="middle" font-size="12" fill="#7a5a30">Colmena racional (madera) — corte transversal</text>
+
+  <!-- Interior cavity -->
+  <rect x="290" y="140" width="380" height="440" rx="8" fill="#fffdf5" stroke="#c9b285" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="480" y="160" text-anchor="middle" font-size="11" fill="#7a5a30" font-style="italic">Cavidad interna del nido</text>
+
+  <!-- SHT31 (interior, primary) -->
+  <rect x="330" y="185" width="150" height="62" rx="6" fill="#eefbf1" stroke="#227a3d" stroke-width="2"/>
+  <text x="405" y="209" text-anchor="middle" font-size="13" font-weight="bold" fill="#1a1a1a">SHT31</text>
+  <text x="405" y="224" text-anchor="middle" font-size="9.5" fill="#555555">sonda interna —</text>
+  <text x="405" y="236" text-anchor="middle" font-size="9.5" fill="#555555">microclima primario</text>
+
+  <!-- INMP441 (interior) -->
+  <rect x="330" y="270" width="150" height="62" rx="6" fill="#eefbf1" stroke="#227a3d" stroke-width="2"/>
+  <text x="405" y="294" text-anchor="middle" font-size="13" font-weight="bold" fill="#1a1a1a">INMP441</text>
+  <text x="405" y="309" text-anchor="middle" font-size="9.5" fill="#555555">sonido aéreo —</text>
+  <text x="405" y="321" text-anchor="middle" font-size="9.5" fill="#555555">nivel acústico/vitalidad</text>
+
+  <!-- MPU6050 (contact with interior wall) -->
+  <rect x="480" y="400" width="160" height="70" rx="6" fill="#eefbf1" stroke="#227a3d" stroke-width="2"/>
+  <text x="560" y="424" text-anchor="middle" font-size="13" font-weight="bold" fill="#1a1a1a">MPU6050</text>
+  <text x="560" y="439" text-anchor="middle" font-size="9.5" fill="#555555">contacto directo con la madera —</text>
+  <text x="560" y="451" text-anchor="middle" font-size="9.5" fill="#555555">vibración estructural</text>
+  <line x1="640" y1="435" x2="670" y2="435" stroke="#227a3d" stroke-width="4"/>
+  <text x="655" y="466" text-anchor="middle" font-size="8.5" fill="#227a3d">contacto</text>
+
+  <!-- Piquera / entrance tube with IR dual-beam sensor -->
+  <rect x="150" y="530" width="120" height="56" rx="8" fill="#fdf8ef" stroke="#7a5a30" stroke-width="2"/>
+  <text x="210" y="550" text-anchor="middle" font-size="10.5" fill="#1a1a1a" font-weight="bold">Piquera</text>
+  <rect x="165" y="558" width="18" height="14" rx="2" fill="#eef3fb" stroke="#c0392b" stroke-width="1.5"/>
+  <rect x="195" y="558" width="18" height="14" rx="2" fill="#eefbf1" stroke="#227a3d" stroke-width="1.5"/>
+  <rect x="230" y="558" width="18" height="14" rx="2" fill="#fdf0e4" stroke="#e08a3c" stroke-width="1.5"/>
+  <text x="210" y="600" text-anchor="middle" font-size="9.5" fill="#555555">Sensor IR doble haz —</text>
+  <text x="210" y="612" text-anchor="middle" font-size="9.5" fill="#555555">4 módulos, 2 pares enfrentados</text>
+  <text x="145" y="522" text-anchor="middle" font-size="9" fill="#227a3d">A → B: entrada</text>
+  <text x="270" y="522" text-anchor="middle" font-size="9" fill="#c0392b">B → A: salida</text>
+  <line x1="260" y1="558" x2="150" y2="558" stroke="#227a3d" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+
+  <defs>
+    <marker id="arrowGreen" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#227a3d"/>
+    </marker>
+  </defs>
+
+  <!-- DHT22 exterior, protected from rain -->
+  <polygon points="850,150 1010,150 930,105" fill="#e8d9b8" stroke="#8a6d3a" stroke-width="2"/>
+  <rect x="860" y="150" width="140" height="75" rx="6" fill="#eefbf1" stroke="#227a3d" stroke-width="2"/>
+  <text x="930" y="176" text-anchor="middle" font-size="13" font-weight="bold" fill="#1a1a1a">DHT22</text>
+  <text x="930" y="191" text-anchor="middle" font-size="9.5" fill="#555555">externo secundario —</text>
+  <text x="930" y="203" text-anchor="middle" font-size="9.5" fill="#555555">protegido de lluvia directa</text>
+  <text x="930" y="215" text-anchor="middle" font-size="9" fill="#7a5a30">(bajo alero simple)</text>
+
+  <!-- IP65 electronics box, exterior -->
+  <rect x="840" y="380" width="200" height="180" rx="8" fill="#eef3fb" stroke="#2c5aa0" stroke-width="2.5"/>
+  <text x="940" y="408" text-anchor="middle" font-size="14" font-weight="bold" fill="#1a1a1a">Caja IP65</text>
+  <text x="940" y="424" text-anchor="middle" font-size="10" fill="#555555">electrónica exterior</text>
+  <text x="855" y="448" font-size="10" fill="#1a1a1a">· ESP32 DevKit V1</text>
+  <text x="855" y="466" font-size="10" fill="#1a1a1a">· Alimentación (LiPo + panel solar)</text>
+  <text x="855" y="484" font-size="10" fill="#1a1a1a">· Buffer microSD</text>
+  <text x="855" y="502" font-size="10" fill="#1a1a1a">· Comunicación WiFi/LoRa</text>
+  <text x="940" y="530" text-anchor="middle" font-size="9" fill="#555555">cables entran por prensaestopas</text>
+
+  <!-- Cable glands -->
+  <circle cx="840" cy="430" r="5" fill="#777777" stroke="#2c5aa0" stroke-width="1.5"/>
+  <circle cx="840" cy="460" r="5" fill="#777777" stroke="#2c5aa0" stroke-width="1.5"/>
+  <circle cx="840" cy="490" r="5" fill="#777777" stroke="#2c5aa0" stroke-width="1.5"/>
+
+  <!-- Cable runs (dashed, from IP65 to each sensor) -->
+  <line x1="835" y1="430" x2="480" y2="216" stroke="#555555" stroke-width="1.3" stroke-dasharray="4,3"/>
+  <line x1="835" y1="445" x2="480" y2="301" stroke="#555555" stroke-width="1.3" stroke-dasharray="4,3"/>
+  <line x1="835" y1="460" x2="640" y2="430" stroke="#555555" stroke-width="1.3" stroke-dasharray="4,3"/>
+  <line x1="835" y1="490" x2="270" y2="558" stroke="#555555" stroke-width="1.3" stroke-dasharray="4,3"/>
+  <line x1="900" y1="380" x2="900" y2="225" stroke="#555555" stroke-width="1.3" stroke-dasharray="4,3"/>
+
+  <!-- Ground line -->
+  <line x1="60" y1="700" x2="1240" y2="700" stroke="#999999" stroke-width="1.5" stroke-dasharray="2,4"/>
+
+  <!-- Legend -->
+  <rect x="60" y="730" width="14" height="14" fill="#eefbf1" stroke="#227a3d" stroke-width="2"/>
+  <text x="80" y="741" font-size="10.5" fill="#1a1a1a">Sonda dentro de la cavidad (SHT31, INMP441, MPU6050)</text>
+
+  <rect x="480" y="730" width="14" height="14" fill="#f5e6c8" stroke="#8a6d3a" stroke-width="2"/>
+  <text x="500" y="741" font-size="10.5" fill="#1a1a1a">Estructura de madera de la colmena / piquera</text>
+
+  <rect x="840" y="730" width="14" height="14" fill="#eef3fb" stroke="#2c5aa0" stroke-width="2"/>
+  <text x="860" y="741" font-size="10.5" fill="#1a1a1a">Electrónica exterior (caja IP65)</text>
+
+  <line x1="1080" y1="737" x2="1100" y2="737" stroke="#555555" stroke-width="1.3" stroke-dasharray="4,3"/>
+  <text x="1108" y="741" font-size="10.5" fill="#1a1a1a">Cableado</text>
+
+  <!-- Footer notes -->
+  <text x="650" y="775" text-anchor="middle" font-size="10" fill="#777777">
+    Instalación no invasiva: solo las sondas de los sensores penetran la cavidad; la electrónica de cómputo, alimentación y
+  </text>
+  <text x="650" y="790" text-anchor="middle" font-size="10" fill="#777777">
+    comunicación permanece en el exterior. Período de aclimatación de 2–4 semanas antes de iniciar el etiquetado (sección 2.6).
+  </text>
+  <text x="650" y="805" text-anchor="middle" font-size="10" fill="#777777">
+    Barniz conformal protege la placa del ESP32, salvo el elemento sensor del DHT22 y el orificio del micrófono del INMP441.
+  </text>
+</svg>

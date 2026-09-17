@@ -26,12 +26,16 @@ pandoc thesis/preliminares/00-portada.md thesis/preliminares/06-agradecimientos.
   insertan manualmente en Word como PDF/imagen escaneada después de la
   conversión, en su posición correspondiente dentro del orden de
   preliminares (entre `00-portada.md` y `06-agradecimientos.md`).
-- `07-indice.md`, `09-indice-figuras.md` y `10-indice-tablas.md` solo
-  contienen el encabezado de sección — el contenido de cada índice se
-  genera automáticamente al exportar con `--toc` (para el índice general)
-  o al compilar el documento final en Word (para figuras y tablas), a
-  partir de los headings Markdown reales (`#`, `##`, `###`) presentes en
-  cada capítulo y en las leyendas de Figura/Tabla.
+- `07-indice.md`, `09-indice-figuras.md` y `10-indice-tablas.md` ya
+  contienen el listado real de capítulos/secciones y de leyendas de
+  Figura/Tabla, mantenido a mano en sincronía con los 5 capítulos (no se
+  generan automáticamente). El número de página de cada entrada de
+  `09-indice-figuras.md` y `10-indice-tablas.md` queda como
+  `[pendiente]` hasta la paginación final en Word. Pandoc además genera
+  su propio índice general con `--toc` a partir de los headings
+  Markdown reales (`#`, `##`, `###`); conviene revisar en el .docx
+  final si se conserva solo uno de los dos índices generales (el de
+  `--toc` o el texto manual de `07-indice.md`) para evitar duplicarlo.
 - La ruta de los preliminares (`thesis/preliminares/...`) corrige una
   omisión de una versión anterior del comando de referencia, que
   suponía los archivos directamente bajo `thesis/`.
