@@ -32,7 +32,7 @@ Ambos sensores contienen internamente dos placas conductoras separadas por un ma
 
 Adicionalmente, el DHT22 presenta histéresis: absorbe vapor de agua rápido pero lo libera lento. Si la HR sube de 60% a 90% en 10 minutos y luego baja a 60%, el sensor puede reportar valores elevados durante varios minutos adicionales porque el material aún no liberó toda la humedad absorbida.
 
-La separación física interno/externo convierte la comparación entre ambos sensores en una variable diagnóstica en sí misma, no solo en redundancia: dado que *Melipona beecheii* es termoconformadora y su temperatura interna sigue a la externa con un desfase estimado de 5–6 horas (Moo-Valle et al., 2000), el **contraste entre la lectura interna del SHT31 y la externa del DHT22** —y no el valor absoluto interno por sí solo— es la variable relevante para la detección de anomalías térmicas e higrométricas (véase también sección 1.1.5b).
+La separación física interno/externo convierte la comparación entre ambos sensores en una variable diagnóstica en sí misma, no solo en redundancia: dado que *Melipona beecheii* es termoconformadora, no termorreguladora activa —su temperatura interna es más estable durante el día (9:00-20:00h) que durante la noche, cuando sigue más de cerca la fluctuación externa (Moo-Valle et al., 2000)—, el **contraste entre la lectura interna del SHT31 y la externa del DHT22** —y no el valor absoluto interno por sí solo— es la variable relevante para la detección de anomalías térmicas e higrométricas (véase también sección 1.1.5b).
 
 <!-- REVISAR CON ASESOR: confirmar umbrales de temperatura y HR provisionales listados en CLAUDE.md antes de fijarlos en el vector de características -->
 
@@ -52,7 +52,7 @@ La separación entre los dos haces es de aproximadamente 4 mm, deliberadamente m
 
 Pines de conexión: cada par entrega al ESP32 la señal digital `OUT` de sus dos módulos —uno declarado receptor principal, el otro secundario, para redundancia/diagnóstico en banco, dado que ambos módulos de un par tienen fototransistor propio—: haz A → GPIO26 (principal) y GPIO25 (secundario); haz B → GPIO27 (principal) y GPIO33 (secundario). Los módulos no requieren señal de drive de LED desde el ESP32: el LED de cada uno se alimenta directamente de VCC/GND.
 
-Referencia: Muniz (conteo IR en Melipona). Costo estimado por módulo: ~$30–50 MXN (cuatro módulos por nodo).
+Precedente parcial en congéneres: Justino y Hartfelder (2024), quienes registraron actividad continua en el túnel de entrada de M. quadrifasciata con un detector IR simple, sin diferenciar direccionalidad — a diferencia del diseño direccional de doble haz de esta tesis. Costo estimado por módulo: ~$30–50 MXN (cuatro módulos por nodo).
 
 **Nota de validación pendiente (diseño no cerrado):** los módulos FC-51/KY-033 especifican una distancia mínima de detección de 20–300 mm, mayor que el diámetro del barreno de ~15 mm donde se embeben. Esta discrepancia no está resuelta por diseño: debe confirmarse en banco, antes de la instalación en campo, que los módulos detectan de forma fiable a la distancia real de montaje y sin falsos positivos por saturación a corta distancia. Tampoco hay mitigación integrada contra falsos positivos por luz solar IR directa —a diferencia de un diseño con modulación IR activa del LED emisor, descartado en esta arquitectura—; se depende únicamente del blindaje mecánico del tubo de madera de la piquera. Si la validación en banco falla, se deja como alternativa a evaluar el rediseño con circuito discreto (fototransistor tipo PT333-3B + comparador LM393 + transistor driver para el LED), que sí permite ajustar libremente la distancia física y añadir modulación del emisor. Ver `software/sensor-trafico/README.md` y `CLAUDE.md`, sección "Pendientes técnicos".
 
@@ -65,7 +65,7 @@ La fusión sensorial ponderada por confianza asigna a cada sensor un peso dinám
 
 - **Paso 1 — Detección de rango: **para cada lectura ambiental, se determina si está dentro del rango óptimo del sensor. Si la lectura del SHT31 interno supera 80–85% HR (umbral de aproximación a su autocalibración), su peso se reduce progresivamente durante el evento de recalibración.
 
-- **Paso 2 — Contraste interno-externo: **se calcula la diferencia entre la lectura interna (SHT31) y la externa (DHT22). Esta diferencia no se trata como error de medición a promediar, sino como variable diagnóstica de termoconformidad (sección 3.2.1). Si la diferencia excede el desfase esperado de 5–6 horas para las condiciones del día, se marca como posible anomalía.
+- **Paso 2 — Contraste interno-externo: **se calcula la diferencia entre la lectura interna (SHT31) y la externa (DHT22). Esta diferencia no se trata como error de medición a promediar, sino como variable diagnóstica de termoconformidad (sección 3.2.1). Si el patrón día/noche de esa diferencia se aparta del comportamiento esperado (mayor estabilidad interna durante el día, seguimiento más cercano del exterior durante la noche), se marca como posible anomalía.
 
 - **Paso 3 — Vector final: **el valor interno (SHT31), el valor externo (DHT22) y su contraste se concatenan como tres campos distintos del vector de características, en lugar de fusionarse en un único valor promediado, preservando la información diagnóstica de cada rol.
 
@@ -156,7 +156,7 @@ La instrumentación electrónica introducida en o cerca del nido no es neutra: p
 
 1. **Campos electromagnéticos del ESP32/RPi (WiFi 2.4 GHz). **Riesgo teórico sobre la magnetorrecepción de las abejas, cuyo mecanismo sensorial podría verse afectado por campos electromagnéticos de radiofrecuencia cercanos al nido.
 
-2. **Calor generado por el hardware (~5 W en la Raspberry Pi 4). **Puede alterar localmente la termorregulación de *M. beecheii*, cuyo rango de confort térmico del nido es de 26–32 °C.
+2. **Calor generado por el hardware (~5 W en la Raspberry Pi 4). **Puede alterar localmente el balance térmico de *M. beecheii*, especie termoconformadora cuyo rango de temperatura intranidal documentado es de 25.4-34.0°C, con media de 30.2°C (Moo-Valle et al., 2000).
 
 3. **Vibraciones mecánicas del propio hardware. **Ventiladores, relés o vibración de componentes pueden contaminar las lecturas del MPU6050, introduciendo ruido no biológico en la señal de vibración estructural.
 
@@ -210,7 +210,7 @@ División 70/15/15 con estratificación por clase. Formato Parquet (audio y vibr
 
 | **Módulo** | **Métrica** | **Umbral objetivo** | **Ref. *Apis mellifera*** |
 | --- | --- | --- | --- |
-| Arquitectura sensorial — HR <80% | Contraste SHT31 (interno) vs DHT22 (externo) | Diferencia consistente con desfase de 5–6 h | N/A (nuevo) |
+| Arquitectura sensorial — HR <80% | Contraste SHT31 (interno) vs DHT22 (externo) | Diferencia consistente con patrón de termoconformidad (mayor estabilidad interna de día que de noche) | N/A (nuevo) |
 | Arquitectura sensorial — HR >85% | Precisión SHT31 vs DHT22 | DHT22 <±8% · SHT31 <±3% | N/A (nuevo) |
 | Bioacústico — estado de salud | F1 ponderado | ≥ 0.80 | 0.933 (XGBoost) |
 | Bioacústico — ausencia de reina | AUC-ROC | ≥ 0.85 | 0.991 (XGBoost) |
