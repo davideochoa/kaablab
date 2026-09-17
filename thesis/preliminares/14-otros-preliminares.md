@@ -1,3 +1,0 @@
-# Dedicatoria
-
-<!-- PENDIENTE: agregar dedicatoria -->

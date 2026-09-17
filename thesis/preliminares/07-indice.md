@@ -14,7 +14,6 @@
 - RESUMEN
 - ABSTRACT
 - INTRODUCCIÓN
-- Dedicatoria (pendiente de contenido)
 
 - CAPÍTULO I. ANTECEDENTES, PLANTEAMIENTO Y OBJETIVOS DE LA INVESTIGACIÓN
   - 1.1 Antecedentes

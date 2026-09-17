@@ -3,9 +3,8 @@
 Comando de referencia para generar el documento final con Pandoc, una vez
 completados los pasos de separación de preliminares y formato de
 `thesis/`. Los preliminares viven en `thesis/preliminares/`, separados en
-archivos numerados (00–13 según las 13 secciones oficiales del formato
-ITESCAM/TecNM, más `14-otros-preliminares.md` para contenido que no
-encaja en esas 13 secciones — ver nota al final).
+archivos numerados (00–13 según las 14 secciones oficiales del formato
+ITESCAM/TecNM).
 
 ```bash
 pandoc thesis/preliminares/00-portada.md thesis/preliminares/06-agradecimientos.md \
@@ -27,10 +26,6 @@ pandoc thesis/preliminares/00-portada.md thesis/preliminares/06-agradecimientos.
   insertan manualmente en Word como PDF/imagen escaneada después de la
   conversión, en su posición correspondiente dentro del orden de
   preliminares (entre `00-portada.md` y `06-agradecimientos.md`).
-- `thesis/preliminares/14-otros-preliminares.md` (Dedicatoria) tampoco se
-  incluye — no forma parte de las 13 secciones oficiales del formato
-  ITESCAM/TecNM. Su inclusión y ubicación en el documento final quedan
-  pendientes de confirmación con la asesora.
 - `07-indice.md`, `09-indice-figuras.md` y `10-indice-tablas.md` solo
   contienen el encabezado de sección — el contenido de cada índice se
   genera automáticamente al exportar con `--toc` (para el índice general)

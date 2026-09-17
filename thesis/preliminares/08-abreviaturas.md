@@ -1,4 +1,30 @@
 # ABREVIATURAS
 
-<!-- Sección opcional. Incluir solo si el documento usa abreviaturas
-     o siglas de forma recurrente (ej. AIoT, IoT, HR, HA, MFCC, XGBoost) -->
+- **AUC-ROC** — Área Bajo la Curva ROC (*Area Under the Curve – Receiver Operating Characteristic*).
+- **CC BY 4.0** — Licencia Creative Commons Atribución 4.0 (publicación del dataset en Zenodo).
+- **CNN** — Red Neuronal Convolucional (*Convolutional Neural Network*).
+- **CV** — según el contexto: Coeficiente de Variación (cronograma, arquitectura sensorial) o Validación Cruzada (*Cross-Validation*, protocolo de evaluación de los modelos de IA).
+- **ESP32** — Microcontrolador Espressif ESP32 DevKit V1, nodo de borde (edge device) del sistema.
+- **F1** — F1-score, media armónica entre precisión y exhaustividad (*recall*).
+- **GPIO** — Entrada/Salida de Propósito General (*General Purpose Input/Output*).
+- **HA** — Humedad Absoluta.
+- **HR** — Humedad Relativa.
+- **I²C** — Circuito Inter-Integrado (*Inter-Integrated Circuit*), bus de comunicación del SHT31 y el MPU6050.
+- **I²S** — Sonido Inter-CI (*Inter-IC Sound*), bus de comunicación digital del INMP441.
+- **IA** — Inteligencia Artificial.
+- **IoT** — Internet de las Cosas (*Internet of Things*).
+- **IP65** — Grado de protección IEC 60529 (6 = hermético al polvo, 5 = protegido contra chorros de agua), caja de la electrónica de campo.
+- **JSON** — Notación de Objetos de JavaScript (*JavaScript Object Notation*), formato de los registros de alerta.
+- **KNN** — K Vecinos Más Cercanos (*K-Nearest Neighbors*).
+- **LED** — Diodo Emisor de Luz (*Light-Emitting Diode*).
+- **LiPo** — Batería de Polímero de Litio (*Lithium Polymer*).
+- **MEMS** — Sistema Micro-Electro-Mecánico (*Micro-Electro-Mechanical System*).
+- **MFCC** — Coeficientes Cepstrales en las Frecuencias de Mel (*Mel-Frequency Cepstral Coefficients*).
+- **pp** — Puntos porcentuales.
+- **RF** — Bosque Aleatorio (*Random Forest*).
+- **RMS** — Valor Eficaz (*Root Mean Square*).
+- **RPi4** — Raspberry Pi 4.
+- **SMOTE** — Técnica de Sobremuestreo Sintético de la Clase Minoritaria (*Synthetic Minority Oversampling Technique*).
+- **SVM** — Máquina de Vectores de Soporte (*Support Vector Machine*).
+- **XGBoost** — Extreme Gradient Boosting.
+- **ZCR** — Tasa de Cruces por Cero (*Zero-Crossing Rate*).
