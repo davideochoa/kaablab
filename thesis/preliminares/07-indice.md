@@ -17,7 +17,7 @@
 
 - CAPÍTULO 1. PROPÓSITO Y ORGANIZACIÓN
   - 1.1 Antecedentes
-    - 1.1.5 Brechas bibliográficas en los cuatro parámetros de medición
+    - 1.1.5 Brechas bibliográficas en los cinco parámetros de medición
   - 1.2 Planteamiento del problema
   - 1.3 Pregunta de investigación
   - 1.4 Hipótesis
