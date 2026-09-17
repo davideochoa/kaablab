@@ -36,10 +36,6 @@ Moo-Valle, H., Quezada-Euán, J. J. G., & Wenseleers, T. (2000). [Título comple
 
 <!-- PENDIENTE: completar datos bibliográficos -->
 
-Muniz, [Nombres pendientes]. (s.f.). [Título completo pendiente — conteo por infrarrojo en Melipona sp.].
-
-<!-- PENDIENTE: completar datos bibliográficos -->
-
 Pat Fernández, L. A., Anguebes Franceschi, F., Pat Fernández, J. M., Hernández Bahena, P., & Ramos Reyes, R. (2018). Condición y perspectivas de la meliponicultura en comunidades mayas de la reserva de la biósfera Los Petenes, Campeche, México. Estudios de Cultura Maya, 52, 227-254. https://doi.org/10.19130/iifl.ecm.2018.52.939
 
 Quezada-Euán, J. J. G. (2018). *Stingless Bees of Mexico: The Biology, Management and Conservation of an Ancient Heritage*. Springer.

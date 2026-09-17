@@ -232,9 +232,11 @@ configuración lista para cableado final en campo.
 
 - Suárez Carvajal, S. (2025). [Título completo pendiente — micrófono MEMS
   aplicado a *Melipona eburnea*]. Ver `thesis/referencias.md`.
-- dos Santos, [...]. et al. (2025). [Título completo pendiente —
-  vibración de sustrato / comportamiento defensivo en meliponinos]. Ver
-  `thesis/referencias.md`.
+- dos Santos, F. J., Bomfim, I. G. A., Cavalcante, M. C., Coelho, A. A.
+  da P., & Gomes, D. G. (2025). Intranidal vibrational sensing mechanisms
+  in stingless bees: an exploratory study. *Engenharia Agrícola,
+  45*(especial 2, ConBAP 2024), e20250069.
+  https://doi.org/10.1590/1809-4430-Eng.Agric.v45nespe220250069/2025
 - InvenSense / TDK. *INMP441 — Omnidirectional Microphone with Bottom
   Port and I²S Digital Output*, datasheet, sección de generación de reloj
   (clock generation) y formato de trama I²S. Confirmar edición/revisión

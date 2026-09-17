@@ -11,7 +11,7 @@ El presente protocolo documenta la factibilidad científica y metodológica del 
   1. El primer dataset multimodal documentado de *M. beecheii* (audio aéreo + vibración estructural + conteo IR de tráfico en piquera + variables ambientales interna/externa).
   2. La arquitectura sensorial heterogénea con rangos complementarios.
   3. El protocolo formal de preprocesamiento de señal en cinco etapas (filtro de media móvil, pre-énfasis, umbral RMS, normalización Z-score y fusión sensorial ponderada por confianza y contraste interno-externo).
-  4. La caracterización explícita de las cuatro brechas bibliográficas de la especie en sonido aéreo, contraste térmico interno-externo, conteo IR y vibración estructural (sección 1.1.5).
+  4. La caracterización explícita de las cinco brechas bibliográficas de la especie en sonido aéreo, contraste térmico interno-externo, humedad relativa intranidal, conteo IR direccional y vibración estructural (sección 1.1.5).
   5. El sistema KaabLab validado en campo en meliponarios mayas de Campeche.
 
 - La arquitectura sensorial heterogénea (SHT31 interno primario + DHT22 externo secundario + INMP441 + MPU6050 + sensor IR doble haz) responde a una limitación real del artículo de referencia: ningún sensor mide directamente la magnitud física de interés; todos miden un fenómeno eléctrico secundario con limitaciones de rango, histéresis y deriva. En el clima tropical de Campeche, con HR frecuentemente >85%, esta arquitectura no es opcional sino necesaria para garantizar la calidad del dataset. El desdoblamiento interno/externo de la medición de humedad y temperatura, además, habilita el contraste diagnóstico propio de una especie termoconformadora como *M. beecheii*.
@@ -26,8 +26,6 @@ El presente protocolo documenta la factibilidad científica y metodológica del 
 
 - Iniciar la fase de aclimatación e instrumentación con suficiente antelación al etiquetado, dado el período de adaptación de 2–4 semanas de la colonia (sección 3.6).
 
-- Documentar desde el inicio la divergencia entre el SHT31 interno y el DHT22 externo —más allá del desfase térmico esperado de 5–6 h— como indicador de posible contaminación por propóleos del sensor interno, para anticipar el mantenimiento de sensores.
-
-- Resolver el conflicto de asignación del GPIO14 (compartido entre el bus I²C de SHT31/MPU6050 y el SCK del bus I²S del INMP441) antes del cableado final del prototipo (sección 3.3.1).
+- Documentar desde el inicio la divergencia entre el SHT31 interno y el DHT22 externo que se aparte del patrón día/noche esperado de termoconformidad (sección 3.2.1) como indicador de posible contaminación por propóleos del sensor interno, para anticipar el mantenimiento de sensores.
 
 - Extender, una vez validado el sistema, la metodología a otras especies del género Melipona, reutilizando el pipeline, el protocolo de preprocesamiento y el diseño del sensor IR de conteo.
