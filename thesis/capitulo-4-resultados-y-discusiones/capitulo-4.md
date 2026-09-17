@@ -40,7 +40,7 @@ El artículo de referencia incluye además un módulo de visión computacional (
 
 - **Degradación del DHT22 externo en condiciones tropicales. **La HR exterior frecuentemente supera el 85% en temporada de lluvias, y el DHT22 no se recupera del evento de saturación. Mitigación: el SHT31 interno, de mayor precisión y con autocalibración por encima de 80–85% HR, actúa como sensor primario; el DHT22 se conserva como referencia externa secundaria y como insumo del contraste interno-externo (sección 3.2.1).
 
-- **Deriva por contaminación de propóleos en el SHT31 interno. **El material higroscópico del SHT31, al estar dentro de la cavidad, puede absorber resinas y partículas propias del microclima del nido, alterando su constante dieléctrica. Mitigación: dado que el DHT22 externo no está expuesto a propóleos, una divergencia creciente entre ambos —más allá del desfase esperado de 5–6 h— sirve como indicador automático de posible contaminación del sensor interno.
+- **Deriva por contaminación de propóleos en el SHT31 interno. **El material higroscópico del SHT31, al estar dentro de la cavidad, puede absorber resinas y partículas propias del microclima del nido, alterando su constante dieléctrica. Mitigación: dado que el DHT22 externo no está expuesto a propóleos, una divergencia creciente entre ambos que se aparte del patrón día/noche esperado de termoconformidad (sección 3.2.1) sirve como indicador automático de posible contaminación del sensor interno.
 
 - **Vibración estructural no capturada. ***M. beecheii* usa vibración del sustrato en 1–50 Hz, no captable por el INMP441. Mitigación: MPU6050 en contacto directo con la colmena.
 
@@ -72,9 +72,9 @@ Es necesario delimitar el alcance de esta validación con precisión metodológi
 
 - **Protocolo formal de preprocesamiento de señal. **Filtro de media móvil, pre-énfasis, umbral RMS, normalización Z-score y fusión sensorial ponderada por confianza y contraste interno-externo.
 
-- **Caracterización de brechas bibliográficas. **Documentación explícita de los cuatro gaps de literatura específica de *M. beecheii* en sonido aéreo, contraste térmico interno-externo, conteo IR y vibración estructural (sección 1.1.5).
+- **Caracterización de brechas bibliográficas. **Documentación explícita de los cinco gaps de literatura específica de *M. beecheii* en sonido aéreo, contraste térmico interno-externo, humedad relativa intranidal, conteo IR direccional y vibración estructural (sección 1.1.5).
 
-- **Modelos especializados con ****benchmarks**** comparables. **Resultados de clasificación bioacústica y detección visual en el dominio de *M. beecheii*, comparables directamente con el artículo de referencia.
+- **Modelos especializados con ****benchmarks**** comparables. **Resultados de clasificación bioacústica en el dominio de *M. beecheii*, comparables directamente con el artículo de referencia.
 
 - **Sistema ****KaabLab**** validado en campo. **Prototipo IoT de bajo costo desplegado en meliponarios mayas con métricas documentadas.
 
