@@ -18,7 +18,7 @@ El artículo de referencia presenta tres limitaciones metodológicas que esta te
 
 - **Ausencia de preprocesamiento de señal documentado. **Las variables ambientales —temperatura, humedad, presión— se concatenan directamente al vector de características sin filtrado previo. Las características acústicas se extraen sin pre-énfasis ni eliminación de segmentos silenciosos. Librosa aplica implícitamente una ventana de Hamming y banco de filtros Mel, pero no constituyen un protocolo de acondicionamiento de señal explícito.
 
-- **Arquitectura sensorial homogénea. **Un solo sensor por parámetro (un sensor básico de temperatura/humedad, un micrófono MEMS estándar para audio). No hay redundancia ni cobertura de los rangos donde cada sensor pierde precisión. El sensor de temperatura/humedad básico se satura por encima de ~85% HR, rango frecuente en Campeche. El micrófono MEMS estándar no capta vibraciones estructurales del nido en el rango de 1–50 Hz donde parte del comportamiento comunicativo de las meliponinas ocurre.
+- **Arquitectura sensorial homogénea. **Un solo sensor por parámetro (un sensor básico de temperatura/humedad, un micrófono MEMS estándar para audio). No hay redundancia ni cobertura de los rangos donde cada sensor pierde precisión. El sensor de temperatura/humedad básico se satura por encima de ~85% HR, rango frecuente en Campeche. El micrófono MEMS estándar no capta vibraciones estructurales del nido en el rango de 180–500 Hz (vuelo ~180–250 Hz, forrajeo ~300–600 Hz capado a ≤500 Hz por el Nyquist real del MPU6050) donde parte del comportamiento comunicativo de las meliponinas ocurre.
 
 ### 1.1.3 Hallazgos metodológicos clave del artículo de referencia
 
