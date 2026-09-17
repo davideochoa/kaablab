@@ -87,7 +87,7 @@ para dos usos concretos en el pipeline del proyecto.
    pipeline de fusión del proyecto convierte temperatura + %HR a
    **humedad absoluta (HA, en g/m³)** mediante la aproximación de
    Magnus, ya usada en el proyecto (ver
-   `thesis/capitulo-3-metodologia/capitulo-3.md`, sección 3.4.5):
+   `thesis/capitulo-2-materiales-y-metodos/capitulo-2.md`, sección 2.4.5):
 
    ```
    HA = 6.112 × e^(17.67·T / (T+243.5)) × HR / (461.5 × (T+273.15))
@@ -150,15 +150,16 @@ antes de añadir una externa).
 Este sensor **no requiere una prueba de banco crítica** como
 `sensor-trafico` o `sensor-vibracion`: es una arquitectura de
 temperatura/humedad ya validada en la tesis (ver
-`thesis/capitulo-3-metodologia/capitulo-3.md`, sección 3.2.1), con
+`thesis/capitulo-2-materiales-y-metodos/capitulo-2.md`, sección 2.2.1), con
 componentes comerciales de comportamiento bien documentado.
 
 Sí se requiere, una vez instalado en campo:
 
 - **Verificar la divergencia DHT22 vs. SHT31** como diagnóstico
   continuo de deriva (sección 1): registrar ambas lecturas desde la
-  instalación y confirmar que la diferencia se mantiene dentro del
-  desfase esperado por la separación interior/exterior, sin una
+  instalación y confirmar que la diferencia sigue el patrón día/noche
+  esperado de termoconformidad (mayor estabilidad interna durante el
+  día, seguimiento más cercano del exterior durante la noche), sin una
   tendencia creciente sostenida que indique contaminación o
   envejecimiento del DHT22.
 - Confirmar en campo que el DHT22 externo queda protegido de lluvia
@@ -173,7 +174,7 @@ Sí se requiere, una vez instalado en campo:
 - Aosong (Guangzhou) Electronics. *Digital-output relative humidity &
   temperature sensor/module DHT22 (AM2302)* — datasheet, rangos de
   operación y protocolo de un solo hilo.
-- `thesis/capitulo-3-metodologia/capitulo-3.md`, secciones 3.2.1
+- `thesis/capitulo-2-materiales-y-metodos/capitulo-2.md`, secciones 2.2.1
   (fundamento físico SHT31/DHT22), 3.2.4 (fusión ponderada por
   confianza) y 3.4.5 (conversión a humedad absoluta, fórmula de
   Magnus).

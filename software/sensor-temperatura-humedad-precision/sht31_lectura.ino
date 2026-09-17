@@ -65,8 +65,8 @@ void loop() {
     // Nota (CLAUDE.md, "Decisiones de diseño confirmadas"): por encima de
     // ~80-85% HR el SHT31 entra en un ciclo de autocalibracion interna;
     // la capa de fusion del proyecto reduce el peso de esta lectura
-    // durante ese evento (ver thesis/capitulo-3-metodologia/capitulo-3.md,
-    // sección 3.2.4, Paso 1).
+    // durante ese evento (ver thesis/capitulo-2-materiales-y-metodos/capitulo-2.md,
+    // sección 2.2.4, Paso 1).
     Serial.print(nowMs);
     Serial.print(',');
     Serial.print(temperatura, 2);
@@ -75,8 +75,8 @@ void loop() {
 
     // La conversion a humedad absoluta (formula de Magnus) y el
     // contraste con el DHT22 externo se calculan en la capa de fusion
-    // del proyecto (thesis/capitulo-3-metodologia/capitulo-3.md,
-    // secciones 3.2.1 y 3.4.5), no en este sketch de adquisicion.
+    // del proyecto (thesis/capitulo-2-materiales-y-metodos/capitulo-2.md,
+    // secciones 2.2.1 y 2.4.5), no en este sketch de adquisicion.
   }
 
   // Espacio para otras tareas no bloqueantes del ESP32, incluida la

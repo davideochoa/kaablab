@@ -16,11 +16,11 @@ kaablab/
 │                        # características, modelo XGBoost, ablación
 ├── thesis/              # Texto de la tesis (fuente versionada en Markdown)
 │   ├── preliminares/
-│   ├── capitulo-1-proposito-y-organizacion/
-│   ├── capitulo-2-marco-teorico/
-│   ├── capitulo-3-metodologia/
-│   ├── capitulo-4-resultados-y-discusiones/
-│   ├── capitulo-5-conclusiones-y-recomendaciones/
+│   ├── capitulo-1-antecedentes-planteamiento-objetivos/
+│   ├── capitulo-2-materiales-y-metodos/
+│   ├── capitulo-3-resultados-y-discusiones/
+│   ├── capitulo-4-recomendaciones/
+│   ├── capitulo-5-conclusiones/
 │   ├── figuras/
 │   └── referencias.bib
 ├── data/

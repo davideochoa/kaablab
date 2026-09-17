@@ -1,10 +1,34 @@
-# CAPÍTULO 1. PROPÓSITO Y ORGANIZACIÓN
+# CAPÍTULO I. ANTECEDENTES, PLANTEAMIENTO Y OBJETIVOS DE LA INVESTIGACIÓN
 
 ## 1.1 Antecedentes
 
 El artículo de Chin-Canché et al. (2026) validó el pipeline KAABLAB sobre datos públicos de *Apis mellifera* en California. El módulo bioacústico alcanzó F1 ponderado = 0.933 (clasificación multiclase del estado de salud) y AUC-ROC = 0.9945 (detección de ausencia de reina). El módulo de visión alcanzó AUC-ROC = 0.969 con YOLOv8s. Los pipelines bee_audio_analysis y varroa_vision están disponibles en GitHub (github.com/guillermochin/kaablab-bee-congress-2026-figures) y Zenodo (doi.org/10.5281/zenodo.19685877).
 
 Es importante destacar que ambos módulos fueron evaluados exclusivamente sobre conjuntos de datos públicos recolectados por terceros —el BeeAudio Dataset de Anna Yang (Kaggle, 2022) y el VarroaDataset de Schurischuster y Kampel (Zenodo, 2020)—, sin instrumentación propia de colmenas ni validación en condiciones reales de campo. El artículo no recolectó ningún dato nuevo: su contribución es metodológica, no empírica. Esta distinción es la que justifica estructuralmente la presente tesis.
+
+### 1.1.1 La meliponicultura maya y *Melipona beecheii*
+
+*M. beecheii* es criada por comunidades mayas desde épocas prehispánicas. Su miel posee propiedades antioxidantes (Cauich Kumul et al., 2015) y antimicrobianas (Ramírez-Miranda et al., 2023) documentadas. La especie se encuentra en declive severo atribuido a deforestación, expansión agrícola y plaguicidas (Villanueva-Gutiérrez et al., 2013). Sus características biológicas difieren profundamente de *Apis mellifera*: colonias de 300–2,000 individuos, piquera tipo tubo de cerumen de 5–15 mm, repertorio acústico propio de los meliponinos, y termoconformidad en rangos tropicales de 25.4-34.0°C, con media de 30.2°C (Moo-Valle et al., 2000).
+
+### 1.1.2 Limitaciones del artículo de referencia
+
+El artículo de referencia presenta tres limitaciones metodológicas que esta tesis identifica explícitamente y propone superar:
+
+- **Ausencia de regionalización. **Los datos provienen de California, 2022, en clima mediterráneo. Las condiciones de Campeche —temperatura 28–40 °C, HR frecuentemente >85% en temporada de lluvias, ciclos circadianos tropicales distintos— no están representadas. Los umbrales de decisión aprendidos por los modelos, los patrones circadianos documentados y las correlaciones entre variables ambientales y estado de salud no son directamente transferibles a *M. beecheii* en Yucatán.
+
+- **Ausencia de preprocesamiento de señal documentado. **Las variables ambientales —temperatura, humedad, presión— se concatenan directamente al vector de características sin filtrado previo. Las características acústicas se extraen sin pre-énfasis ni eliminación de segmentos silenciosos. Librosa aplica implícitamente una ventana de Hamming y banco de filtros Mel, pero no constituyen un protocolo de acondicionamiento de señal explícito.
+
+- **Arquitectura sensorial homogénea. **Un solo sensor por parámetro (un sensor básico de temperatura/humedad, un micrófono MEMS estándar para audio). No hay redundancia ni cobertura de los rangos donde cada sensor pierde precisión. El sensor de temperatura/humedad básico se satura por encima de ~85% HR, rango frecuente en Campeche. El micrófono MEMS estándar no capta vibraciones estructurales del nido en el rango de 1–50 Hz donde parte del comportamiento comunicativo de las meliponinas ocurre.
+
+### 1.1.3 Hallazgos metodológicos clave del artículo de referencia
+
+El análisis de importancia de características reveló que las variables no acústicas dominan: la variable frames concentró el 27.5% de la importancia relativa en XGBoost. La correlación negativa más fuerte con el estado de salud fue la humedad interna (ρ = −0.378). Esto confirma la importancia crítica de medir correctamente la humedad —y por tanto, la necesidad de una arquitectura sensorial robusta que no pierda precisión en los rangos de alta HR del clima tropical.
+
+### 1.1.4 Amenazas bióticas en colmenas de *M. beecheii*
+
+Los principales agentes de intrusión documentados en meliponarios mayas de Campeche son la hormiga arriera (Eciton burchelli parvispinum, "xuulá" en maya) y la mosca parasitaria nenem (Pseudohypocera kerteszi, familia Phoridae), reportadas por el 47% y el 20% de los meliponicultores encuestados respectivamente, con mayor incidencia de la hormiga durante la temporada de lluvias (junio-septiembre) (Pat Fernández et al., 2018). Estos eventos pueden provocar el abandono del nido o la muerte de la colmena en períodos cortos.
+
+<!-- REVISAR: avispas y lagartos como depredadores de M. beecheii no encontraron respaldo académico verificable; se retiraron de esta versión. Si se cuenta con fuente primaria, reincorporar con cita específica. -->
 
 ### 1.1.5 Brechas bibliográficas en los cinco parámetros de medición
 
@@ -23,6 +47,27 @@ La adaptación del pipeline a *Melipona beecheii* no solo enfrenta una brecha de
 **(e) Vibración estructural del nido.** La vibración de sustrato —transmitida por la estructura del nido, no por el aire— está documentada para congéneres del género Melipona: componentes de vuelo en 180-250Hz y de reclutamiento de forrajeo con frecuencia fundamental de 300-600Hz, con armónicos que se extienden hasta el orden de los kHz (Hrncir et al., 2000/2006/2008, citado en Quezada-Euán, 2018, sección 5.6). No existe registro publicado con acelerómetro del comportamiento vibracional del nido de *M. beecheii* específicamente. Las referencias disponibles son de otros meliponinos: dos Santos et al. (2025), en un estudio exploratorio sobre *Scaptotrigona* aff. *depilis* con sensor piezoeléctrico de contacto, y Hrncir et al. (2006, 2008), congéneres del género Melipona. El gap es total para la especie.
 
 Estas cinco brechas son la justificación empírica directa de que el dataset multimodal construido en esta tesis —audio aéreo, vibración estructural, conteo IR de tráfico y variables ambientales de *M. beecheii*— constituye una contribución original y no una simple repetición metodológica del artículo de referencia. Cabe precisar el tipo de contribución de esta tesis: consistente con su título, la protección de *M. beecheii* que busca el sistema KaabLab deriva de la integración de tres elementos —arquitectura IoT, análisis mediante inteligencia artificial, y datos propios de la especie registrados de forma continua y automatizada por primera vez—. Esta protección no puede lograrse sin dicho registro continuo, el cual, como efecto necesario, genera nuevo conocimiento sobre la especie en los cinco parámetros documentados en esta sección. El aporte científico-técnico de la investigación reside en la integración IoT+IA+datos y en la arquitectura sensorial que la hace posible; el conocimiento biológico nuevo que resulta del registro continuo es una consecuencia necesaria de esa integración, no el objetivo de investigación en sí mismo. La caracterización biológica existente se usa como marco justificativo y fuente de umbrales de diseño, mientras que los datos originales que el sistema captura son el insumo que permite entrenar, validar y, en última instancia, proteger a la colonia.
+
+**Tabla 1.1** Parámetros documentados vs. no documentados para *M. beecheii*
+
+| Parámetro | Valor/rango en *M. beecheii* | Fuente (específica o congénere) | ¿Existe registro para la especie? | Relevancia para la tesis |
+| --- | --- | --- | --- | --- |
+| Sonido aéreo | Sin caracterización publicada | Ni siquiera hay dato de congéneres del género Melipona | No | Gap total; además, ausencia de 2-heptanol (feromona de alarma típica del grupo) no detectada en *M. beecheii* (Cruz-López et al., 2005) sugiere mecanismo de defensa distinto, sin documentar |
+| Temperatura interna | 25.4–34.0°C, media 30.2°C; 90% mortalidad de pupas a 40°C, 100% a 5°C | Específica de *M. beecheii* (Moo-Valle et al., 2000; Macías-Macías et al., 2011) | Sí | Dato específico existe, pero nunca fue tomado mediante monitoreo continuo automatizado (ver Tabla 1.2) |
+| Humedad relativa intranidal | Sin rango caracterizado | Ni siquiera hay dato de congéneres — "the dynamics of water balance has not been studied in stingless bees" (Roubik, 2006) | No | Gap total para todas las meliponinas, no solo *M. beecheii* |
+| Conteo de tráfico (IR, piquera) | Sin rango de referencia | Parcial en congénere: Justino y Hartfelder (2024) registraron actividad en *M. quadrifasciata* sin diferenciar dirección | No (para conteo direccional) | Gap específico: ningún precedente de conteo IR bidireccional en meliponinos |
+| Vibración estructural | Componentes de vuelo 180-250Hz; forrajeo 300-600Hz fundamental | Congénere (Hrncir et al., 2000/2006/2008); otro meliponino no congénere: dos Santos et al. (2025), en *Scaptotrigona* aff. *depilis* | No | Gap total para la especie; sin precedente de acelerómetro en meliponinos |
+
+**Tabla 1.2** Registros previos de *M. beecheii*: manuales vs. monitoreo continuo automatizado
+
+| Estudio | Tipo de registro | Parámetro | Duración/método | ¿Continuo y automatizado? |
+| --- | --- | --- | --- | --- |
+| Moo-Valle et al. (2000) | Estudio formal de campo | Temperatura intranidal | Cavidades naturales en Yucatán (el más riguroso encontrado para la especie); temperatura más estable de día (9:00-20:00h) que de noche | No — sondas manuales, periodo acotado |
+| Macías-Macías et al. (2011) | Estudio formal de laboratorio | Mortalidad bajo temperatura extrema | Exposición controlada a 40°C y 5°C por 24h, comparando *M. beecheii*, *M. colimana* y *Scaptotrigona hellwegeri* | No — puntual |
+| Quezada-Euán (2018) | Observación personal no sistemática | Comportamiento térmico/defensivo | "Pers. obs.", sin protocolo formal | No |
+| Medina-Medina et al. (2014) | Observación conductual sistemática | Manejo de desechos | Observación directa, no basada en sensores | No |
+
+Ninguno de los estudios revisados usó monitoreo continuo automatizado; todos fueron manuales, puntuales o de corta duración (días a semanas), sin uso de sensores IoT para registro continuo de meses. Este hallazgo es el argumento central del vacío bibliográfico de la sección 1.1.5.
 
 ## 1.2 Planteamiento del problema
 
@@ -80,11 +125,11 @@ Entre las limitaciones reconocidas se encuentran: el tamaño del dataset inicial
 
 ## 1.8 Estrategia experimental
 
-La estrategia experimental organiza el trabajo en cuatro fases macro, distintas del detalle metodológico del Capítulo 3. La primera fase es de instrumentación: integración de la arquitectura sensorial heterogénea en las colmenas y validación comparativa de los sensores (SHT31 interno frente a DHT22 externo) en condiciones tropicales reales. La segunda fase es de recolección y construcción del dataset multimodal etiquetado, junto con la implementación del protocolo de preprocesamiento. La tercera fase es de adaptación y reentrenamiento del modelo bioacústico sobre los datos propios. La cuarta fase es de despliegue y validación en campo, con la medición cuantitativa del desempeño y la evaluación cualitativa de usabilidad y adopción con los meliponicultores.
+La estrategia experimental organiza el trabajo en cuatro fases macro, distintas del detalle metodológico del Capítulo II. La primera fase es de instrumentación: integración de la arquitectura sensorial heterogénea en las colmenas y validación comparativa de los sensores (SHT31 interno frente a DHT22 externo) en condiciones tropicales reales. La segunda fase es de recolección y construcción del dataset multimodal etiquetado, junto con la implementación del protocolo de preprocesamiento. La tercera fase es de adaptación y reentrenamiento del modelo bioacústico sobre los datos propios. La cuarta fase es de despliegue y validación en campo, con la medición cuantitativa del desempeño y la evaluación cualitativa de usabilidad y adopción con los meliponicultores.
 
 ## 1.9 Planeación: recursos, cronograma y presupuesto
 
-El proyecto se ejecuta en cuatro semestres. Los recursos de cómputo en campo se basan en un edge device de bajo costo (ESP32-CAM para coordinación y almacenamiento y, a partir del tercer semestre, Raspberry Pi 4 para inferencia), alimentación autónoma mediante power bank, batería LiPo y panel solar, y una arquitectura sensorial heterogénea de cinco sensores (SHT31, DHT22, INMP441, MPU6050 e IR doble haz). La Tabla 1.1 presenta el cronograma con hitos de decisión y planes de contingencia; la Tabla 1.2 detalla el presupuesto por nodo y para los tres meliponarios instrumentados.
+El proyecto se ejecuta en cuatro semestres. Los recursos de cómputo en campo se basan en un edge device de bajo costo (ESP32-CAM para coordinación y almacenamiento y, a partir del tercer semestre, Raspberry Pi 4 para inferencia), alimentación autónoma mediante power bank, batería LiPo y panel solar, y una arquitectura sensorial heterogénea de cinco sensores (SHT31, DHT22, INMP441, MPU6050 e IR doble haz). La Tabla 1.3 presenta el cronograma con hitos de decisión y planes de contingencia; la Tabla 1.4 detalla el presupuesto por nodo y para los tres meliponarios instrumentados.
 
 | **N°** | **Actividad** | **S1** | **S2** | **S3** | **S4** | **Hito / Entregable** | **Contingencia** |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -103,7 +148,7 @@ El proyecto se ejecuta en cuatro semestres. Los recursos de cómputo en campo se
 | 13 | Redacción de tesis y artículos |  |  | ✓ | ✓ | Tesis + ≥ 1 artículo | N/A |
 | 14 | Defensa de tesis |  |  |  | ✓ | Tesis aprobada | N/A |
 
-**Tabla 1.1 **Cronograma de actividades con hitos de decisión y planes de contingencia.
+**Tabla 1.3 **Cronograma de actividades con hitos de decisión y planes de contingencia.
 
 El presupuesto se calcula por nodo (una colmena instrumentada) y se escala a tres meliponarios. El costo por nodo completo es de aproximadamente $3,737 MXN; el total del proyecto, incluyendo herramientas compartidas, asciende a cerca de $11,561 MXN (~$578 USD).
 
@@ -121,5 +166,4 @@ El presupuesto se calcula por nodo (una colmena instrumentada) y se escala a tre
 | Herramientas (compartidas) | $350 | ~$18 USD |
 | Total del proyecto | ~$11,561 MXN | ~$578 USD |
 
-**Tabla 1.2 **Presupuesto del proyecto por nodo y total.
-
+**Tabla 1.4 **Presupuesto del proyecto por nodo y total.

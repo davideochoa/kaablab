@@ -187,7 +187,7 @@ void loop() {
 
   // Espacio para otras tareas no bloqueantes del ESP32 (WiFi, otros
   // sensores, agregación de conteos en intervalos de 5 minutos — ver
-  // thesis/capitulo-3-metodologia/capitulo-3.md, sección 3.9.2).
+  // thesis/capitulo-2-materiales-y-metodos/capitulo-2.md, sección 2.9.2).
   // No agregar delay() aquí: reduciría la resolución temporal del
   // debounce y podría perder cruces rápidos.
 }

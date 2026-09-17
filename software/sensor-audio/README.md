@@ -53,7 +53,7 @@ este micrófono de aire; por eso se complementa con el MPU6050.
 
 El INMP441 tiene una respuesta en frecuencia aproximadamente plana entre
 **60 Hz y 15 kHz** (Suárez Carvajal, 2025; ver `CLAUDE.md` y
-`thesis/capitulo-3-metodologia/capitulo-3.md`, Tabla de sensores). Dentro
+`thesis/capitulo-2-materiales-y-metodos/capitulo-2.md`, Tabla de sensores). Dentro
 de ese rango, el proyecto documenta tres bandas de interés específicas
 para *M. beecheii*:
 
@@ -95,8 +95,8 @@ límite superior documentado — sin margen adicional) **o 22.05 kHz**
 (Nyquist ≈ 11,025 Hz, con margen sobre los 8,000 Hz) si el
 almacenamiento/ancho de banda del proyecto lo permite. Ambas son tasas
 estándar de audio, compatibles con librerías de procesamiento (extracción
-de MFCCs, ver `thesis/capitulo-3-metodologia/capitulo-3.md`, sección
-3.2.2) sin necesidad de resampleo. Este documento usa **16 kHz** como
+de MFCCs, ver `thesis/capitulo-2-materiales-y-metodos/capitulo-2.md`, sección
+2.2.2) sin necesidad de resampleo. Este documento usa **16 kHz** como
 configuración por defecto en el código (sección 3); cambiar a 22.05 kHz
 es un solo cambio de constante si el bench de la sección 5 lo justifica.
 
@@ -158,7 +158,7 @@ misma línea I²S para este proyecto.
 Ver [`inmp441_i2s_capture.ino`](./inmp441_i2s_capture.ino).
 
 Pin mapping confirmado del proyecto (`CLAUDE.md`,
-`thesis/capitulo-3-metodologia/capitulo-3.md` Tabla 3.3):
+`thesis/capitulo-2-materiales-y-metodos/capitulo-2.md` Tabla 2.3):
 
 | Señal | Pin ESP32 |
 |---|---|
