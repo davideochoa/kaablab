@@ -51,6 +51,11 @@
   <circle cx="700" cy="210" r="4" fill="#8a6d00"/>
   <text x="695" y="205" text-anchor="end" font-size="13" fill="#1a1a1a">INT</text>
 
+  <!-- Nota AD0 (el pin no se dibuja: dirección I2C 0x69) -->
+  <text x="600" y="376" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#227a3d">AD0 → 3.3V (no a GND)</text>
+  <text x="600" y="390" text-anchor="middle" font-size="10" fill="#227a3d">Dirección I²C 0x69: evita el</text>
+  <text x="600" y="403" text-anchor="middle" font-size="10" fill="#227a3d">choque con el DS3231 (0x68)</text>
+
   <!-- Connections -->
   <!-- VCC -->
   <line x1="252" y1="170" x2="508" y2="210" stroke="#227a3d" stroke-width="2"/>

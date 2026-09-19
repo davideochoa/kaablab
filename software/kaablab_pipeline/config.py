@@ -24,15 +24,17 @@ TRAFFIC_WINDOW = 60     # una ventana = un ciclo diurno completo (24h), igual qu
 TRAFFIC_PEAK_RATE = 8.0  # eventos/intervalo en el pico de actividad; valor de diseño, no
                          # calibrado con datos reales (gap documentado, sección 1.1.5d)
 
-# --- Vibración (MPU6050) ---
+# --- Vibración (MPU6500) ---
 # Banda de interés real: vuelo ~180-250 Hz, forrajeo/reclutamiento con
 # fundamental ~300-600 Hz (Hrncir et al., 2000/2006/2008; ver
 # thesis/capitulo-1-antecedentes-planteamiento-objetivos/capitulo-1.md, 1.1.5e).
-# FS_VIB = 1000 Hz replica la tasa real de actualización interna del ADC del
-# acelerómetro del MPU6050 (~1 kHz fijo, independiente de SMPLRT_DIV; ver
-# software/sensor-vibracion/README.md, sección 2.2), lo que fija el Nyquist
-# real en 500 Hz -> techo efectivo de la banda capturable, no 600 Hz.
-FS_VIB = 1000
+# FS_VIB = 1500 Hz es una elección de diseño dentro de la capacidad del
+# acelerómetro del MPU6500 (salida programable hasta 4000 Hz con el DLPF
+# desactivado; datasheet MPU-6500 Rev 1.1). Nyquist = 750 Hz: cubre los
+# 600 Hz de la banda de forrajeo con margen de diseño 1.25x (tolera la
+# imprecisión del filtro anti-aliasing). Igual que FS_VIB en
+# software/nodo_kaablab/config.h.
+FS_VIB = 1500
 DUR_VIB = 2.0
 
 # --- Modelo / evaluación ---

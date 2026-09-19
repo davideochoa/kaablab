@@ -38,7 +38,7 @@
   - 2.1 Enfoque y diseño de investigación
   - 2.2 Arquitectura sensorial heterogénea con rangos complementarios
     - 2.2.1 Fundamento físico de la humedad: SHT31 interno primario y DHT22 externo secundario
-    - 2.2.2 Fundamento físico del INMP441 y el MPU6050 como sensores complementarios
+    - 2.2.2 Fundamento físico del INMP441 y el MPU6500 como sensores complementarios
     - 2.2.3 Sensor IR doble haz — conteo de tráfico en piquera
     - 2.2.4 Fusión sensorial ponderada por confianza
   - 2.3 Instrumentación y flujo de adquisición de datos (IoT)

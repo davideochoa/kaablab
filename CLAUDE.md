@@ -94,11 +94,13 @@ Umbrales provisionales de HR (confirmar con asesor):
   integrada contra falsos positivos por luz solar IR — se depende del
   blindaje mecánico del tubo de madera. Debe probarse en banco antes de
   instalar en campo; no darlo por diseño cerrado.
-- Validación de banco pendiente — MPU6050: el ADC del acelerómetro
-  muestrea internamente a 1 kHz fijo, independiente de `SMPLRT_DIV`,
-  dejando el Nyquist real del canal de aceleración en ~500 Hz — al límite
-  del extremo superior de la banda objetivo (300–600 Hz), sin margen. Ver
-  software/sensor-vibracion/README.md, sección 2.2.
+- Validación de banco pendiente — MPU6500: confirmar que FS_VIB = 1500 Hz
+  (periodo ~667 µs, polling I²C a 400 kHz) sea sostenible en hardware real.
+  `sensores_capturar_vibracion()` (software/nodo_kaablab/) imprime por
+  Serial una ADVERTENCIA con el conteo de muestras que exceden el periodo
+  esperado (+10 %); revisarlo en la primera prueba antes de confiar en
+  esa tasa para captura de campo. Ver software/sensor-vibracion/README.md,
+  sección 2.2.
 
 ## Pendientes institucionales
 

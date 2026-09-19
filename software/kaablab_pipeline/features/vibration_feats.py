@@ -1,4 +1,4 @@
-"""Extracción de descriptores de vibración (MPU6050)."""
+"""Extracción de descriptores de vibración (MPU6500)."""
 import numpy as np
 from scipy.fft import rfft, rfftfreq
 from .. import config as C
@@ -16,6 +16,6 @@ def extract_vibration(sig):
         vib_dom_freq=dom,
         vib_e_150_250=band(150, 250),   # vuelo (180-250 Hz, con margen)
         vib_e_250_400=band(250, 400),   # transición / armónicos bajos de forrajeo
-        vib_e_400_500=band(400, 500),   # forrajeo intenso, techo por Nyquist real (~500 Hz)
+        vib_e_400_600=band(400, 600),   # forrajeo intenso, hasta 600 Hz (Nyquist = 750 Hz)
         vib_var=float(np.var(sig)),
     )

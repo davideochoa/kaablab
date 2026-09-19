@@ -13,7 +13,7 @@ from .features.vibration_feats import extract_vibration
 from .features.traffic_feats import extract_traffic
 
 ENV_COLS = ["env_T_mean", "env_AH_mean", "env_T_std", "env_AH_std"]
-VIB_COLS = ["vib_rms", "vib_dom_freq", "vib_e_150_250", "vib_e_250_400", "vib_e_400_500", "vib_var"]
+VIB_COLS = ["vib_rms", "vib_dom_freq", "vib_e_150_250", "vib_e_250_400", "vib_e_400_600", "vib_var"]
 TRAFFIC_COLS = ["trf_entradas_mean", "trf_entradas_std", "trf_salidas_mean",
                 "trf_salidas_std", "trf_neta_mean", "trf_neta_std"]
 

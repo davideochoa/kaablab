@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 460" width="760" height="460" font-family="Segoe UI, Arial, sans-serif">
-  <title>Concepto: vibración estructural medida por el MPU6050</title>
+  <title>Concepto: vibración estructural medida por el MPU6500</title>
   <rect x="0" y="0" width="760" height="460" fill="#ffffff"/>
 
   <text x="380" y="28" text-anchor="middle" font-size="18" font-weight="bold" fill="#1a1a1a">
-    ¿Qué mide el MPU6050? Vibración estructural
+    ¿Qué mide el MPU6500? Vibración estructural
   </text>
   <text x="380" y="46" text-anchor="middle" font-size="12" fill="#555555">
     Movimiento mecánico transmitido por la madera de la colmena — no sonido aéreo
@@ -30,10 +30,10 @@
   <text x="93" y="120" text-anchor="middle" font-size="10" fill="#c0392b">vibración</text>
   <text x="93" y="132" text-anchor="middle" font-size="10" fill="#c0392b">por la madera</text>
 
-  <!-- sensor MPU6050 en contacto directo con la madera, lado exterior -->
+  <!-- sensor MPU6500 en contacto directo con la madera, lado exterior -->
   <rect x="46" y="148" width="42" height="36" rx="4" fill="#eefbf1" stroke="#227a3d" stroke-width="2"/>
   <text x="67" y="169" text-anchor="middle" font-size="9.5" fill="#1a1a1a">MPU</text>
-  <text x="67" y="180" text-anchor="middle" font-size="9.5" fill="#1a1a1a">6050</text>
+  <text x="67" y="180" text-anchor="middle" font-size="9.5" fill="#1a1a1a">6500</text>
   <text x="67" y="200" text-anchor="middle" font-size="10" fill="#227a3d">contacto directo</text>
   <text x="67" y="212" text-anchor="middle" font-size="10" fill="#227a3d">con la madera</text>
 
@@ -68,21 +68,21 @@
   <text x="500" y="226" text-anchor="middle" font-size="9.5" fill="#8a3226">(forrajeo/comunicación,</text>
   <text x="500" y="238" text-anchor="middle" font-size="9.5" fill="#8a3226">Hrncir et al. 2006)</text>
 
-  <!-- limite Nyquist real ~500 Hz -->
-  <line x1="486" y1="150" x2="486" y2="330" stroke="#8a6d00" stroke-width="2" stroke-dasharray="6,4"/>
-  <text x="486" y="270" text-anchor="middle" font-size="10" fill="#8a6d00" transform="rotate(-90 486 270)">Nyquist real del acelerómetro ≈ 500 Hz</text>
+  <!-- limite Nyquist 750 Hz (FS_VIB = 1500 Hz) -->
+  <line x1="580" y1="150" x2="580" y2="330" stroke="#8a6d00" stroke-width="2" stroke-dasharray="6,4"/>
+  <text x="574" y="270" text-anchor="middle" font-size="10" fill="#8a6d00" transform="rotate(-90 574 270)">Nyquist ≈ 750 Hz</text>
 
   <!-- caja de nota -->
   <rect x="380" y="365" width="320" height="80" rx="6" fill="#fff8e6" stroke="#8a6d00" stroke-width="1"/>
-  <text x="392" y="382" font-size="10.5" fill="#1a1a1a">El ADC del acelerómetro muestrea internamente</text>
-  <text x="392" y="396" font-size="10.5" fill="#1a1a1a">a 1 kHz fijo (ver README §2.2): el Nyquist real</text>
-  <text x="392" y="410" font-size="10.5" fill="#1a1a1a">queda en ~500 Hz, al límite del extremo superior</text>
-  <text x="392" y="424" font-size="10.5" fill="#1a1a1a">de la banda — sin margen. Confirmar en banco.</text>
+  <text x="392" y="382" font-size="10.5" fill="#1a1a1a">Con FS_VIB = 1500 Hz (ver README §2.1–2.2)</text>
+  <text x="392" y="396" font-size="10.5" fill="#1a1a1a">el Nyquist es 750 Hz: margen de 1.25× sobre</text>
+  <text x="392" y="410" font-size="10.5" fill="#1a1a1a">el extremo superior de la banda (600 Hz).</text>
+  <text x="392" y="424" font-size="10.5" fill="#1a1a1a">Confirmar en banco.</text>
 
   <!-- Leyenda -->
   <rect x="70" y="430" width="14" height="14" fill="#c0392b" opacity="0.6"/>
   <text x="90" y="441" font-size="10.5" fill="#1a1a1a">Banda objetivo (300–600 Hz)</text>
 
   <line x1="230" y1="437" x2="250" y2="437" stroke="#8a6d00" stroke-width="2" stroke-dasharray="6,4"/>
-  <text x="256" y="441" font-size="10.5" fill="#1a1a1a">Límite Nyquist real (≈500 Hz)</text>
+  <text x="256" y="441" font-size="10.5" fill="#1a1a1a">Límite Nyquist (≈750 Hz)</text>
 </svg>
