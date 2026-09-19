@@ -4,7 +4,7 @@ Sensor de audio aéreo del sistema KaabLab. El INMP441 es un micrófono MEMS
 con salida digital **I²S** (no PDM), usado como proxy de **vitalidad y
 estado general de la colonia** en *Melipona beecheii* — **no** de
 comportamiento defensivo, el cual esta especie expresa por vibración de
-sustrato y se captura con el MPU6050 (ver `../sensor-vibracion/README.md` y
+sustrato y se captura con el MPU6500 (ver `../sensor-vibracion/README.md` y
 `CLAUDE.md`, sección "Decisiones de diseño confirmadas").
 
 Documento dirigido a nivel licenciatura en mecatrónica: se explican tanto
@@ -29,14 +29,14 @@ concreta para el ESP32 DevKit V1.
 El INMP441 es un **micrófono MEMS**: su membrana responde a variaciones
 de **presión sonora que viajan por el aire** dentro del tubo de la
 piquera y la cavidad del nido — **sonido aéreo**, a diferencia de la
-vibración mecánica del sustrato de la madera que capta el MPU6050 (ver
+vibración mecánica del sustrato de la madera que capta el MPU6500 (ver
 `../sensor-vibracion/README.md`). En este proyecto se usa como proxy del
 **nivel acústico general y la vitalidad de la colonia**, no del
 comportamiento defensivo (que en *M. beecheii*, como en el resto de los
 meliponinos, se expresa por vibración de sustrato, no por sonido aéreo —
 dos Santos et al., 2025).
 
-**Rango de respuesta plana: 60 Hz–15 kHz** (Suárez Carvajal, 2025).
+**Rango de respuesta plana: 60 Hz–15 kHz** (Suárez Carvajal, 2025, en *M. eburnea*, Colombia).
 Dentro de ese rango, el proyecto documenta tres bandas de interés
 específicas (ver sección 1 más abajo para el detalle completo):
 
@@ -44,17 +44,17 @@ específicas (ver sección 1 más abajo para el detalle completo):
 - **Actividad de vuelo en piquera:** 200–500 Hz
 - **Alarma / intrusos:** hasta 5,000–8,000 Hz
 
-Las vibraciones estructurales de 180–500 Hz (vuelo ~180–250 Hz, forrajeo/
-reclutamiento ~300–600 Hz capado a ≤500 Hz por el Nyquist real del MPU6050;
-Hrncir et al., 2000/2006/2008) quedan **fuera del alcance** de este
-micrófono de aire; por eso se complementa con el MPU6050.
+Las vibraciones estructurales de 180–600 Hz (vuelo ~180–250 Hz, forrajeo/
+reclutamiento ~300–600 Hz; muestreadas con el MPU6500 a FS_VIB = 1500 Hz,
+Nyquist 750 Hz; Hrncir et al., 2000/2006/2008) quedan **fuera del alcance**
+de este micrófono de aire; por eso se complementa con el MPU6500.
 
 ---
 
 ## 1. Contexto: rango del sensor y bandas de interés
 
 El INMP441 tiene una respuesta en frecuencia aproximadamente plana entre
-**60 Hz y 15 kHz** (Suárez Carvajal, 2025; ver `CLAUDE.md` y
+**60 Hz y 15 kHz** (Suárez Carvajal, 2025, en *M. eburnea*; ver `CLAUDE.md` y
 `thesis/capitulo-2-materiales-y-metodos/capitulo-2.md`, Tabla de sensores). Dentro
 de ese rango, el proyecto documenta tres bandas de interés específicas
 para *M. beecheii*:
@@ -66,14 +66,18 @@ para *M. beecheii*:
 | Alarma / intrusos | hasta 5,000–8,000 Hz | Extremo superior de interés, aún dentro del rango plano del sensor |
 
 **Fuera de alcance del INMP441:** las vibraciones estructurales de
-**180–500 Hz** (vuelo ~180–250 Hz, forrajeo/reclutamiento ~300–600 Hz
-capado a ≤500 Hz por el Nyquist real del MPU6050; Hrncir et al.,
+**180–600 Hz** (vuelo ~180–250 Hz, forrajeo/reclutamiento ~300–600 Hz,
+muestreadas con el MPU6500 a FS_VIB = 1500 Hz, Nyquist 750 Hz; Hrncir et al.,
 2000/2006/2008; el hecho de que el comportamiento defensivo se exprese por
 sustrato y no por sonido aéreo está documentado por dos Santos et al.,
-2025) quedan por debajo del rango útil de este micrófono de aire. Por eso
-el proyecto usa una arquitectura sensorial complementaria: INMP441 para
-audio aéreo (esta carpeta) + MPU6050 para vibración estructural (ver
-`../sensor-vibracion/`). Ningún sensor por sí solo cubre ambas bandas.
+2025) no son captadas por este micrófono de aire: el INMP441 registra
+sonido transmitido por el aire y no es un sensor de contacto, mientras que
+esa vibración viaja por el sustrato sólido (la madera de la colmena), un
+canal físico distinto que un micrófono aéreo no capta aunque su rango de
+frecuencia (60 Hz–15 kHz) la cubra. Por eso el proyecto usa una
+arquitectura sensorial complementaria: INMP441 para audio aéreo (esta
+carpeta) + MPU6500 para vibración estructural (ver
+`../sensor-vibracion/`). Ningún sensor por sí solo cubre ambos canales.
 
 ---
 
@@ -105,13 +109,15 @@ de MFCCs, ver `thesis/capitulo-2-materiales-y-metodos/capitulo-2.md`, sección
 configuración por defecto en el código (sección 3); cambiar a 22.05 kHz
 es un solo cambio de constante si el bench de la sección 5 lo justifica.
 
-### 2.2 Por qué el INMP441 no tiene la limitación de Nyquist interno del MPU6050
+### 2.2 Por qué el INMP441 no tiene una tasa de muestreo interna fija
 
-El MPU6050 (ver `../sensor-vibracion/README.md`, sección 2.2) tiene una
-limitación de hardware documentada: su ADC de aceleración actualiza su
-valor internamente a **1 kHz fijo**, sin importar la tasa a la que el
-firmware lea el registro — leer más rápido que eso solo produce muestras
-repetidas.
+Algunos acelerómetros MEMS, como el MPU6050, tienen una limitación de
+hardware documentada: su ADC de aceleración actualiza su valor
+internamente a **1 kHz fijo**, sin importar la tasa a la que el firmware
+lea el registro — leer más rápido que eso solo produce muestras
+repetidas. Esa limitación no aplica al MPU6500 de los nodos, cuyo
+acelerómetro admite hasta 4 kHz (muestreado a 1500 Hz, Nyquist 750 Hz;
+ver `../sensor-vibracion/README.md`, sección 2.2).
 
 **El INMP441 no tiene esa limitación.** Según el datasheet de
 InvenSense/TDK (ver Referencias), el INMP441 no tiene un reloj de
@@ -235,8 +241,12 @@ configuración lista para cableado final en campo.
 
 ## Referencias
 
-- Suárez Carvajal, S. (2025). [Título completo pendiente — micrófono MEMS
-  aplicado a *Melipona eburnea*]. Ver `thesis/referencias.md`.
+- Suárez Carvajal, Y. Y. (2025). Estimación del impacto de variables
+  internas y ambientales en la vitalidad de las colonias de Melipona
+  eburnea en Colombia, generando alertas tempranas que permitan optimizar
+  el manejo y mejorar su bienestar [Trabajo de grado de maestría,
+  Universidad Tecnológica de Pereira]. Facultad de Ingeniería Mecánica,
+  Pereira, Colombia. Ver `thesis/referencias.md`.
 - dos Santos, F. J., Bomfim, I. G. A., Cavalcante, M. C., Coelho, A. A.
   da P., & Gomes, D. G. (2025). Intranidal vibrational sensing mechanisms
   in stingless bees: an exploratory study. *Engenharia Agrícola,

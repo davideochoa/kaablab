@@ -26,7 +26,7 @@ El artículo de referencia (Chin-Canché et al., 2026) es evidencia de código e
 | XGBoost / Gradient Boosting | Reutilizable | Reentrenar con datos de *M. beecheii* |
 | Optimizador de hiperparámetros | Reutilizable | Ninguna — mismo protocolo |
 | Dataset de audio (BeeAudio) | No transferible | Recolección propia de *M. beecheii* |
-| Arquitectura sensorial (DHT22+INMP441) | Parcial | Agregar SHT31 interno primario, MPU6050 y sensor IR |
+| Arquitectura sensorial (DHT22+INMP441) | Parcial | Agregar SHT31 interno primario, MPU6500 y sensor IR |
 | Preprocesamiento de señal | No existe | Diseño e implementación completos |
 | Sensor IR doble haz | No existe en artículo de referencia | Diseño original de esta tesis |
 
@@ -42,7 +42,7 @@ El artículo de referencia incluye además un módulo de visión computacional (
 
 - **Deriva por contaminación de propóleos en el SHT31 interno. **El material higroscópico del SHT31, al estar dentro de la cavidad, puede absorber resinas y partículas propias del microclima del nido, alterando su constante dieléctrica. Mitigación: dado que el DHT22 externo no está expuesto a propóleos, una divergencia creciente entre ambos que se aparte del patrón día/noche esperado de termoconformidad (sección 2.2.1) sirve como indicador automático de posible contaminación del sensor interno.
 
-- **Vibración estructural no capturada. ***M. beecheii* usa vibración del sustrato en 180–600 Hz (vuelo ~180–250 Hz, forrajeo ~300–600 Hz), no captable por el INMP441. Mitigación: MPU6050 en contacto directo con la colmena.
+- **Vibración estructural no capturada. ***M. beecheii* usa vibración del sustrato en 180–600 Hz (vuelo ~180–250 Hz, forrajeo ~300–600 Hz), no captable por el INMP441. Mitigación: MPU6500 en contacto directo con la colmena.
 
 - **Tamaño reducido del dataset inicial. **Mitigación: curvas de aprendizaje, data augmentation extensivo y reentrenamiento incremental.
 
@@ -58,11 +58,13 @@ El generador sintético produce, para cada unidad de observación, tres señales
 
  
 
-Sobre estos datos se ejecuta el protocolo completo: las cinco etapas de preprocesamiento descritas en el Capítulo II, la extracción del vector de características enriquecido (13 MFCC, ZCR, centroide y rolloff espectral, descriptores de vibración del MPU6050 y variables ambientales interna/externa con su contraste) y el entrenamiento del clasificador Gradient Boosting, implementado con XGBoost. El prototipo se organiza de forma modular —generación de datos, preprocesamiento, extracción de características, modelo y evaluación— de modo que, al disponer de datos reales, únicamente se sustituye el módulo de generación por el de carga, conservando intacto el resto del flujo.
+Sobre estos datos se ejecuta el protocolo completo: las cinco etapas de preprocesamiento descritas en el Capítulo II, la extracción del vector de características enriquecido (13 MFCC, ZCR, centroide y rolloff espectral, descriptores de vibración del MPU6500 y variables ambientales interna/externa con su contraste) y el entrenamiento del clasificador Gradient Boosting, implementado con XGBoost. El prototipo se organiza de forma modular —generación de datos, preprocesamiento, extracción de características, modelo y evaluación— de modo que, al disponer de datos reales, únicamente se sustituye el módulo de generación por el de carga, conservando intacto el resto del flujo.
 
-La evaluación contrasta las métricas obtenidas con los umbrales definidos en la hipótesis (AUC-ROC ≥ 0.85 y F1 ≥ 0.80) e incorpora dos experimentos de ablación: con y sin la fusión de variables ambientales, para cuantificar el aporte de la arquitectura sensorial heterogénea (H1b); y con y sin los descriptores de vibración, para cuantificar el aporte del MPU6050 (H1a).
+La evaluación contrasta las métricas obtenidas con los umbrales definidos en la hipótesis (AUC-ROC ≥ 0.85 y F1 ≥ 0.80) e incorpora dos experimentos de ablación: con y sin la fusión de variables ambientales, para cuantificar el aporte de la arquitectura sensorial heterogénea (H1b); y con y sin los descriptores de vibración, para cuantificar el aporte del MPU6500 (H1a).
 
-Es necesario delimitar el alcance de esta validación con precisión metodológica. Dado que las etiquetas de clase se asignan por construcción durante la generación, las métricas obtenidas verifican que la arquitectura del pipeline es correcta y capaz de aprender cuando existe señal discriminativa, pero no constituyen un resultado biológico ni evidencia sobre el comportamiento real de *M. beecheii*. La generación de datos empíricos de campo de la especie permanece como la contribución central de la tesis (sección 3.2).
+La ejecución del pipeline sobre los datos sintéticos generados arrojó AUC-ROC = 1.000 y F1 macro = 1.000 para el modelo completo, superando ampliamente los umbrales de la hipótesis (AUC-ROC ≥ 0.85, F1 ≥ 0.80). Los experimentos de ablación mostraron que remover la fusión de variables ambientales reduce el F1 a 0.807 (aporte de +19.3 pp, H1b), y remover los descriptores de vibración lo reduce a 0.949 (aporte de +5.1 pp, H1a). Ambos aportes son positivos y no triviales, lo que indica que, bajo el diseño de separabilidad de clases sintéticas empleado, cada modalidad sensorial contribuye información no redundante a la clasificación.
+
+Es necesario delimitar el alcance de esta validación con precisión metodológica. Dado que las etiquetas de clase se asignan por construcción durante la generación, las métricas obtenidas verifican que la arquitectura del pipeline es correcta y capaz de aprender cuando existe señal discriminativa, pero no constituyen un resultado biológico ni evidencia sobre el comportamiento real de *M. beecheii*; por la misma razón, la magnitud exacta de las cifras anteriores depende del diseño de los generadores sintéticos y no de datos de campo. La generación de datos empíricos de campo de la especie permanece como la contribución central de la tesis (sección 3.2).
 
 ## 3.2 Contribuciones originales esperadas
 
