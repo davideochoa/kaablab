@@ -17,8 +17,8 @@ los conceptos (Nyquist, DLPF, FIFO) como la configuración concreta.
 | Archivo | Contenido |
 |---|---|
 | `README.md` | Este documento |
-| `mpu6050_polling.ino` | Ruta A: polling con `MPU6500_WE`, muestreo a `FS_VIB` = 1500 Hz |
-| `mpu6050_interrupt_fifo.ino` | Ruta B (opcional): interrupción INT + FIFO interno, diezmado a 1500 Hz |
+| `mpu6500_polling.ino` | Ruta A: polling con `MPU6500_WE`, muestreo a `FS_VIB` = 1500 Hz |
+| `mpu6500_interrupt_fifo.ino` | Ruta B (opcional): interrupción INT + FIFO interno, diezmado a 1500 Hz |
 | `diagrama_conexion.svg` | Esquema de conexión ESP32 DevKit V1 ↔ MPU6050/MPU6500 |
 | `concepto_vibracion.svg` | Diagrama conceptual: qué es la vibración estructural medida y su rango de frecuencia objetivo |
 
@@ -191,7 +191,7 @@ Pin mapping confirmado del proyecto: **SDA = GPIO21, SCL = GPIO22**.
 
 ### 3.1 Ruta A — Polling con librería (recomendada para primera prueba)
 
-Ver [`mpu6050_polling.ino`](./mpu6050_polling.ino).
+Ver [`mpu6500_polling.ino`](./mpu6500_polling.ino).
 
 Usa la clase **`MPU6500_WE`** (`MPU6500_WE.h`, librería **MPU9250_WE** de
 Wolfgang Ewald, instalable desde el Library Manager), el mismo patrón que el
@@ -214,7 +214,7 @@ Puntos clave del código:
 
 ### 3.2 Ruta B — Interrupción + FIFO (opcional, solo si Ruta A pierde muestras)
 
-Ver [`mpu6050_interrupt_fifo.ino`](./mpu6050_interrupt_fifo.ino).
+Ver [`mpu6500_interrupt_fifo.ino`](./mpu6500_interrupt_fifo.ino).
 
 Solo implementar esta ruta si la prueba de banco de la Ruta A (sección 5)
 muestra pérdida de muestras. Usa el pin `INT` (data-ready) del MPU6500 y

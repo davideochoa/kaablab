@@ -34,7 +34,8 @@ validado originalmente en Apis mellifera.
 - INMP441: captura nivel acústico como proxy de vitalidad y estado general
   de la colonia. NO comportamiento defensivo (los meliponinos expresan
   defensa por vibración de sustrato, no sonido aéreo — dos Santos et al. 2025).
-- Rango INMP441: 60 Hz–15 kHz (Suárez Carvajal 2025). NO "50–10,000 Hz".
+- Rango INMP441: 60 Hz–15 kHz (Suárez Carvajal 2025, estudio en
+  *Melipona eburnea*, Colombia). NO "50–10,000 Hz".
   Confirmado y documentado en software/sensor-audio/README.md.
 - MPU6050: sensor primario para comportamiento defensivo vía vibración
   estructural. Montar en contacto directo con la madera de la colmena.

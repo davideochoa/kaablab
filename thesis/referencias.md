@@ -2,9 +2,9 @@
 
 Formato APA. Las entradas con datos bibliográficos incompletos están marcadas con `<!-- PENDIENTE: completar datos bibliográficos -->` y deben confirmarse antes de la entrega final. Este archivo es la fuente de trabajo versionada; la conversión a `.bib` (BibTeX) para gestión de citas queda pendiente (ver `docs/REVISION_2026-09.md`).
 
-Chin-Canché, [Nombres pendientes]. et al. (2026). [Título del artículo de referencia KaabLab — *Apis mellifera*]. [Revista, volumen, páginas]. GitHub: github.com/guillermochin/kaablab-bee-congress-2026-figures. Zenodo: https://doi.org/10.5281/zenodo.19685877
+Chin-Canché, G. A., Ruíz-Canul, K. G., Grajales-Rodríguez, A. A., Guerrero-Mota, R. A., Noh-Valdéz, J. A., & Euan-Cupul, F. I. (2026). KAABLAB: Sistema AIoT para el monitoreo y detección temprana de anomalías en colonias de abejas [Apis mellifera]. Ciencia y Tecnología ITESCAM-Calkiní, X(X), XX–XX. [en prensa] GitHub: github.com/guillermochin/kaablab-bee-congress-2026-figures. Zenodo: https://doi.org/10.5281/zenodo.19685877
 
-<!-- PENDIENTE: completar datos bibliográficos -->
+<!-- PENDIENTE: confirmar con los coautores el año, volumen, número y páginas definitivos antes de la versión final de la tesis — el documento fuente muestra inconsistencias entre el año de portada (2026) y las páginas internas (2024 / 2023;2(3):2-12), y volumen/número/páginas aparecen como marcadores de plantilla (X(X):XX-XX), señal de que el artículo está en prensa sin datos finales de publicación -->
 
 Cruz-López, L., Malo, E. A., Rojas, J. C., & Morgan, E. D. (2005). Chemical composition and stimulatory olfactory response of the mandibular gland secretion in *Melipona beecheii*. *Journal of Chemical Ecology, 31*(6), 1257-1268.
 
@@ -28,9 +28,7 @@ Macías-Macías, J. O., Tapia-González, J. M., Contreras-Escareño, F., & Queza
 
 <!-- PENDIENTE: completar datos bibliográficos -->
 
-Medina-Medina, [Nombres pendientes]. et al. (2014). [Título completo pendiente — manejo de desechos, observación conductual sistemática en *Melipona beecheii*].
-
-<!-- PENDIENTE: completar datos bibliográficos -->
+Medina-Medina, L. A., Hart, A. G., & Ratnieks, F. L. W. (2014). Waste management in the stingless bee *Melipona beecheii* Bennett (Hymenoptera: Apidae). *Sociobiology, 61*(4), 435-440. https://doi.org/10.13102/sociobiology.v61i4.435-440
 
 Moo-Valle, H., Quezada-Euán, J. J. G., & Wenseleers, T. (2000). [Título completo pendiente — termorregulación en *M. beecheii*].
 
@@ -44,9 +42,7 @@ Roubik, D. W. (2006). [Título completo pendiente — balance hídrico / humedad
 
 <!-- PENDIENTE: completar datos bibliográficos -->
 
-Suárez Carvajal, S. (2025). [Título completo pendiente — micrófono MEMS aplicado a *Melipona eburnea*].
-
-<!-- PENDIENTE: completar datos bibliográficos -->
+Suárez Carvajal, Y. Y. (2025). Estimación del impacto de variables internas y ambientales en la vitalidad de las colonias de Melipona eburnea en Colombia, generando alertas tempranas que permitan optimizar el manejo y mejorar su bienestar [Trabajo de grado de maestría, Universidad Tecnológica de Pereira]. Facultad de Ingeniería Mecánica, Pereira, Colombia.
 
 ## Referencias ya citadas en el cuerpo de la tesis (no verificadas en esta revisión)
 
