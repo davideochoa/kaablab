@@ -1,63 +1,73 @@
 /*
- * MPU6050 — Ruta A: polling con librería, alta tasa de muestreo
+ * MPU6500 — Ruta A: polling con librería, muestreo a FS_VIB = 1500 Hz
  * KaabLab — vibración estructural, banda objetivo 300-600 Hz (Hrncir et al. 2006)
+ *
+ * (El nombre del archivo conserva "mpu6050" por historial; el hardware de los
+ * nodos es el MPU6500 / GY-6500.)
  *
  * Ver README.md (secciones 2 y 3.1) para la justificación completa de esta
  * configuración antes de modificarla.
  *
- * Librería: I2Cdevlib MPU6050 (Jeff Rowberg)
- *   https://github.com/jrowberg/i2cdevlib
- *   Instalar vía Arduino Library Manager: "I2Cdevlib-MPU6050"
- *   (requiere también la librería base "I2Cdevlib-Core")
+ * Librería: MPU9250_WE (Wolfgang Ewald) — clase MPU6500_WE
+ *   https://github.com/wollewald/MPU9250_WE
+ *   Instalar vía Arduino Library Manager: "MPU9250_WE"
+ *   Mismo patrón que software/nodo_kaablab/sensores.cpp: imu.init() +
+ *   whoAmI() == 0x70. No se usa I2Cdevlib: su testConnection() valida el
+ *   WHO_AM_I del MPU6050 y no es compatible con el MPU6500.
  *
  * Pin mapping confirmado del proyecto:
  *   SDA = GPIO21
  *   SCL = GPIO22
+ *   AD0 del MPU6500 a 3.3 V -> dirección I2C 0x69 (0x68 choca con el DS3231)
  */
 
 #include <Wire.h>
-#include <MPU6050.h>
+#include <MPU6500_WE.h>
 
-MPU6050 mpu;
+const uint8_t MPU6500_ADDR = 0x69;
+const uint8_t MPU6500_WHO_AM_I = 0x70;
+
+MPU6500_WE mpu(&Wire, MPU6500_ADDR);
 
 const uint8_t SDA_PIN = 21;
 const uint8_t SCL_PIN = 22;
 
-// --- Cálculo de sample rate (ver README.md sección 2.1) ---
-// Con DLPF deshabilitado (DLPF_CFG=0), el reloj base del giroscopio es 8 kHz.
-//   Sample Rate = 8000 / (1 + SMPLRT_DIV)
-//   SMPLRT_DIV = 2  ->  8000 / 3 ≈ 2667 Hz  ->  Nyquist ≈ 1333 Hz (>= 1200 Hz requerido)
-const uint8_t SMPLRT_DIV_TARGET = 2;
-const float SAMPLE_RATE_HZ = 8000.0f / (1 + SMPLRT_DIV_TARGET);
-const unsigned long SAMPLE_INTERVAL_US = (unsigned long)(1000000.0f / SAMPLE_RATE_HZ);
+// --- Tasa de muestreo (ver README.md sección 2) ---
+// Criterio: Nyquist >= 600 Hz con margen de diseño ~1.25x -> FS_VIB = 1500 Hz
+// (Nyquist = 750 Hz). Igual que FS_VIB en nodo_kaablab/config.h.
+// Con el DLPF del acelerómetro desactivado la salida corre a 4 kHz y SMPLRT_DIV
+// no la divide: la tasa se impone aquí por temporización (polling con micros()).
+const uint16_t FS_VIB = 1500;
+const unsigned long SAMPLE_INTERVAL_US = 1000000UL / FS_VIB; // ~666 us
 
 void setup() {
-  Serial.begin(115200);
+  // 921600 baudios: a 1500 lineas/s de CSV, 115200 baudios no alcanzan y el
+  // Serial.print() bloquearia el bucle de muestreo.
+  Serial.begin(921600);
   while (!Serial) { /* espera puerto serie en placas con USB nativo */ }
 
   Wire.begin(SDA_PIN, SCL_PIN);
-  Wire.setClock(400000); // I2C Fast Mode: límite físico del bus del MPU6050 (ver README 2.3)
+  Wire.setClock(400000); // I2C Fast Mode: límite físico del bus del MPU6500 (ver README 2.3)
 
-  mpu.initialize();
-  if (!mpu.testConnection()) {
-    Serial.println("ERROR: MPU6050 no responde en el bus I2C (verificar cableado/direccion)");
+  // init() ya compara WHO_AM_I contra 0x70; whoAmI() se verifica de forma
+  // explícita para poder reportar el valor leído.
+  if (!mpu.init() || mpu.whoAmI() != MPU6500_WHO_AM_I) {
+    Serial.printf("ERROR: MPU6500 no detectado en 0x%02X (WHO_AM_I=0x%02X, esperado 0x%02X; verificar cableado y AD0)\n",
+                  MPU6500_ADDR, mpu.whoAmI(), MPU6500_WHO_AM_I);
     while (1) { delay(1000); } // fallo de inicializacion, no de muestreo: delay() aceptable aqui
   }
 
-  // DLPF_CFG = 0 (MPU6050_DLPF_BW_256): deshabilita el filtro pasa-bajas interno.
-  // ADVERTENCIA (README.md sección 2.2): el ADC del acelerómetro del MPU6050
-  // sigue muestreando internamente a 1 kHz fijo sin importar este ajuste;
-  // validar en banco antes de instalación en campo.
-  mpu.setDLPFMode(MPU6050_DLPF_BW_256);
-  mpu.setRate(SMPLRT_DIV_TARGET);
+  mpu.setAccRange(MPU6500_ACC_RANGE_4G); // +/-4g; ajustar segun amplitud esperada
 
-  mpu.setFullScaleAccelRange(MPU6050_ACCEL_FS_4); // +/-4g; ajustar segun amplitud esperada
-  mpu.setFullScaleGyroRange(MPU6050_GYRO_FS_500);
+  // Tras el reset el DLPF del acelerómetro queda activo (5-260 Hz, datasheet
+  // MPU-6500 Rev 1.1, Tabla 2) y atenuaría la banda 300-600 Hz. Se desactiva
+  // (ACCEL_CONFIG2, accel_fchoice_b = 1): salida a 4 kHz, ancho de banda ~1046 Hz.
+  mpu.enableAccDLPF(false);
 
   Serial.print("Sample Rate configurado: ");
-  Serial.print(SAMPLE_RATE_HZ);
+  Serial.print(FS_VIB);
   Serial.println(" Hz");
-  Serial.println("timestamp_us,ax,ay,az");
+  Serial.println("timestamp_us,ax_mg,ay_mg,az_mg");
 }
 
 void loop() {
@@ -70,16 +80,15 @@ void loop() {
   if (nowUs - lastSampleUs >= SAMPLE_INTERVAL_US) {
     lastSampleUs = nowUs;
 
-    int16_t ax, ay, az;
-    mpu.getAcceleration(&ax, &ay, &az); // lectura de 6 bytes, burst read via repeated-start
+    xyzFloat g = mpu.getGValues(); // aceleración en g; lectura de 6 bytes por I2C
 
     Serial.print(nowUs);
     Serial.print(',');
-    Serial.print(ax);
+    Serial.print((int16_t)(g.x * 1000.0f)); // a mg, igual que nodo_kaablab
     Serial.print(',');
-    Serial.print(ay);
+    Serial.print((int16_t)(g.y * 1000.0f));
     Serial.print(',');
-    Serial.println(az);
+    Serial.println((int16_t)(g.z * 1000.0f));
   }
 
   // Espacio para otras tareas no bloqueantes del ESP32 (WiFi, otros sensores).

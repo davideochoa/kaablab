@@ -17,8 +17,8 @@ los conceptos (Nyquist, DLPF, FIFO) como la configuración concreta.
 | Archivo | Contenido |
 |---|---|
 | `README.md` | Este documento |
-| `mpu6050_polling.ino` | Ruta A: polling con librería, tasa alta de muestreo |
-| `mpu6050_interrupt_fifo.ino` | Ruta B (opcional): interrupción INT + FIFO interno |
+| `mpu6050_polling.ino` | Ruta A: polling con `MPU6500_WE`, muestreo a `FS_VIB` = 1500 Hz |
+| `mpu6050_interrupt_fifo.ino` | Ruta B (opcional): interrupción INT + FIFO interno, diezmado a 1500 Hz |
 | `diagrama_conexion.svg` | Esquema de conexión ESP32 DevKit V1 ↔ MPU6050/MPU6500 |
 | `concepto_vibracion.svg` | Diagrama conceptual: qué es la vibración estructural medida y su rango de frecuencia objetivo |
 
@@ -42,11 +42,12 @@ sociales mediante vibración del sustrato (dos Santos et al., 2025).
 **Rango de frecuencia objetivo: 300–600 Hz**, banda reportada por Hrncir
 et al. (2006) para señalización vibracional en meliponinos asociada al
 forrajeo/comunicación (título completo pendiente en
-`thesis/referencias.md`). Como ya se documenta en la sección 2.2, el ADC
-del acelerómetro del MPU6050 tiene una limitación de hardware que deja el
-**Nyquist real en ~500 Hz** — al límite del extremo superior de esta
-banda, sin margen —, por lo que la cobertura completa de 600 Hz debe
-confirmarse empíricamente en banco (sección 5).
+`thesis/referencias.md`). Con el MPU6500 (acelerómetro con salida
+programable de hasta 4 kHz con el DLPF desactivado, sección 2.2) muestreado
+a 1500 Hz, el **Nyquist es 750 Hz**: la banda completa de 300–600 Hz queda
+cubierta con un margen de diseño de 1.25× sobre su límite superior
+(sección 2.1). Queda pendiente confirmar en banco que la lectura por I²C
+sostenga ese ritmo (sección 2.2).
 
 ---
 
@@ -80,74 +81,64 @@ cualquier captura de banco.
 
 ## 2. Configuración objetivo
 
-### 2.1 Cálculo de SMPLRT_DIV y DLPF_CFG
+### 2.1 Criterio de muestreo
 
-El MPU6050 genera su "Sample Rate" (la tasa a la que se actualizan los
-registros de salida, el FIFO y las interrupciones data-ready) según:
+**Criterio único del proyecto:** el Nyquist debe ser **≥ 600 Hz** (límite
+superior de la banda de interés, 300–600 Hz), con un **margen de diseño
+recomendado de ~1.25×** sobre ese límite para tolerar la imprecisión del
+filtro anti-aliasing (el acelerómetro no tiene un filtro pasa-bajas ideal
+justo en el Nyquist). El margen es una holgura de diseño, no una exigencia
+matemática del teorema de Nyquist.
 
 ```
-Sample Rate = Gyroscope Output Rate / (1 + SMPLRT_DIV)
+Nyquist = FS_VIB / 2   →   objetivo: Nyquist ≥ 600 Hz × 1.25 = 750 Hz
+                                     ⇒ FS_VIB ≥ 1500 Hz
 ```
 
-donde `Gyroscope Output Rate` depende del DLPF (Registro 26, `DLPF_CFG`):
+| FS_VIB | Nyquist | Margen sobre 600 Hz | ¿Cumple el criterio (Nyquist ≥ 600 Hz, margen ~1.25×)? |
+|---|---|---|---|
+| 100 Hz (default de librerías) | 50 Hz | — | ❌ insuficiente (aliasing de toda la banda) |
+| 1200 Hz | 600 Hz | 1.00× | ⚠️ cubre la banda sin margen de diseño |
+| **1500 Hz (adoptada)** | **750 Hz** | **1.25×** | ✅ suficiente |
 
-- `DLPF_CFG = 0` o `7` (DLPF deshabilitado): reloj base = **8 kHz**
-- `DLPF_CFG = 1..6` (DLPF habilitado): reloj base = 1 kHz
+**Configuración adoptada: `FS_VIB = 1500 Hz`** (Nyquist = 750 Hz), igual en el
+firmware (`../nodo_kaablab/config.h`) y en el pipeline
+(`../kaablab_pipeline/config.py`).
 
-Objetivo del proyecto: Sample Rate ≥ 2 kHz **y** Nyquist ≥ 1200 Hz (margen
-sobre el límite superior de la banda, 600 Hz). Esto exige Sample Rate ≥ 2400 Hz,
-no solo ≥ 2000 Hz:
+### 2.2 El acelerómetro del MPU6500 no está limitado a 1 kHz
 
-| DLPF_CFG | SMPLRT_DIV | Sample Rate | Nyquist | ¿Cumple ≥1200 Hz? |
-|---|---|---|---|---|
-| 0 (deshabilitado) | 3 | 8000/4 = 2000 Hz | 1000 Hz | ❌ insuficiente |
-| **0 (deshabilitado)** | **2** | **8000/3 ≈ 2667 Hz** | **≈1333 Hz** | ✅ |
+El **MPU6050** tiene el ADC del acelerómetro fijo en ~1 kHz, independiente de
+`SMPLRT_DIV` (Register Map MPU-6000/6050, Registro 25), lo que dejaba el
+Nyquist real en ~500 Hz, por debajo de la banda de 600 Hz. **Esa limitación
+no aplica al hardware de los nodos**: el reemplazo por el **MPU6500**
+(GY-6500) está confirmado, y según el datasheet oficial (MPU-6500 Product
+Specification, Rev 1.1) su acelerómetro, en modo *low noise (active)*,
+admite una tasa de salida programable de hasta **4000 Hz**.
 
-**Configuración recomendada: `DLPF_CFG = 0`, `SMPLRT_DIV = 2`** →
-Sample Rate ≈ 2667 Hz, Nyquist ≈ 1333 Hz, con margen cómodo sobre los
-600 Hz superiores de la banda objetivo.
+Condiciones y configuración adoptada (firmware `../nodo_kaablab/` y `.ino`
+de esta carpeta):
 
-### 2.2 Limitación crítica: el acelerómetro del MPU6050 muestrea internamente a 1 kHz fijo
+- El filtro digital programable (DLPF) del acelerómetro cubre un rango de
+  5 a 260 Hz (datasheet, Tabla 2): con el DLPF activo se atenuaría la
+  banda de 300–600 Hz. Debe **desactivarse** (`ACCEL_CONFIG2`, 0x1D,
+  `accel_fchoice_b = 1`); el firmware lo hace con `enableAccDLPF(false)`.
+- Con el DLPF desactivado la salida del acelerómetro corre a 4 kHz y el
+  divisor `SMPLRT_DIV` no la modifica (los 1500 Hz no se obtienen por
+  registro). La tasa `FS_VIB = 1500 Hz` se impone por temporización en el
+  firmware: polling con periodo de ~667 µs en la Ruta A (sección 3.1) y
+  diezmado del flujo de 4 kHz del FIFO en la Ruta B (sección 3.2). Como
+  4 kHz > 1500 Hz, cada lectura entrega una muestra nueva del ADC.
+- `FS_VIB = 1500 Hz` (elección de diseño, con margen hasta los 4000 Hz del
+  chip): **Nyquist = 750 Hz**, que cubre los 600 Hz superiores de la banda
+  con el margen de diseño de 1.25× definido en la sección 2.1.
 
-Este es el punto más fácil de pasar por alto y **debe verificarse en banco**
-(ver sección 5):
-
-> Según el Register Map oficial del MPU-6000/6050 (Registro 25,
-> `SMPLRT_DIV`): *"The accelerometer output rate is 1kHz. This means that
-> for a Sample Rate greater than 1kHz, the same accelerometer sample may
-> be output to the FIFO, DMP, and sensor registers more than once."*
-
-En otras palabras: el ADC del acelerómetro del **MPU6050** actualiza su
-valor internamente cada 1 ms sin importar cómo se configure `SMPLRT_DIV`.
-Si se lee el registro de aceleración a 2667 Hz, aproximadamente 1 de cada
-~2.67 lecturas será un valor genuinamente nuevo; el resto serán
-repeticiones del mismo dato. El Nyquist *real* del canal de aceleración
-queda limitado a ~500 Hz — **al límite, no con margen, del extremo
-superior de la banda de 600 Hz**.
-
-Esto no es un error de configuración: es una limitación de hardware del
-ADC del acelerómetro documentada por el fabricante. Implicaciones:
-
-- La configuración de la sección 2.1 sigue siendo la correcta y necesaria
-  (da margen completo para el **giroscopio**, cuyo ADC sí sigue el reloj
-  de 8 kHz, y evita que el firmware sea el cuello de botella).
-- Para el **acelerómetro**, la cobertura de la banda 300–600 Hz debe
-  confirmarse empíricamente en banco (sección 5): si la energía relevante
-  de la señal reportada por Hrncir et al. (2006) se concentra en la mitad
-  baja de la banda (300–500 Hz), la limitación es aceptable; si hay
-  energía significativa cerca de 600 Hz, existirá aliasing parcial.
-- Si el módulo físico instalado resulta ser un **MPU6500** (algunas
-  placas "GY-521" genéricas montan el die MPU6500 en vez del MPU6050),
-  el registro `ACCEL_CONFIG2` (0x1D) de ese chip permite deshabilitar el
-  DLPF del acelerómetro de forma independiente del giroscopio, alcanzando
-  una tasa de actualización interna del acelerómetro más alta. **Verificar
-  el datasheet exacto del chip montado en la placa física antes de asumir
-  esta ruta** — no se documenta código para esto aquí porque depende del
-  chip real, no de la librería.
-
-**Acción requerida:** dejar constancia de esta limitación en el capítulo
-de metodología/resultados de la tesis si la validación de banco (sección 5)
-confirma pérdida de resolución cerca de 600 Hz.
+**Pendiente de validación en banco:** el firmware muestrea por polling con
+periodo de ~667 µs y no puede garantizarse en papel que la lectura I²C lo
+sostenga (ver sección 2.3). `sensores_capturar_vibracion()` cuenta las
+muestras que exceden el periodo esperado (+10 %, ~733 µs) y emite una
+advertencia por Serial al terminar la ventana; ese contador debe revisarse
+en la primera prueba con hardware real antes de confiar en
+`FS_VIB = 1500 Hz` para captura de campo.
 
 ### 2.3 El bus I²C no es el cuello de botella
 
@@ -173,7 +164,7 @@ I²C y de la librería `Wire` sobre ESP32, un estimado conservador realista
 es de **~3000–4000 lecturas/s**.
 
 **En cualquiera de los dos casos (teórico ~4900/s, conservador
-~3000–4000/s), el bus I²C tiene margen sobrado sobre las ~2667 lecturas/s
+~3000–4000/s), el bus I²C tiene margen sobrado sobre las 1500 lecturas/s
 requeridas por la configuración objetivo de la sección 2.1.**
 
 > **Nota explícita:** el bus I²C *no* es el riesgo. El riesgo real está en
@@ -202,18 +193,18 @@ Pin mapping confirmado del proyecto: **SDA = GPIO21, SCL = GPIO22**.
 
 Ver [`mpu6050_polling.ino`](./mpu6050_polling.ino).
 
-Usa la librería **I2Cdevlib** (`MPU6050.h`, de Jeff Rowberg —
-https://github.com/jrowberg/i2cdevlib), porque expone `setRate()` y
-`setDLPFMode()` como métodos nombrados que mapean directamente a
-`SMPLRT_DIV` y `DLPF_CFG` sin necesidad de escribir registros a mano byte
-por byte. (`Adafruit_MPU6050` y `MPU6050_light` son alternativas válidas,
-pero su API de alto nivel no siempre expone el divisor de sample rate de
-forma tan directa; si se usa una de ellas, confirmar en su documentación
-cómo fijar `SMPLRT_DIV`.)
+Usa la clase **`MPU6500_WE`** (`MPU6500_WE.h`, librería **MPU9250_WE** de
+Wolfgang Ewald, instalable desde el Library Manager), el mismo patrón que el
+firmware del nodo (`../nodo_kaablab/sensores.cpp`). No se usa I2Cdevlib
+(`MPU6050.h`): su `testConnection()` valida el `WHO_AM_I` del MPU6050 y
+rechazaría al MPU6500 (`WHO_AM_I` = 0x70).
 
 Puntos clave del código:
 
-- Configura `DLPF_CFG=0` y `SMPLRT_DIV=2` (sección 2.1).
+- Dirección I²C **0x69** (pin `AD0` a 3.3 V, para no chocar con el DS3231
+  en 0x68) y verificación `imu.init()` + `imu.whoAmI() == 0x70`.
+- Desactiva el DLPF del acelerómetro (`enableAccDLPF(false)`) y muestrea por
+  polling a `FS_VIB` = 1500 Hz (periodo ~667 µs; sección 2.2).
 - `Wire.setClock(400000)` para operar en I²C Fast Mode.
 - El bucle principal usa temporización no bloqueante con `micros()` — **no
   usa `delay()`** — para respetar la nota de la sección 2.3.
@@ -226,12 +217,14 @@ Puntos clave del código:
 Ver [`mpu6050_interrupt_fifo.ino`](./mpu6050_interrupt_fifo.ino).
 
 Solo implementar esta ruta si la prueba de banco de la Ruta A (sección 5)
-muestra pérdida de muestras. Usa el pin `INT` (data-ready) del MPU6050 y
+muestra pérdida de muestras. Usa el pin `INT` (data-ready) del MPU6500 y
 el FIFO interno del sensor para que el ESP32 no tenga que hacer polling
 continuo: el sensor avisa por interrupción cuando hay una muestra nueva,
 y los datos se acumulan en su FIFO interno hasta que el ESP32 los retira
 en bloque. Esto evita que el `delay()`/polling bloqueante consuma ciclos
-del procesador.
+del procesador. Como el flujo del FIFO corre a 4 kHz (sección 2.2), el
+sketch lo diezma a `FS_VIB` = 1500 Hz con un acumulador de fase (conserva
+1500 de cada 4000 muestras, con jitter temporal ≤ 250 µs).
 
 El pin `INT` usado en el código es **GPIO13**, confirmado contra el
 mapeo global de pines del proyecto (`thesis/capitulo-2-materiales-y-metodos/capitulo-2.md`,
@@ -257,16 +250,16 @@ banco que confirme, con instrumentación externa (osciloscopio o
 analizador lógico en el bus I²C, o un generador de vibración calibrado
 sobre el que se monte el sensor):
 
-1. **Que no hay pérdida de muestras** a la tasa configurada (~2667 Hz) —
+1. **Que no hay pérdida de muestras** a la tasa configurada (1500 Hz) —
    comparar el número de transacciones I²C observadas en el analizador
    lógico contra las esperadas por segundo.
 2. **Que la tasa de muestreo real y consistente** coincide con la
    configurada (verificar jitter entre muestras consecutivas del bucle
    `micros()`).
-3. **Que el canal de aceleración captura información nueva y no
-   duplicada** en cada lectura, dada la limitación de la sección 2.2 —
-   por ejemplo, aplicando una vibración conocida y verificando que la FFT
-   de las muestras leídas no muestre un "escalón" de valores repetidos.
+3. **Que el DLPF del acelerómetro quedó desactivado y cada lectura
+   entrega información nueva** (sección 2.2) — por ejemplo, aplicando una
+   vibración conocida de 300–600 Hz y verificando que la FFT no muestre
+   atenuación por encima de ~260 Hz ni un "escalón" de valores repetidos.
 4. Si se detecta pérdida de muestras con la Ruta A, implementar y probar
    la Ruta B (interrupción + FIFO) antes de continuar.
 
@@ -280,6 +273,8 @@ configuración lista para cableado final en campo.
 - Hrncir, M., Jarau, S., Zucchi, R., & Barth, F. G. (2006). [Título
   completo pendiente — comunicación y señalización vibracional en
   Melipona]. Ver `thesis/referencias.md`.
+- InvenSense. *MPU-6500 Product Specification*, Rev 1.1 (tasa de salida
+  del acelerómetro hasta 4 kHz, DLPF programable 5–260 Hz, Tabla 2).
 - InvenSense. *MPU-6000 and MPU-6050 Register Map and Descriptions*
-  (RM-MPU-6000A-00), Registro 25 (`SMPLRT_DIV`) y Registro 26 (`CONFIG` /
-  `DLPF_CFG`).
+  (RM-MPU-6000A-00), Registro 25 (`SMPLRT_DIV`): limitación de 1 kHz del
+  ADC del acelerómetro del MPU6050, que no aplica al MPU6500 (sección 2.2).

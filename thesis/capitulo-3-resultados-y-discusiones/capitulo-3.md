@@ -42,7 +42,7 @@ El artículo de referencia incluye además un módulo de visión computacional (
 
 - **Deriva por contaminación de propóleos en el SHT31 interno. **El material higroscópico del SHT31, al estar dentro de la cavidad, puede absorber resinas y partículas propias del microclima del nido, alterando su constante dieléctrica. Mitigación: dado que el DHT22 externo no está expuesto a propóleos, una divergencia creciente entre ambos que se aparte del patrón día/noche esperado de termoconformidad (sección 2.2.1) sirve como indicador automático de posible contaminación del sensor interno.
 
-- **Vibración estructural no capturada. ***M. beecheii* usa vibración del sustrato en 180–500 Hz (vuelo ~180–250 Hz, forrajeo ~300–600 Hz capado a ≤500 Hz por el Nyquist real del MPU6050), no captable por el INMP441. Mitigación: MPU6050 en contacto directo con la colmena.
+- **Vibración estructural no capturada. ***M. beecheii* usa vibración del sustrato en 180–600 Hz (vuelo ~180–250 Hz, forrajeo ~300–600 Hz), no captable por el INMP441. Mitigación: MPU6050 en contacto directo con la colmena.
 
 - **Tamaño reducido del dataset inicial. **Mitigación: curvas de aprendizaje, data augmentation extensivo y reentrenamiento incremental.
 
@@ -54,7 +54,7 @@ Como cuarto nivel de evidencia, se implementó un prototipo ejecutable de extrem
 
  
 
-El generador sintético produce, para cada unidad de observación, tres señales con fundamento físico y diferencias deliberadas entre clases (colmena sana, ausencia de reina y estrés): (i) una señal acústica con armónicos en el rango de los meliponinos, en la que la clase de ausencia de reina desplaza el centroide espectral y modifica la energía por bandas; (ii) series ambientales que reproducen el ciclo diurno del trópico húmedo de Campeche, incluyendo la saturación del DHT22 por encima del 85% de HR; y (iii) una señal de vibración estructural con componentes en 220 Hz (vuelo, dentro de 180–250 Hz) y 380 Hz (forrajeo, dentro de 300–600 Hz capado a ≤500 Hz por el Nyquist real del MPU6050), con un armónico adicional a 460 Hz que se intensifica en la clase de estrés.
+El generador sintético produce, para cada unidad de observación, tres señales con fundamento físico y diferencias deliberadas entre clases (colmena sana, ausencia de reina y estrés): (i) una señal acústica con armónicos en el rango de los meliponinos, en la que la clase de ausencia de reina desplaza el centroide espectral y modifica la energía por bandas; (ii) series ambientales que reproducen el ciclo diurno del trópico húmedo de Campeche, incluyendo la saturación del DHT22 por encima del 85% de HR; y (iii) una señal de vibración estructural con componentes en 220 Hz (vuelo, dentro de 180–250 Hz) y 380 Hz (forrajeo, dentro de 300–600 Hz), con un armónico adicional a 460 Hz que se intensifica en la clase de estrés.
 
  
 

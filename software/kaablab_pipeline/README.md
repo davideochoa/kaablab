@@ -17,7 +17,7 @@ kaablab/
 ├── datagen/               # generación sintética
 │   ├── audio_gen.py       #   señal acústica (INMP441)
 │   ├── env_gen.py         #   series ambientales (DHT22 + SHT31)
-│   ├── vibration_gen.py   #   vibración estructural (MPU6050)
+│   ├── vibration_gen.py   #   vibración estructural (MPU6500)
 │   └── traffic_gen.py     #   tráfico direccional de piquera (IR doble haz)
 ├── preprocessing/         # protocolo de 5 etapas
 │   ├── env_fusion.py      #   1) Magnus HR->HA  2) fusión ponderada por confianza
@@ -37,7 +37,7 @@ La etapa 5b (normalización Z-score) se aplica en `main.py` con `StandardScaler`
 ## Uso
 ```bash
 pip install -r requirements.txt
-python -m kaablab.main
+python -m kaablab_pipeline.main
 ```
 Genera `dataset_sintetico.csv` y `resultados.json`, e imprime el reporte.
 
@@ -49,4 +49,4 @@ modelo, evaluación) permanece intacto.
 ## Experimentos de ablación
 - **H1b** — con vs. sin fusión ambiental: mide el aporte de la arquitectura
   sensorial heterogénea (DHT22+SHT31).
-- **H1a** — con vs. sin descriptores de vibración: mide el aporte del MPU6050.
+- **H1a** — con vs. sin descriptores de vibración: mide el aporte del MPU6500.
