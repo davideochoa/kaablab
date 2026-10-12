@@ -3,8 +3,8 @@
 Sensor de audio aéreo del sistema KaabLab. El INMP441 es un micrófono MEMS
 con salida digital **I²S** (no PDM), usado como proxy de **vitalidad y
 estado general de la colonia** en *Melipona beecheii* — **no** de
-comportamiento defensivo, el cual esta especie expresa por vibración de
-sustrato y se captura con el MPU6500 (ver `../sensor-vibracion/README.md` y
+comportamiento defensivo, que en otros meliponinos se expresa por vibración
+de sustrato (en esta especie no está documentado) y se captura con el MPU6500 (ver `../sensor-vibracion/README.md` y
 `CLAUDE.md`, sección "Decisiones de diseño confirmadas").
 
 Documento dirigido a nivel licenciatura en mecatrónica: se explican tanto
@@ -32,9 +32,9 @@ piquera y la cavidad del nido — **sonido aéreo**, a diferencia de la
 vibración mecánica del sustrato de la madera que capta el MPU6500 (ver
 `../sensor-vibracion/README.md`). En este proyecto se usa como proxy del
 **nivel acústico general y la vitalidad de la colonia**, no del
-comportamiento defensivo (que en *M. beecheii*, como en el resto de los
-meliponinos, se expresa por vibración de sustrato, no por sonido aéreo —
-dos Santos et al., 2025).
+comportamiento defensivo (que en otros meliponinos se expresa por vibración
+de sustrato — dos Santos et al., 2025; en
+*M. beecheii* no está documentado).
 
 **Rango de respuesta plana: 60 Hz–15 kHz** (Suárez Carvajal, 2025, en *M. eburnea*, Colombia).
 Dentro de ese rango, el proyecto documenta tres bandas de interés
@@ -44,10 +44,12 @@ específicas (ver sección 1 más abajo para el detalle completo):
 - **Actividad de vuelo en piquera:** 200–500 Hz
 - **Alarma / intrusos:** hasta 5,000–8,000 Hz
 
-Las vibraciones estructurales de 180–600 Hz (vuelo ~180–250 Hz, forrajeo/
-reclutamiento ~300–600 Hz; muestreadas con el MPU6500 a FS_VIB = 1500 Hz,
-Nyquist 750 Hz; Hrncir et al., 2000/2006/2008) quedan **fuera del alcance**
-de este micrófono de aire; por eso se complementa con el MPU6500.
+Las vibraciones estructurales de 180–600 Hz (vuelo ~180–250 Hz, Hrncir et
+al., 2008; forrajeo/reclutamiento ~300–600 Hz, Hrncir et al., 2000, 2006a;
+muestreadas con el MPU6500 a FS_VIB = 1500 Hz, Nyquist 750 Hz) se
+registran por dos canales complementarios: este micrófono de aire capta su
+componente aéreo (misma frecuencia principal, Hrncir et al., 2000), pero no
+la vibración de sustrato en sí, que registra el MPU6500.
 
 ---
 
@@ -65,16 +67,18 @@ para *M. beecheii*:
 | Actividad de vuelo en piquera | 200–500 Hz | Dentro del rango óptimo |
 | Alarma / intrusos | hasta 5,000–8,000 Hz | Extremo superior de interés, aún dentro del rango plano del sensor |
 
-**Fuera de alcance del INMP441:** las vibraciones estructurales de
-**180–600 Hz** (vuelo ~180–250 Hz, forrajeo/reclutamiento ~300–600 Hz,
-muestreadas con el MPU6500 a FS_VIB = 1500 Hz, Nyquist 750 Hz; Hrncir et al.,
-2000/2006/2008; el hecho de que el comportamiento defensivo se exprese por
+**Canales complementarios INMP441 / MPU6500:** las vibraciones estructurales de
+**180–600 Hz** (vuelo ~180–250 Hz, Hrncir et al., 2008; forrajeo/
+reclutamiento ~300–600 Hz, Hrncir et al., 2000, 2006a; muestreadas con el
+MPU6500 a FS_VIB = 1500 Hz, Nyquist 750 Hz; el hecho de que en otros meliponinos el comportamiento defensivo se exprese por
 sustrato y no por sonido aéreo está documentado por dos Santos et al.,
-2025) no son captadas por este micrófono de aire: el INMP441 registra
-sonido transmitido por el aire y no es un sensor de contacto, mientras que
-esa vibración viaja por el sustrato sólido (la madera de la colmena), un
-canal físico distinto que un micrófono aéreo no capta aunque su rango de
-frecuencia (60 Hz–15 kHz) la cubra. Por eso el proyecto usa una
+2025) tienen un componente de sonido aéreo y otro de sustrato con la misma
+frecuencia principal (Hrncir et al., 2000). El INMP441 registra sonido
+transmitido por el aire y capta ese componente aéreo, pero no es un sensor
+de contacto: la vibración de sustrato viaja por el sustrato sólido (la
+madera de la colmena), un canal físico distinto que el micrófono no capta
+aunque su rango de frecuencia (60 Hz–15 kHz) cubra esa banda; esa
+vibración la registra el MPU6500. Por eso el proyecto usa una
 arquitectura sensorial complementaria: INMP441 para audio aéreo (esta
 carpeta) + MPU6500 para vibración estructural (ver
 `../sensor-vibracion/`). Ningún sensor por sí solo cubre ambos canales.

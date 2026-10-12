@@ -42,7 +42,7 @@ El artículo de referencia incluye además un módulo de visión computacional (
 
 - **Deriva por contaminación de propóleos en el SHT31 interno. **El material higroscópico del SHT31, al estar dentro de la cavidad, puede absorber resinas y partículas propias del microclima del nido, alterando su constante dieléctrica. Mitigación: dado que el DHT22 externo no está expuesto a propóleos, una divergencia creciente entre ambos que se aparte del patrón día/noche esperado de termoconformidad (sección 2.2.1) sirve como indicador automático de posible contaminación del sensor interno.
 
-- **Vibración estructural no capturada. ***M. beecheii* usa vibración del sustrato en 180–600 Hz (vuelo ~180–250 Hz, forrajeo ~300–600 Hz), no captable por el INMP441. Mitigación: MPU6500 en contacto directo con la colmena.
+- **Vibración estructural no capturada. **Los congéneres del género Melipona usan vibración del sustrato en 180–600 Hz (vuelo ~180–250 Hz, forrajeo ~300–600 Hz); el INMP441 capta su componente aéreo, pero no la vibración de sustrato en sí. Mitigación: MPU6500 en contacto directo con la colmena.
 
 - **Tamaño reducido del dataset inicial. **Mitigación: curvas de aprendizaje, data augmentation extensivo y reentrenamiento incremental.
 

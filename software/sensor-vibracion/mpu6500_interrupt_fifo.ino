@@ -1,6 +1,6 @@
 /*
  * MPU6500 — Ruta B (OPCIONAL): interrupcion data-ready + FIFO interno
- * KaabLab — vibración estructural, banda objetivo 300-600 Hz (Hrncir et al. 2006)
+ * KaabLab — vibración estructural, banda objetivo 300-600 Hz (Hrncir et al., 2000, 2006a)
  *
  * IMPLEMENTAR SOLO SI la Ruta A (mpu6500_polling.ino) muestra perdida de
  * muestras en la prueba de banco (ver README.md sección 5). No es la ruta

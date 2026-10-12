@@ -6,6 +6,8 @@ completados los pasos de separación de preliminares y formato de
 archivos numerados (00–13 según las 14 secciones oficiales del formato
 ITESCAM/TecNM).
 
+Borrador con formato FORMATO_TESIS.md: `python scripts/build_docx.py` → `build/KaabLab_Tesis_borrador.docx` (requiere pandoc y LibreOffice).
+
 ```bash
 pandoc thesis/preliminares/00-portada.md thesis/preliminares/06-agradecimientos.md \
   thesis/preliminares/07-indice.md thesis/preliminares/08-abreviaturas.md \
