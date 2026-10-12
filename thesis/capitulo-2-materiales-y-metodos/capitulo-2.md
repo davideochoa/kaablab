@@ -179,6 +179,8 @@ Protocolo de instalación mínimamente invasiva:
 
 El subsistema de IA toma el dataset crudo y lo transforma, etapa por etapa, en un diagnóstico de la condición de la colmena. Entran cuatro modalidades alineadas por timestamp: audio aéreo (INMP441), vibración estructural (MPU6500), variables ambientales interna/externa (SHT31 + DHT22) y conteo de tráfico en piquera (IR doble haz). La limpieza aplica el protocolo de preprocesamiento descrito en la sección 2.4. La extracción de características produce, del audio, los MFCC, ZCR, centroide y rolloff espectral; del MPU6500, la energía de vibración por bandas, el pico y la varianza de aceleración; del sensor IR, entradas, salidas y tasa neta por intervalo; concatenados con la humedad absoluta interna/externa y su contraste. El clasificador bioacústico —XGBoost / Gradient Boosting— integra estas fuentes para producir el diagnóstico de la condición de la colmena (objetivo AUC-ROC ≥ 0.85, F1 ≥ 0.80) —sana, anomalía bioacústica o anomalía de vibración/comportamiento defensivo—, con registro de evidencia cuando la confianza supera 0.7 (Figura 2.4).
 
+![Figura 2.4](figuras/figura_2_4_pipeline_ia.svg)
+
 **Figura 2.4 **Pipeline de procesamiento y evaluación de IA.
 
 ## 2.8 Justificación técnica de las decisiones de diseño de IA

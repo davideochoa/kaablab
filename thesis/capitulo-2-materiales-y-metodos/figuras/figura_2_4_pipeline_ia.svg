@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 1460" width="1100" height="1460" font-family="Segoe UI, Arial, sans-serif">
+  <title>Figura 2.4 — Pipeline de procesamiento y evaluación de IA</title>
+  <rect x="0" y="0" width="1100" height="1460" fill="#ffffff"/>
+
+  <text x="550" y="34" text-anchor="middle" font-size="20" font-weight="bold" fill="#1a1a1a">
+    Pipeline de procesamiento y evaluación de IA
+  </text>
+  <text x="550" y="56" text-anchor="middle" font-size="12" fill="#555555">
+    KaabLab — sección 2.7, implementación en software/kaablab_pipeline/ (validación con datos sintéticos)
+  </text>
+
+  <defs>
+    <marker id="arrowBlue" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto">
+      <path d="M0,0 L7,3.5 L0,7 Z" fill="#2c5aa0"/>
+    </marker>
+    <marker id="arrowGold" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto">
+      <path d="M0,0 L7,3.5 L0,7 Z" fill="#8a6d00"/>
+    </marker>
+  </defs>
+
+  <!-- 1. Generación de datos -->
+  <rect x="30" y="80" width="1040" height="250" rx="8" fill="#eef3fb" stroke="#2c5aa0" stroke-width="2"/>
+  <text x="550" y="112" text-anchor="middle" font-size="16" font-weight="bold" fill="#1a1a1a">1. Generación de datos (datagen/)</text>
+  <text x="550" y="132" text-anchor="middle" font-size="11" fill="#555555">Cuatro señales sintéticas por unidad de observación</text>
+
+  <rect x="50" y="150" width="235" height="125" rx="6" fill="#f2e9f7" stroke="#7a2ca0" stroke-width="1.5"/>
+  <text x="167" y="176" text-anchor="middle" font-size="13" font-weight="bold" fill="#1a1a1a">Acústica</text>
+  <text x="167" y="196" text-anchor="middle" font-size="10" fill="#555555">audio aéreo (INMP441)</text>
+  <text x="167" y="256" text-anchor="middle" font-size="9.5" fill="#7a2ca0">audio_gen.py</text>
+
+  <rect x="303" y="150" width="235" height="125" rx="6" fill="#eefbf1" stroke="#227a3d" stroke-width="1.5"/>
+  <text x="420" y="176" text-anchor="middle" font-size="13" font-weight="bold" fill="#1a1a1a">Ambiental</text>
+  <text x="420" y="196" text-anchor="middle" font-size="10" fill="#555555">interna (SHT31) y externa (DHT22)</text>
+  <text x="420" y="212" text-anchor="middle" font-size="10" fill="#555555">saturación del sensor externo</text>
+  <text x="420" y="226" text-anchor="middle" font-size="10" fill="#555555">básico por encima de 85 % HR</text>
+  <text x="420" y="256" text-anchor="middle" font-size="9.5" fill="#227a3d">env_gen.py</text>
+
+  <rect x="556" y="150" width="235" height="125" rx="6" fill="#fdf0e4" stroke="#e08a3c" stroke-width="1.5"/>
+  <text x="673" y="176" text-anchor="middle" font-size="13" font-weight="bold" fill="#1a1a1a">Vibración estructural</text>
+  <text x="673" y="196" text-anchor="middle" font-size="10" fill="#555555">acelerómetro en contacto (MPU6500)</text>
+  <text x="673" y="256" text-anchor="middle" font-size="9.5" fill="#e08a3c">vibration_gen.py</text>
+
+  <rect x="809" y="150" width="235" height="125" rx="6" fill="#fffdf5" stroke="#7a5a30" stroke-width="1.5"/>
+  <text x="926" y="176" text-anchor="middle" font-size="13" font-weight="bold" fill="#1a1a1a">Tráfico IR</text>
+  <text x="926" y="196" text-anchor="middle" font-size="10" fill="#555555">conteo direccional en piquera</text>
+  <text x="926" y="212" text-anchor="middle" font-size="10" fill="#555555">(IR doble haz)</text>
+  <text x="926" y="256" text-anchor="middle" font-size="9.5" fill="#7a5a30">traffic_gen.py</text>
+
+  <text x="550" y="312" text-anchor="middle" font-size="11" font-weight="bold" fill="#2c5aa0">Clases: sana · sin_reina · estres</text>
+
+  <line x1="550" y1="330" x2="550" y2="376" stroke="#2c5aa0" stroke-width="2.2" marker-end="url(#arrowBlue)"/>
+
+  <!-- 2. Preprocesamiento -->
+  <rect x="150" y="380" width="800" height="210" rx="8" fill="#fffdf5" stroke="#7a5a30" stroke-width="2"/>
+  <text x="550" y="412" text-anchor="middle" font-size="16" font-weight="bold" fill="#1a1a1a">2. Preprocesamiento (preprocessing/) — protocolo de la sección 2.4</text>
+  <text x="180" y="442" font-size="11" fill="#1a1a1a">2.4.1  Filtro de media móvil sobre variables ambientales</text>
+  <text x="920" y="442" text-anchor="end" font-size="9.5" fill="#7a5a30">smoothing.py</text>
+  <text x="180" y="466" font-size="11" fill="#1a1a1a">2.4.2  Pre-énfasis sobre la señal de audio</text>
+  <text x="920" y="466" text-anchor="end" font-size="9.5" fill="#7a5a30">audio_prep.py</text>
+  <text x="180" y="490" font-size="11" fill="#1a1a1a">2.4.3  Umbral de energía RMS para descarte de segmentos silenciosos</text>
+  <text x="920" y="490" text-anchor="end" font-size="9.5" fill="#7a5a30">audio_prep.py</text>
+  <text x="180" y="514" font-size="11" fill="#1a1a1a">2.4.4  Normalización Z-score del vector de características</text>
+  <text x="920" y="514" text-anchor="end" font-size="9.5" fill="#7a5a30">main.py (antes del modelo)</text>
+  <text x="180" y="538" font-size="11" fill="#1a1a1a">2.4.5  Conversión de humedad relativa a humedad absoluta</text>
+  <text x="920" y="538" text-anchor="end" font-size="9.5" fill="#7a5a30">env_fusion.py</text>
+  <text x="180" y="566" font-size="10" fill="#555555">+ fusión sensorial ponderada por confianza interna/externa (sección 2.2.4)</text>
+  <text x="920" y="566" text-anchor="end" font-size="9.5" fill="#7a5a30">env_fusion.py</text>
+
+  <line x1="550" y1="590" x2="550" y2="636" stroke="#2c5aa0" stroke-width="2.2" marker-end="url(#arrowBlue)"/>
+
+  <!-- 3. Extracción de características -->
+  <rect x="30" y="640" width="1040" height="250" rx="8" fill="#eef3fb" stroke="#2c5aa0" stroke-width="2"/>
+  <text x="550" y="672" text-anchor="middle" font-size="16" font-weight="bold" fill="#1a1a1a">3. Extracción de características (features/)</text>
+
+  <rect x="50" y="690" width="235" height="140" rx="6" fill="#f2e9f7" stroke="#7a2ca0" stroke-width="1.5"/>
+  <text x="167" y="716" text-anchor="middle" font-size="13" font-weight="bold" fill="#1a1a1a">Acústicas (16)</text>
+  <text x="167" y="736" text-anchor="middle" font-size="10" fill="#555555">13 MFCC</text>
+  <text x="167" y="752" text-anchor="middle" font-size="10" fill="#555555">ZCR, centroide espectral,</text>
+  <text x="167" y="766" text-anchor="middle" font-size="10" fill="#555555">rolloff espectral</text>
+  <text x="167" y="812" text-anchor="middle" font-size="9.5" fill="#7a2ca0">acoustic_feats.py</text>
+
+  <rect x="303" y="690" width="235" height="140" rx="6" fill="#fdf0e4" stroke="#e08a3c" stroke-width="1.5"/>
+  <text x="420" y="716" text-anchor="middle" font-size="13" font-weight="bold" fill="#1a1a1a">Vibración (6)</text>
+  <text x="420" y="736" text-anchor="middle" font-size="10" fill="#555555">RMS, frecuencia dominante,</text>
+  <text x="420" y="752" text-anchor="middle" font-size="10" fill="#555555">energía en tres bandas,</text>
+  <text x="420" y="766" text-anchor="middle" font-size="10" fill="#555555">varianza</text>
+  <text x="420" y="812" text-anchor="middle" font-size="9.5" fill="#e08a3c">vibration_feats.py</text>
+
+  <rect x="556" y="690" width="235" height="140" rx="6" fill="#fffdf5" stroke="#7a5a30" stroke-width="1.5"/>
+  <text x="673" y="716" text-anchor="middle" font-size="13" font-weight="bold" fill="#1a1a1a">Tráfico IR (6)</text>
+  <text x="673" y="736" text-anchor="middle" font-size="10" fill="#555555">entradas, salidas, tasa neta</text>
+  <text x="673" y="752" text-anchor="middle" font-size="10" fill="#555555">(media y desviación)</text>
+  <text x="673" y="812" text-anchor="middle" font-size="9.5" fill="#7a5a30">traffic_feats.py</text>
+
+  <rect x="809" y="690" width="235" height="140" rx="6" fill="#eefbf1" stroke="#227a3d" stroke-width="1.5"/>
+  <text x="926" y="716" text-anchor="middle" font-size="13" font-weight="bold" fill="#1a1a1a">Ambientales (4)</text>
+  <text x="926" y="736" text-anchor="middle" font-size="10" fill="#555555">temperatura y humedad</text>
+  <text x="926" y="752" text-anchor="middle" font-size="10" fill="#555555">absoluta fusionadas</text>
+  <text x="926" y="766" text-anchor="middle" font-size="10" fill="#555555">(media y desviación)</text>
+  <text x="926" y="812" text-anchor="middle" font-size="9.5" fill="#227a3d">dataset.py</text>
+
+  <text x="550" y="868" text-anchor="middle" font-size="12" font-weight="bold" fill="#2c5aa0">dataset.py → vector de 32 características por unidad de observación</text>
+
+  <line x1="550" y1="890" x2="550" y2="936" stroke="#2c5aa0" stroke-width="2.2" marker-end="url(#arrowBlue)"/>
+
+  <!-- 4. Modelo -->
+  <rect x="250" y="940" width="600" height="110" rx="8" fill="#eefbf1" stroke="#227a3d" stroke-width="2"/>
+  <text x="550" y="978" text-anchor="middle" font-size="16" font-weight="bold" fill="#1a1a1a">4. Modelo: clasificador Gradient Boosting (XGBoost)</text>
+  <text x="550" y="1000" text-anchor="middle" font-size="11" fill="#555555">Diagnóstico de la condición: sana · sin_reina · estres</text>
+  <text x="550" y="1030" text-anchor="middle" font-size="9.5" fill="#227a3d">models/train_health.py</text>
+
+  <line x1="550" y1="1050" x2="550" y2="1096" stroke="#2c5aa0" stroke-width="2.2" marker-end="url(#arrowBlue)"/>
+
+  <!-- 5. Evaluación -->
+  <rect x="250" y="1100" width="600" height="110" rx="8" fill="#eef3fb" stroke="#2c5aa0" stroke-width="2"/>
+  <text x="550" y="1138" text-anchor="middle" font-size="16" font-weight="bold" fill="#1a1a1a">5. Evaluación</text>
+  <text x="550" y="1160" text-anchor="middle" font-size="11" fill="#555555">AUC-ROC · F1 · matriz de confusión</text>
+  <text x="550" y="1190" text-anchor="middle" font-size="9.5" fill="#2c5aa0">evaluation/metrics.py</text>
+
+  <!-- Ablación en paralelo -->
+  <line x1="480" y1="1210" x2="305" y2="1266" stroke="#8a6d00" stroke-width="2" marker-end="url(#arrowGold)"/>
+  <line x1="620" y1="1210" x2="795" y2="1266" stroke="#8a6d00" stroke-width="2" marker-end="url(#arrowGold)"/>
+  <text x="550" y="1252" text-anchor="middle" font-size="10" font-weight="bold" fill="#8a6d00">Ablación (main.py)</text>
+
+  <rect x="140" y="1270" width="330" height="100" rx="8" fill="#fff8e6" stroke="#8a6d00" stroke-width="1.5"/>
+  <text x="305" y="1302" text-anchor="middle" font-size="13" font-weight="bold" fill="#1a1a1a">Sin fusión ambiental (H1b)</text>
+  <text x="305" y="1324" text-anchor="middle" font-size="10" fill="#555555">mismo flujo sin las características</text>
+  <text x="305" y="1338" text-anchor="middle" font-size="10" fill="#555555">ambientales</text>
+
+  <rect x="630" y="1270" width="330" height="100" rx="8" fill="#fff8e6" stroke="#8a6d00" stroke-width="1.5"/>
+  <text x="795" y="1302" text-anchor="middle" font-size="13" font-weight="bold" fill="#1a1a1a">Sin descriptores de vibración (H1a)</text>
+  <text x="795" y="1324" text-anchor="middle" font-size="10" fill="#555555">mismo flujo sin las características</text>
+  <text x="795" y="1338" text-anchor="middle" font-size="10" fill="#555555">de vibración</text>
+
+  <!-- Footer -->
+  <text x="550" y="1410" text-anchor="middle" font-size="10" fill="#777777">
+    Datos sintéticos con etiquetas asignadas por construcción: el pipeline valida la arquitectura, no constituye un resultado
+  </text>
+  <text x="550" y="1425" text-anchor="middle" font-size="10" fill="#777777">
+    biológico sobre la especie. La sustitución de datagen/ por datos de campo deja intactas las etapas 2 a 5.
+  </text>
+</svg>
