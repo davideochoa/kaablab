@@ -25,7 +25,9 @@ validado originalmente en Apis mellifera.
 | MPU6050 / GY-521 | TDK InvenSense | Vibración estructural | Comportamiento defensivo (sustrato) |
 | IR doble haz | LED 940nm + fototransistor | Conteo tráfico piquera | Entradas / salidas de forrajeras |
 | ESP32 DevKit V1 | Espressif | Edge device | Adquisición, coordinación y almacenamiento |
-| Raspberry Pi 4 4GB | Raspberry Pi Foundation | Inferencia IA (Sem. 3) | Clasificación en campo |
+| Raspberry Pi 4 | Raspberry Pi Foundation | Opcional, fuera de la tesis | Soporte alternativo en software/*/raspberry/ |
+| DS3231 | Analog Devices (Maxim) | Reloj de tiempo real (RTC), I²C 0x68 | Marca de tiempo de cada ventana |
+| microSD | — | Almacenamiento local, SPI | Ciclos de captura (binario + JSON) |
 
 ## Decisiones de diseño confirmadas
 
@@ -57,11 +59,13 @@ validado originalmente en Apis mellifera.
   mecánico del tubo de madera. Ver software/sensor-trafico/README.md.
 - Frase "primero del mundo" → "primero documentado para la especie" en todo.
 - Dispositivo edge confirmado: ESP32 DevKit V1 (no ESP32-CAM). Mapeo de
-  pines confirmado, sin conflictos: I²C compartido SHT31+MPU6050/6500
-  (SDA=GPIO21, SCL=GPIO22); I²S INMP441 (SCK=GPIO14, WS=GPIO15, SD=GPIO32);
+  pines confirmado, sin conflictos: I²C compartido SHT31 +
+  DS3231 (0x68) + MPU6050/6500 (0x69, AD0 a 3.3 V) (SDA=GPIO21,
+  SCL=GPIO22); I²S INMP441 (SCK=GPIO14, WS=GPIO15, SD=GPIO32);
   DHT22 1-Wire (DATA=GPIO4); IR doble haz, 4 módulos FC-51/KY-033 (haz A:
   GPIO26 principal + GPIO25 secundario; haz B: GPIO27 principal + GPIO33
-  secundario). Ver thesis/capitulo-2-materiales-y-metodos/capitulo-2.md,
+  secundario); microSD SPI/VSPI (CS=GPIO5, MOSI=GPIO23, MISO=GPIO19,
+  SCK=GPIO18). Ver thesis/capitulo-2-materiales-y-metodos/capitulo-2.md,
   Tabla 2.3. Al ser DevKit V1 (no
   ESP32-CAM/AI-Thinker), no aplican las restricciones de pines reservados
   a cámara/PSRAM de ese módulo — no asumir esa limitación en tareas

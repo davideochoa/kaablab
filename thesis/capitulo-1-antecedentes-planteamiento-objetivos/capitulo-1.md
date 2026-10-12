@@ -131,12 +131,12 @@ La estrategia experimental organiza el trabajo en cuatro fases macro, distintas 
 
 ## 1.9 Planeación: recursos, cronograma y presupuesto
 
-El proyecto se ejecuta en cuatro semestres. Los recursos de cómputo en campo se basan en un edge device de bajo costo (ESP32 DevKit V1 con shield de expansión para coordinación y almacenamiento y, a partir del tercer semestre, Raspberry Pi 4 para inferencia), alimentación autónoma mediante power bank, batería LiPo y panel solar, y una arquitectura sensorial heterogénea de cinco sensores (temperatura/humedad interno, temperatura/humedad externo, sonido aéreo, vibración estructural e IR doble haz). La Tabla 1.3 presenta el cronograma con hitos de decisión y planes de contingencia; la Tabla 1.4 detalla el presupuesto por nodo y para los tres meliponarios instrumentados.
+El proyecto se ejecuta en cuatro semestres. Los recursos de cómputo en campo se basan en un edge device de bajo costo (ESP32 DevKit V1 con shield de expansión para coordinación y almacenamiento; el procesamiento y la inferencia se hacen en una aplicación móvil), alimentación autónoma mediante power bank, batería LiPo y panel solar, y una arquitectura sensorial heterogénea de cinco sensores (temperatura/humedad interno, temperatura/humedad externo, sonido aéreo, vibración estructural e IR doble haz). La Tabla 1.3 presenta el cronograma con hitos de decisión y planes de contingencia; la Tabla 1.4 detalla el presupuesto por nodo y para los tres meliponarios instrumentados.
 
 | **N°** | **Actividad** | **S1** | **S2** | **S3** | **S4** | **Hito / Entregable** | **Contingencia** |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 1 | Revisión sistemática y análisis del artículo de referencia | ✓ |  |  |  | Marco teórico completo | N/A |
-| 2 | Adquisición de hardware IoT | ✓ |  |  |  | Hardware disponible | ESP32 DevKit V1 si no hay RPi4 |
+| 2 | Adquisición de hardware IoT | ✓ |  |  |  | Hardware disponible | N/A |
 | 3 | Coordinación con meliponarios mayas de Campeche | ✓ |  |  |  | ≥ 3 meliponarios confirmados | Ampliar a Yucatán |
 | 4 | Instrumentación en campo y validación de la arquitectura sensorial | ✓ | ✓ |  |  | Comparativa sensor interno vs. externo | Reducir a 2 colmenas |
 | 5 | Recolección de datos y construcción del dataset | ✓ | ✓ |  |  | Dataset v1 | Aumento de datos |
@@ -152,20 +152,21 @@ El proyecto se ejecuta en cuatro semestres. Los recursos de cómputo en campo se
 
 **Tabla 1.3 **Cronograma de actividades con hitos de decisión y planes de contingencia.
 
-El presupuesto se calcula por nodo (una colmena instrumentada) y se escala a tres meliponarios. El costo por nodo completo es de aproximadamente $3,737 MXN; el total del proyecto, incluyendo herramientas compartidas, asciende a cerca de $11,561 MXN (~$578 USD).
+El presupuesto se calcula por nodo (una colmena instrumentada) y se escala a tres meliponarios. El costo por nodo completo es de aproximadamente $2,577 MXN; el total del proyecto, incluyendo herramientas compartidas, asciende a cerca de $8,081 MXN (~$404 USD).
 
 | **Categoría** | **Semestre 1 (MXN)** | **Semestre 3 adicional (MXN)** |
 | --- | --- | --- |
-| Edge device | $250 | $1,210 (RPi4 + accesorios) |
+| Edge device | $250 | — |
 | Sensores (5, incl. IR doble haz) | $407 | — |
 | Almacenamiento | $120 | — |
+| Reloj de tiempo real (DS3231) | $50 | — |
 | Alimentación | $650 | $500 (LiPo + DC5521) |
 | Prototipado | $220 | — |
 | Protección física | $380 | — |
-| Subtotal por nodo | $2,027 | $1,710 |
-| Total por nodo completo | ~$3,737 MXN (~$187 USD) |  |
-| Hardware × 3 nodos | $11,211 | ~$561 USD |
+| Subtotal por nodo | $2,077 | $500 |
+| Total por nodo completo | ~$2,577 MXN (~$129 USD) |  |
+| Hardware × 3 nodos | $7,731 | ~$387 USD |
 | Herramientas (compartidas) | $350 | ~$18 USD |
-| Total del proyecto | ~$11,561 MXN | ~$578 USD |
+| Total del proyecto | ~$8,081 MXN | ~$404 USD |
 
 **Tabla 1.4 **Presupuesto del proyecto por nodo y total.

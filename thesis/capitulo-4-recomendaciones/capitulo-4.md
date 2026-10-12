@@ -2,7 +2,7 @@
 
 ## 4.1 Recomendaciones
 
-- Confirmar tempranamente la cobertura de conectividad en cada meliponario para decidir entre transmisión WiFi y respaldo local con sincronización diferida; de optarse por LoRa para telemetría, incorporar el módulo de radio y el gateway correspondientes al presupuesto.
+- Verificar en cada meliponario el alcance de la red WiFi local del nodo y la frecuencia de visitas para descargar los ciclos acumulados en la microSD.
 
 - Iniciar la fase de aclimatación e instrumentación con suficiente antelación al etiquetado, dado el período de adaptación de 2–4 semanas de la colonia (sección 2.6).
 

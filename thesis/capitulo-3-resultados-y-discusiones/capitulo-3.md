@@ -46,7 +46,7 @@ El artículo de referencia incluye además un módulo de visión computacional (
 
 - **Tamaño reducido del dataset inicial. **Mitigación: curvas de aprendizaje, data augmentation extensivo y reentrenamiento incremental.
 
-- **Autonomía energética. **RPi4 ~5 W → ~7.4 h con 10,000 mAh. Mitigación: muestreo periódico, detección de movimiento y panel solar 10–20 W.
+- **Autonomía energética. **Ciclos de 5 min activo / 55 min en deep sleep; autonomía por validar en banco. Mitigación: muestreo periódico, detección de movimiento y panel solar 10–20 W.
 
 ### 3.1.5 Validación de arquitectura con datos sintéticos
 

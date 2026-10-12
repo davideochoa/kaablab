@@ -77,7 +77,7 @@ El subsistema IoT cumple una función central: convertir el estado físico de la
 
 ### 2.3.1 Conexión de los sensores
 
-Todos los sensores convergen en un único nodo de borde (ESP32 DevKit V1), que concentra la adquisición y la primera etapa de transmisión. La heterogeneidad de la arquitectura obliga a convivir varios protocolos distintos en el mismo microcontrolador: 1-Wire para el DHT22, I²C para el SHT31 y el MPU6500 (que comparten bus con direcciones 0x44 y 0x68 sin conflicto), I²S para el micrófono digital INMP441, y GPIO digital para el sensor IR doble haz. Resistencias pull-up de 10 kΩ estabilizan la línea de datos del DHT22 y el bus I²C. La Figura 2.1 resume la conexión y la Tabla 2.3 detalla los protocolos y pines.
+Todos los sensores convergen en un único nodo de borde (ESP32 DevKit V1), que concentra la adquisición y la primera etapa de transmisión. La heterogeneidad de la arquitectura obliga a convivir varios protocolos distintos en el mismo microcontrolador: 1-Wire para el DHT22, I²C para el SHT31, el DS3231 y el MPU6500 (direcciones 0x44, 0x68 y 0x69, sin conflicto), I²S para el micrófono digital INMP441, y GPIO digital para el sensor IR doble haz. Resistencias pull-up de 10 kΩ estabilizan la línea de datos del DHT22 y el bus I²C. La Figura 2.1 resume la conexión y la Tabla 2.3 detalla los protocolos y pines.
 
 ![Figura 2.1](figuras/figura_2_1_conexion_sensores.svg)
 
@@ -96,10 +96,12 @@ Todos los sensores convergen en un único nodo de borde (ESP32 DevKit V1), que c
 | Contador IR doble haz | Haz B (principal) | GPIO27 |
 | Contador IR doble haz | Haz B (secundario) | GPIO33 |
 | MPU6500 (interrupción opcional) | INT (Ruta B, opcional) | GPIO13 |
+| Reloj DS3231 (I²C, 0x68) | SDA / SCL | GPIO21 / GPIO22 |
+| microSD (SPI/VSPI) | CS / MOSI / MISO / SCK | GPIO5 / GPIO23 / GPIO19 / GPIO18 |
 
 **Tabla 2.3 **Protocolos de comunicación y pines por sensor (ESP32 DevKit V1).
 
-Direcciones I²C del bus compartido: SHT31 en 0x44 u 0x45, MPU6500 en 0x68 u 0x69 — sin conflicto entre sí. Opcionalmente, si el muestreo por polling del bus I²C muestra pérdida de muestras en la prueba de banco, el MPU6500 puede operar además por interrupción data-ready, usando GPIO13 para la señal INT — sin conflicto con el resto del mapeo de pines.
+Direcciones I²C del bus compartido: SHT31 en 0x44, DS3231 en 0x68 y MPU6500 en 0x69 (AD0 a 3.3 V), sin conflicto entre sí. Opcionalmente, si el muestreo por polling del bus I²C muestra pérdida de muestras en la prueba de banco, el MPU6500 puede operar además por interrupción data-ready, usando GPIO13 para la señal INT — sin conflicto con el resto del mapeo de pines.
 
 ### 2.3.2 Disposición física en la colmena
 
@@ -111,7 +113,7 @@ El principio de instalación es no invasivo: solo las sondas de los sensores pen
 
 ### 2.3.3 Flujo del dato: de la captura al dataset
 
-El ESP32 opera en muestreo periódico (5 minutos activo / 55 dormido) para preservar autonomía. Cada ciclo escribe las lecturas en un buffer local en microSD y, cuando hay enlace disponible, las transmite de forma inalámbrica. Conviene una precisión de ingeniería: el audio solo puede viajar por WiFi, que ofrece ancho de banda suficiente; LoRa queda reservado para telemetría ambiental y de conteo IR ligera en sitios remotos sin cobertura. Por ello el diseño es inalámbrico con respaldo local: si no hay enlace, el dato espera en la microSD y se sincroniza de forma diferida. En el servidor, el meliponicultor etiqueta los registros por observación directa y se consolidan en el dataset (audio y vibración en Parquet; conteo IR y variables ambientales en series de tiempo estructuradas), publicado finalmente en Zenodo (Figura 2.3).
+El ESP32 opera en ciclos de 5 minutos activo / 55 en deep sleep y solo lee los sensores en crudo. Cada ciclo captura 10 ventanas (una cada 30 s): audio de 1 s a 16 kHz, vibración triaxial de 2 s a 1500 Hz, temperatura/humedad interna y externa y conteo IR, guardadas en microSD (audio y vibración en binario, metadatos en JSON) con marca de tiempo del DS3231. El ESP32 crea una red WiFi local sin internet; una app Android descarga por HTTP local los ciclos, aplica el pipeline (pre-énfasis, MFCC, fusión ponderada, descriptores de vibración y tráfico), ejecuta el modelo XGBoost exportado, muestra gráficas y alertas, guarda el histórico y permite etiquetar por observación directa. Sin servidor ni nube, el dataset se exporta manualmente a Zenodo cuando hay conexión (Figura 2.3).
 
 ![Figura 2.3](figuras/figura_2_3_flujo_datos.svg)
 
@@ -147,7 +149,7 @@ Antes de concatenar las variables ambientales, se convierte la humedad relativa 
 
 El sistema KaabLab para *M. beecheii* se organiza en cuatro capas funcionales, que expanden las tres del artículo de referencia con la adición de la capa de preprocesamiento:
 
-- **Capa ****IoT**** (instrumentación heterogénea): **SHT31 interno + DHT22 externo (temperatura/HR) + INMP441 (nivel acústico) + MPU6500 (vibración estructural) + sensor IR doble haz en piquera (conteo de tráfico) + ESP32 o Raspberry Pi 4 como edge device + batería LiPo 5,000–10,000 mAh + panel solar 5–10 W.
+- **Capa ****IoT**** (instrumentación heterogénea): **SHT31 interno + DHT22 externo (temperatura/HR) + INMP441 (nivel acústico) + MPU6500 (vibración estructural) + sensor IR doble haz en piquera (conteo de tráfico) + ESP32 como edge device + batería LiPo 5,000–10,000 mAh + panel solar 5–10 W.
 
 - **Capa de preprocesamiento: **fusión sensorial ponderada por confianza y contraste interno-externo (SHT31 + DHT22) → filtro de media móvil → pre-énfasis de audio (α = 0.97) → umbral RMS → normalización Z-score del vector completo.
 
@@ -161,9 +163,9 @@ El sistema KaabLab para *M. beecheii* se organiza en cuatro capas funcionales, q
 
 La instrumentación electrónica introducida en o cerca del nido no es neutra: puede alterar el mismo comportamiento que se busca monitorear. Se identifican cuatro vectores de interferencia potencial:
 
-1. **Campos electromagnéticos del ESP32/RPi (WiFi 2.4 GHz). **Riesgo teórico sobre la magnetorrecepción de las abejas, cuyo mecanismo sensorial podría verse afectado por campos electromagnéticos de radiofrecuencia cercanos al nido.
+1. **Campos electromagnéticos del ESP32 (WiFi 2.4 GHz). **Riesgo teórico sobre la magnetorrecepción de las abejas, cuyo mecanismo sensorial podría verse afectado por campos electromagnéticos de radiofrecuencia cercanos al nido.
 
-2. **Calor generado por el hardware (~5 W en la Raspberry Pi 4). **Puede alterar localmente el balance térmico de *M. beecheii*, especie termoconformadora cuyo rango de temperatura intranidal documentado es de 25.4-34.0°C, con media de 30.2°C (Moo-Valle et al., 2000).
+2. **Calor generado por el hardware. **Puede alterar localmente el balance térmico de *M. beecheii*, especie termoconformadora cuyo rango de temperatura intranidal documentado es de 25.4-34.0°C, con media de 30.2°C (Moo-Valle et al., 2000).
 
 3. **Vibraciones mecánicas del propio hardware. **Ventiladores, relés o vibración de componentes pueden contaminar las lecturas del MPU6500, introduciendo ruido no biológico en la señal de vibración estructural.
 

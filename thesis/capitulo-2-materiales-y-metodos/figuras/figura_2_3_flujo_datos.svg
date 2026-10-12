@@ -1,12 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 1480" width="1100" height="1480" font-family="Segoe UI, Arial, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 1370" width="1100" height="1370" font-family="Segoe UI, Arial, sans-serif">
   <title>Figura 2.3 — Flujo del dato desde la captura hasta el dataset</title>
-  <rect x="0" y="0" width="1100" height="1480" fill="#ffffff"/>
+  <rect x="0" y="0" width="1100" height="1370" fill="#ffffff"/>
 
   <text x="550" y="34" text-anchor="middle" font-size="20" font-weight="bold" fill="#1a1a1a">
     Flujo del dato desde la captura hasta el dataset
   </text>
   <text x="550" y="56" text-anchor="middle" font-size="12" fill="#555555">
-    KaabLab — sección 2.3.3, inalámbrico con respaldo local
+    KaabLab — sección 2.3.3, operación local en campo: sin servidor ni nube
   </text>
 
   <defs>
@@ -18,99 +18,120 @@
     </marker>
   </defs>
 
-  <!-- 1. ESP32 -->
-  <rect x="250" y="90" width="600" height="140" rx="8" fill="#eef3fb" stroke="#2c5aa0" stroke-width="2"/>
-  <text x="550" y="130" text-anchor="middle" font-size="16" font-weight="bold" fill="#1a1a1a">ESP32 — nodo de borde</text>
-  <text x="550" y="152" text-anchor="middle" font-size="11" fill="#555555">Muestreo periódico: 5 min activo / 55 min dormido</text>
-  <text x="550" y="169" text-anchor="middle" font-size="11" fill="#555555">(preserva autonomía energética)</text>
-  <text x="550" y="205" text-anchor="middle" font-size="10" fill="#777777">captura de las 4 modalidades: audio, vibración, ambientales, conteo IR</text>
+  <!-- 1. Sensores -->
+  <rect x="30" y="80" width="1040" height="140" rx="8" fill="#eefbf1" stroke="#227a3d" stroke-width="2"/>
+  <text x="550" y="108" text-anchor="middle" font-size="16" font-weight="bold" fill="#1a1a1a">Sensores</text>
 
-  <line x1="550" y1="230" x2="550" y2="286" stroke="#2c5aa0" stroke-width="2.2" marker-end="url(#arrowBlue)"/>
+  <rect x="50" y="124" width="188" height="78" rx="6" fill="#ffffff" stroke="#227a3d" stroke-width="1.5"/>
+  <text x="144" y="152" text-anchor="middle" font-size="12" font-weight="bold" fill="#1a1a1a">Temp/HR interna</text>
+  <text x="144" y="172" text-anchor="middle" font-size="10" fill="#555555">SHT31</text>
 
-  <!-- 2. Buffer local microSD -->
-  <rect x="250" y="290" width="600" height="120" rx="8" fill="#fffdf5" stroke="#7a5a30" stroke-width="2"/>
-  <text x="550" y="328" text-anchor="middle" font-size="15" font-weight="bold" fill="#1a1a1a">Buffer local en microSD</text>
-  <text x="550" y="348" text-anchor="middle" font-size="10.5" fill="#555555">Cada ciclo de muestreo escribe las lecturas localmente</text>
-  <text x="550" y="364" text-anchor="middle" font-size="10.5" fill="#555555">antes de intentar la transmisión</text>
+  <rect x="252" y="124" width="188" height="78" rx="6" fill="#ffffff" stroke="#227a3d" stroke-width="1.5"/>
+  <text x="346" y="152" text-anchor="middle" font-size="12" font-weight="bold" fill="#1a1a1a">Temp/HR externa</text>
+  <text x="346" y="172" text-anchor="middle" font-size="10" fill="#555555">DHT22</text>
 
-  <!-- Backup / retry loop -->
-  <path d="M850,335 L960,335 L960,400 L852,400" fill="none" stroke="#8a6d00" stroke-width="2" marker-end="url(#arrowGold)"/>
-  <rect x="855" y="290" width="215" height="118" rx="6" fill="#fff8e6" stroke="#8a6d00" stroke-width="1.5"/>
-  <text x="962" y="308" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#8a6d00">Sin enlace disponible</text>
-  <text x="962" y="323" text-anchor="middle" font-size="9" fill="#1a1a1a">El dato espera en la</text>
-  <text x="962" y="336" text-anchor="middle" font-size="9" fill="#1a1a1a">microSD y se sincroniza</text>
-  <text x="962" y="349" text-anchor="middle" font-size="9" fill="#1a1a1a">de forma diferida cuando</text>
-  <text x="962" y="362" text-anchor="middle" font-size="9" fill="#1a1a1a">vuelve a haber cobertura</text>
+  <rect x="454" y="124" width="188" height="78" rx="6" fill="#f2e9f7" stroke="#7a2ca0" stroke-width="1.5"/>
+  <text x="548" y="152" text-anchor="middle" font-size="12" font-weight="bold" fill="#1a1a1a">Audio aéreo</text>
+  <text x="548" y="172" text-anchor="middle" font-size="10" fill="#555555">INMP441</text>
 
-  <!-- Split to WiFi / LoRa -->
-  <line x1="500" y1="410" x2="305" y2="466" stroke="#2c5aa0" stroke-width="2" marker-end="url(#arrowBlue)"/>
-  <line x1="600" y1="410" x2="795" y2="466" stroke="#2c5aa0" stroke-width="2" marker-end="url(#arrowBlue)"/>
+  <rect x="656" y="124" width="188" height="78" rx="6" fill="#fdf0e4" stroke="#e08a3c" stroke-width="1.5"/>
+  <text x="750" y="152" text-anchor="middle" font-size="12" font-weight="bold" fill="#1a1a1a">Vibración estructural</text>
+  <text x="750" y="172" text-anchor="middle" font-size="10" fill="#555555">MPU6500 (3 ejes)</text>
 
-  <!-- 3a. WiFi -->
-  <rect x="140" y="470" width="330" height="140" rx="8" fill="#f2e9f7" stroke="#7a2ca0" stroke-width="2"/>
-  <text x="305" y="505" text-anchor="middle" font-size="14" font-weight="bold" fill="#1a1a1a">Transmisión WiFi</text>
-  <text x="305" y="524" text-anchor="middle" font-size="10" fill="#555555">Audio — requiere el ancho de</text>
-  <text x="305" y="538" text-anchor="middle" font-size="10" fill="#555555">banda suficiente que solo</text>
-  <text x="305" y="552" text-anchor="middle" font-size="10" fill="#555555">WiFi ofrece</text>
-  <text x="305" y="580" text-anchor="middle" font-size="9" fill="#7a2ca0">meliponario con cobertura WiFi</text>
+  <rect x="858" y="124" width="188" height="78" rx="6" fill="#fffdf5" stroke="#7a5a30" stroke-width="1.5"/>
+  <text x="952" y="152" text-anchor="middle" font-size="12" font-weight="bold" fill="#1a1a1a">Conteo IR</text>
+  <text x="952" y="172" text-anchor="middle" font-size="10" fill="#555555">doble haz en piquera</text>
 
-  <!-- 3b. LoRa -->
-  <rect x="630" y="470" width="330" height="140" rx="8" fill="#fdf0e4" stroke="#e08a3c" stroke-width="2"/>
-  <text x="795" y="505" text-anchor="middle" font-size="14" font-weight="bold" fill="#1a1a1a">Transmisión LoRa</text>
-  <text x="795" y="524" text-anchor="middle" font-size="10" fill="#555555">Variables ambientales y conteo IR —</text>
-  <text x="795" y="538" text-anchor="middle" font-size="10" fill="#555555">telemetría ligera</text>
-  <text x="795" y="558" text-anchor="middle" font-size="9" fill="#e08a3c">sitios remotos sin cobertura WiFi</text>
+  <line x1="550" y1="220" x2="550" y2="266" stroke="#2c5aa0" stroke-width="2.2" marker-end="url(#arrowBlue)"/>
 
-  <!-- Merge to Servidor -->
-  <line x1="305" y1="610" x2="500" y2="658" stroke="#2c5aa0" stroke-width="2" marker-end="url(#arrowBlue)"/>
-  <line x1="795" y1="610" x2="600" y2="658" stroke="#2c5aa0" stroke-width="2" marker-end="url(#arrowBlue)"/>
+  <!-- 2. ESP32 -->
+  <rect x="190" y="270" width="620" height="170" rx="8" fill="#eef3fb" stroke="#2c5aa0" stroke-width="2"/>
+  <text x="500" y="304" text-anchor="middle" font-size="16" font-weight="bold" fill="#1a1a1a">ESP32 — nodo de borde</text>
+  <text x="500" y="326" text-anchor="middle" font-size="11" fill="#555555">Solo lectura cruda: no calcula características ni fusión</text>
+  <text x="500" y="346" text-anchor="middle" font-size="11" fill="#555555">Ciclo: 5 min activo / 55 min en deep sleep</text>
+  <text x="500" y="372" text-anchor="middle" font-size="10.5" fill="#1a1a1a">10 ventanas por ciclo, una cada 30 s:</text>
+  <text x="500" y="390" text-anchor="middle" font-size="10" fill="#555555">audio 1 s a 16 kHz · vibración 2 s a 1500 Hz (3 ejes)</text>
+  <text x="500" y="406" text-anchor="middle" font-size="10" fill="#555555">temperatura/humedad interna y externa · conteo IR</text>
 
-  <!-- 4. Servidor -->
-  <rect x="250" y="660" width="600" height="110" rx="8" fill="#eef3fb" stroke="#2c5aa0" stroke-width="2"/>
-  <text x="550" y="700" text-anchor="middle" font-size="16" font-weight="bold" fill="#1a1a1a">Servidor</text>
-  <text x="550" y="722" text-anchor="middle" font-size="10.5" fill="#555555">Recepción y consolidación de los datos transmitidos</text>
+  <!-- RTC -->
+  <rect x="860" y="300" width="210" height="110" rx="6" fill="#fff8e6" stroke="#8a6d00" stroke-width="1.5"/>
+  <text x="965" y="328" text-anchor="middle" font-size="12" font-weight="bold" fill="#8a6d00">Reloj RTC DS3231</text>
+  <text x="965" y="348" text-anchor="middle" font-size="10" fill="#1a1a1a">bus I²C, dirección 0x68</text>
+  <text x="965" y="366" text-anchor="middle" font-size="10" fill="#1a1a1a">marca de tiempo</text>
+  <text x="965" y="382" text-anchor="middle" font-size="10" fill="#1a1a1a">de cada ventana</text>
+  <line x1="860" y1="355" x2="814" y2="355" stroke="#8a6d00" stroke-width="2" marker-end="url(#arrowGold)"/>
 
-  <line x1="550" y1="770" x2="550" y2="816" stroke="#2c5aa0" stroke-width="2.2" marker-end="url(#arrowBlue)"/>
+  <line x1="500" y1="440" x2="500" y2="486" stroke="#2c5aa0" stroke-width="2.2" marker-end="url(#arrowBlue)"/>
 
-  <!-- 5. Etiquetado -->
-  <rect x="250" y="820" width="600" height="130" rx="8" fill="#eefbf1" stroke="#227a3d" stroke-width="2"/>
-  <text x="550" y="858" text-anchor="middle" font-size="15" font-weight="bold" fill="#1a1a1a">Etiquetado por el meliponicultor</text>
-  <text x="550" y="878" text-anchor="middle" font-size="10.5" fill="#555555">Observación directa del estado de la colmena</text>
-  <text x="550" y="895" text-anchor="middle" font-size="9.5" fill="#777777">sujeto a disponibilidad y a la dificultad de observar ciertos estados</text>
+  <!-- 3. microSD -->
+  <rect x="190" y="490" width="620" height="110" rx="8" fill="#fffdf5" stroke="#7a5a30" stroke-width="2"/>
+  <text x="500" y="526" text-anchor="middle" font-size="15" font-weight="bold" fill="#1a1a1a">Almacenamiento en microSD</text>
+  <text x="500" y="548" text-anchor="middle" font-size="10.5" fill="#555555">Una entrada por ventana: audio y vibración en binario,</text>
+  <text x="500" y="564" text-anchor="middle" font-size="10.5" fill="#555555">metadatos en JSON con marca de tiempo</text>
 
-  <line x1="550" y1="950" x2="550" y2="996" stroke="#2c5aa0" stroke-width="2.2" marker-end="url(#arrowBlue)"/>
+  <line x1="500" y1="600" x2="500" y2="646" stroke="#2c5aa0" stroke-width="2.2" marker-end="url(#arrowBlue)"/>
 
-  <!-- 6. Dataset consolidado -->
-  <rect x="250" y="1000" width="600" height="160" rx="8" fill="#eef3fb" stroke="#2c5aa0" stroke-width="2"/>
-  <text x="550" y="1035" text-anchor="middle" font-size="15" font-weight="bold" fill="#1a1a1a">Dataset consolidado</text>
-  <text x="550" y="1057" text-anchor="middle" font-size="10.5" fill="#555555">Audio y vibración → formato Parquet</text>
-  <text x="550" y="1074" text-anchor="middle" font-size="10.5" fill="#555555">Conteo IR y variables ambientales → series de tiempo estructuradas</text>
-  <text x="550" y="1096" text-anchor="middle" font-size="9.5" fill="#777777">Partición 70/15/15 con estratificación por clase</text>
-  <text x="550" y="1112" text-anchor="middle" font-size="9.5" fill="#777777">Manejo de desbalance: pérdida ponderada, augmentation, SMOTE si &gt;1:10</text>
-  <text x="550" y="1128" text-anchor="middle" font-size="9.5" fill="#777777">Etiquetado indirecto del conteo IR por correlación con observación directa</text>
+  <!-- 4. Red WiFi local -->
+  <rect x="190" y="650" width="620" height="110" rx="8" fill="#f2e9f7" stroke="#7a2ca0" stroke-width="2"/>
+  <text x="500" y="686" text-anchor="middle" font-size="15" font-weight="bold" fill="#1a1a1a">Red WiFi local del ESP32</text>
+  <text x="500" y="708" text-anchor="middle" font-size="10.5" fill="#555555">Access Point abierto, sin internet</text>
+  <text x="500" y="724" text-anchor="middle" font-size="10.5" fill="#555555">descarga de los ciclos por HTTP local</text>
 
-  <line x1="550" y1="1160" x2="550" y2="1206" stroke="#2c5aa0" stroke-width="2.2" marker-end="url(#arrowBlue)"/>
+  <line x1="500" y1="760" x2="500" y2="806" stroke="#2c5aa0" stroke-width="2.2" marker-end="url(#arrowBlue)"/>
 
-  <!-- 7. Zenodo -->
-  <rect x="250" y="1210" width="600" height="110" rx="8" fill="#eefbf1" stroke="#227a3d" stroke-width="2"/>
-  <text x="550" y="1250" text-anchor="middle" font-size="16" font-weight="bold" fill="#1a1a1a">Publicación en Zenodo</text>
-  <text x="550" y="1272" text-anchor="middle" font-size="10.5" fill="#555555">Licencia CC BY 4.0 — dataset abierto al concluir</text>
+  <!-- 5. App Android -->
+  <rect x="30" y="810" width="1040" height="220" rx="8" fill="#eef3fb" stroke="#2c5aa0" stroke-width="2"/>
+  <text x="550" y="842" text-anchor="middle" font-size="16" font-weight="bold" fill="#1a1a1a">App Android (en campo, sin internet)</text>
 
-  <!-- Legend -->
-  <rect x="80" y="1360" width="14" height="14" fill="#f2e9f7" stroke="#7a2ca0" stroke-width="2"/>
-  <text x="100" y="1371" font-size="10.5" fill="#1a1a1a">Ruta WiFi (audio)</text>
+  <rect x="50" y="862" width="188" height="130" rx="6" fill="#ffffff" stroke="#2c5aa0" stroke-width="1.5"/>
+  <text x="144" y="890" text-anchor="middle" font-size="12" font-weight="bold" fill="#1a1a1a">Procesamiento</text>
+  <text x="144" y="912" text-anchor="middle" font-size="10" fill="#555555">pre-énfasis, MFCC</text>
+  <text x="144" y="928" text-anchor="middle" font-size="10" fill="#555555">fusión ponderada de</text>
+  <text x="144" y="944" text-anchor="middle" font-size="10" fill="#555555">temperatura/humedad</text>
+  <text x="144" y="960" text-anchor="middle" font-size="10" fill="#555555">descriptores de</text>
+  <text x="144" y="976" text-anchor="middle" font-size="10" fill="#555555">vibración y tráfico</text>
 
-  <rect x="320" y="1360" width="14" height="14" fill="#fdf0e4" stroke="#e08a3c" stroke-width="2"/>
-  <text x="340" y="1371" font-size="10.5" fill="#1a1a1a">Ruta LoRa (ambientales + IR, sitios remotos)</text>
+  <rect x="252" y="862" width="188" height="130" rx="6" fill="#ffffff" stroke="#227a3d" stroke-width="1.5"/>
+  <text x="346" y="890" text-anchor="middle" font-size="12" font-weight="bold" fill="#1a1a1a">Inferencia</text>
+  <text x="346" y="912" text-anchor="middle" font-size="10" fill="#555555">modelo XGBoost</text>
+  <text x="346" y="928" text-anchor="middle" font-size="10" fill="#555555">exportado</text>
 
-  <rect x="700" y="1360" width="14" height="14" fill="#fff8e6" stroke="#8a6d00" stroke-width="1.5"/>
-  <text x="720" y="1371" font-size="10.5" fill="#1a1a1a">Respaldo local si no hay enlace</text>
+  <rect x="454" y="862" width="188" height="130" rx="6" fill="#ffffff" stroke="#c0392b" stroke-width="1.5"/>
+  <text x="548" y="890" text-anchor="middle" font-size="12" font-weight="bold" fill="#1a1a1a">Gráficas y alertas</text>
+  <text x="548" y="912" text-anchor="middle" font-size="10" fill="#555555">estado de la colmena</text>
+
+  <rect x="656" y="862" width="188" height="130" rx="6" fill="#ffffff" stroke="#e08a3c" stroke-width="1.5"/>
+  <text x="750" y="890" text-anchor="middle" font-size="12" font-weight="bold" fill="#1a1a1a">Etiquetado</text>
+  <text x="750" y="912" text-anchor="middle" font-size="10" fill="#555555">observación directa</text>
+  <text x="750" y="928" text-anchor="middle" font-size="10" fill="#555555">del meliponicultor</text>
+
+  <rect x="858" y="862" width="188" height="130" rx="6" fill="#ffffff" stroke="#7a5a30" stroke-width="1.5"/>
+  <text x="952" y="890" text-anchor="middle" font-size="12" font-weight="bold" fill="#1a1a1a">Histórico local</text>
+  <text x="952" y="912" text-anchor="middle" font-size="10" fill="#555555">registros, resultados</text>
+  <text x="952" y="928" text-anchor="middle" font-size="10" fill="#555555">y etiquetas en el</text>
+  <text x="952" y="944" text-anchor="middle" font-size="10" fill="#555555">dispositivo</text>
+
+  <text x="550" y="1016" text-anchor="middle" font-size="10" fill="#555555">mismos pasos del pipeline de la sección 2.7, ejecutados en el teléfono</text>
+
+  <line x1="550" y1="1030" x2="550" y2="1096" stroke="#8a6d00" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#arrowGold)"/>
+  <text x="565" y="1068" font-size="10" fill="#8a6d00">posterior, cuando hay conexión</text>
+
+  <!-- 6. Zenodo -->
+  <rect x="250" y="1100" width="600" height="100" rx="8" fill="#fff8e6" stroke="#8a6d00" stroke-width="2"/>
+  <text x="550" y="1136" text-anchor="middle" font-size="15" font-weight="bold" fill="#1a1a1a">Exportación manual del dataset a Zenodo</text>
+  <text x="550" y="1158" text-anchor="middle" font-size="10.5" fill="#555555">publicación del dataset etiquetado, fuera de la operación en campo</text>
+
+  <!-- Leyenda -->
+  <line x1="200" y1="1252" x2="240" y2="1252" stroke="#2c5aa0" stroke-width="2.2" marker-end="url(#arrowBlue)"/>
+  <text x="250" y="1256" font-size="10.5" fill="#1a1a1a">Flujo local en campo (sin internet)</text>
+  <line x1="620" y1="1252" x2="660" y2="1252" stroke="#8a6d00" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#arrowGold)"/>
+  <text x="670" y="1256" font-size="10.5" fill="#1a1a1a">Paso manual posterior, con conexión</text>
 
   <!-- Footer -->
-  <text x="550" y="1410" text-anchor="middle" font-size="10" fill="#777777">
-    Diseño inalámbrico con respaldo local: si no hay enlace disponible, el dato espera en la microSD y se sincroniza de
+  <text x="550" y="1310" text-anchor="middle" font-size="10" fill="#777777">
+    El ESP32 no procesa la señal: el procesamiento, la inferencia y el etiquetado se hacen en la app Android.
   </text>
-  <text x="550" y="1425" text-anchor="middle" font-size="10" fill="#777777">
-    forma diferida cuando vuelve a haber cobertura, en lugar de perderse.
+  <text x="550" y="1325" text-anchor="middle" font-size="10" fill="#777777">
+    Sin servidor ni nube en la operación de campo.
   </text>
 </svg>
