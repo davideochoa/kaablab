@@ -267,8 +267,36 @@ def ensamblar(dir_png: Path, soffice: str) -> str:
         ruta = THESIS / c
         texto = normalizar_md(ruta.read_text(encoding="utf-8"))
         bloques.append(convertir_figuras(texto, ruta.parent, dir_png, soffice))
-    bloques.append(normalizar_md((THESIS / "referencias.md").read_text(encoding="utf-8")))
+    bloques.append(bibliografia())
     return "\n\n".join(b.strip() for b in bloques) + "\n"
+
+
+def bibliografia() -> str:
+    """Solo el encabezado y las entradas de referencias.md, sin notas de trabajo.
+
+    Se omiten la nota inicial ("Formato APA…"), el subtítulo y la introducción de la
+    sección "Referencias ya citadas…" y las remisiones ("Ver entrada arriba"); las
+    entradas de esa sección se integran a la lista en orden alfabético y cronológico.
+    """
+    texto = normalizar_md((THESIS / "referencias.md").read_text(encoding="utf-8"))
+    titulo = re.search(r"^# .*$", texto, flags=re.M).group(0)
+    entradas = []
+    for bloque in re.split(r"\n\s*\n", texto):
+        for linea in re.split(r"\n(?=- )", bloque.strip()):
+            linea = re.sub(r"^- ", "", linea.strip())
+            linea = re.sub(r"\s*\n\s*", " ", linea)
+            if (not linea or linea.startswith("#") or linea.startswith("Formato APA")
+                    or linea.startswith("Las siguientes referencias") or "Ver entrada arriba" in linea
+                    or not re.search(r"\(\d{4}[a-z]?\)", linea)):
+                continue
+            entradas.append(linea)
+
+    def clave(e):
+        autores = e.split("(", 1)[0]
+        apellido = autores.split(",", 1)[0].casefold()
+        anio = re.search(r"\((\d{4}[a-z]?)\)", e).group(1)
+        return (apellido, "&" in autores or "et al" in autores, anio, e.casefold())
+    return titulo + "\n\n" + "\n\n".join(sorted(entradas, key=clave))
 
 
 # ---------------------------------------------------------------- postproceso
@@ -301,7 +329,7 @@ def postprocesar(docx: Path):
                 zona = "bibliografia"
             if zona == "preliminar":  # RESUMEN, ABSTRACT, INTRODUCCIÓN, etc.: centrados
                 extra = '<w:jc w:val="center" />'
-                if txt.upper() == "INTRODUCCIÓN":
+                if txt.upper() in ("INTRODUCCIÓN", "ÍNDICE"):  # inician sección (ver paso 2)
                     extra = '<w:pageBreakBefore w:val="0" />' + extra
                 nuevo = nuevo.replace('<w:pStyle w:val="Heading1" />', '<w:pStyle w:val="Heading1" />' + extra, 1)
         elif re.match(r"^(Tabla|Figura) \d+\.\d+", txt) and "<w:b />" in p and '<w:pStyle w:val="TextoTabla" />' not in p:
@@ -315,22 +343,23 @@ def postprocesar(docx: Path):
     for ini, fin, nuevo in reversed(cambios):
         doc = doc[:ini] + nuevo + doc[fin:]
 
-    # 2) Salto de sección antes de INTRODUCCIÓN: romanos (i, ii…) antes, arábigos desde 1 después
+    # 2) Secciones de numeración: portada…agradecimientos sin número; ÍNDICE…ABSTRACT en
+    #    romanos desde i; INTRODUCCIÓN en adelante en arábigos desde 1
     sect = re.search(r"<w:sectPr>.*?</w:sectPr>(?=\s*</w:body>)", doc, flags=re.S)
     if not sect:
         sys.exit("No se encontró sectPr final en el documento")
     base = sect.group(0)
+    sin_numero = re.sub(r"<w:footerReference [^>]*/>", "", base)
     romano = re.sub(r"(<w:pgMar [^>]*/>)", r'\1<w:pgNumType w:fmt="lowerRoman" w:start="1" />', base)
     arabigo = re.sub(r"(<w:pgMar [^>]*/>)", r'\1<w:pgNumType w:fmt="decimal" w:start="1" />', base)
     doc = doc[:sect.start()] + arabigo + doc[sect.end():]
-    intro = None
-    for m in re.finditer(r"<w:p>(?:(?!</w:p>).)*?</w:p>", doc, flags=re.S):
-        if '<w:pStyle w:val="Heading1" />' in m.group(0) and _texto(m.group(0)).strip().upper() == "INTRODUCCIÓN":
-            intro = m
-            break
-    if not intro:
-        sys.exit("No se encontró el encabezado INTRODUCCIÓN")
-    doc = doc[:intro.start()] + f"<w:p><w:pPr>{romano}</w:pPr></w:p>" + doc[intro.start():]
+    for encabezado, sect_anterior in (("INTRODUCCIÓN", romano), ("ÍNDICE", sin_numero)):
+        ubic = next((m for m in re.finditer(r"<w:p>(?:(?!</w:p>).)*?</w:p>", doc, flags=re.S)
+                     if '<w:pStyle w:val="Heading1" />' in m.group(0)
+                     and _texto(m.group(0)).strip().upper() == encabezado), None)
+        if not ubic:
+            sys.exit(f"No se encontró el encabezado {encabezado}")
+        doc = doc[:ubic.start()] + f"<w:p><w:pPr>{sect_anterior}</w:pPr></w:p>" + doc[ubic.start():]
     partes["word/document.xml"] = doc.encode("utf-8")
 
     # 3) Pedir a Word que actualice campos (índice) al abrir
