@@ -7,7 +7,7 @@ Uso (desde la raíz del repo):
 Requiere: pandoc (>= 3) y LibreOffice (para convertir las figuras SVG a PNG).
 Solo usa la biblioteca estándar de Python. No modifica ningún archivo de thesis/:
 los .md se copian, se normalizan y se convierten en un directorio temporal.
-Salida: build/KaabLab_Tesis_borrador.docx
+Salida: build/KaabLab_Tesis_<VERSION>.docx
 """
 import argparse
 import os
@@ -19,11 +19,13 @@ import tempfile
 import zipfile
 from pathlib import Path
 
+VERSION = "v1.0"
+
 RAIZ = Path(__file__).resolve().parent.parent
 THESIS = RAIZ / "thesis"
 PRELIM = THESIS / "preliminares"
 PLANTILLA = RAIZ / "scripts" / "plantilla" / "referencia.docx"
-SALIDA = RAIZ / "build" / "KaabLab_Tesis_borrador.docx"
+SALIDA = RAIZ / "build" / f"KaabLab_Tesis_{VERSION}.docx"
 
 CAPITULOS = [
     "capitulo-1-antecedentes-planteamiento-objetivos/capitulo-1.md",
