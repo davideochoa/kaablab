@@ -1,6 +1,6 @@
 """Generador de vibración estructural (MPU6500, banda de interés 180-600 Hz).
-Componentes con fundamento físico: vuelo ~180-250 Hz y forrajeo/reclutamiento
-con fundamental ~300-600 Hz (Hrncir et al., 2000/2006/2008; ver
+Componentes con fundamento físico: vuelo ~180-250 Hz (Hrncir et al., 2008) y
+forrajeo/reclutamiento con fundamental ~300-600 Hz (Hrncir et al., 2000, 2006a; ver
 thesis/capitulo-1-antecedentes-planteamiento-objetivos/capitulo-1.md, 1.1.5e).
 Con FS_VIB = 1500 Hz (Nyquist 750 Hz, margen 1.25x sobre los 600 Hz) toda la
 banda de interés es capturable sin recorte; los componentes 220/380/460 Hz caen

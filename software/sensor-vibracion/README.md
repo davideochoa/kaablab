@@ -3,8 +3,8 @@
 Sensor de vibración estructural del sistema KaabLab. Vía este acelerómetro
 se busca capturar señales vibracionales relacionadas con comportamiento
 defensivo en *Melipona beecheii*, en la banda **300–600 Hz** reportada por
-Hrncir et al. (2006) para señalización vibracional en meliponinos (título
-completo pendiente de completar en `thesis/referencias.md`).
+Hrncir et al. (2000, 2006a) para señalización vibracional en meliponinos (ver
+`thesis/referencias.md`).
 
 Documento dirigido a nivel licenciatura en mecatrónica: se explican tanto
 los conceptos (Nyquist, DLPF, FIFO) como la configuración concreta.
@@ -34,15 +34,14 @@ la madera de la colmena**, esa aceleración captura la **vibración
 estructural** — el movimiento mecánico de la pared del nido cuando las
 abejas la excitan directamente golpeándola o presionándola con el cuerpo,
 a diferencia del sonido aéreo (variación de presión que viaja por el
-aire, captado por el INMP441 — ver `../sensor-audio/README.md`). Es la
-vía por la que *M. beecheii*, como el resto de los meliponinos, expresa
-señalización relacionada con el forrajeo y ciertos comportamientos
-sociales mediante vibración del sustrato (dos Santos et al., 2025).
+aire, captado por el INMP441 — ver `../sensor-audio/README.md`). En otros
+meliponinos del género *Melipona* la señalización de forrajeo se expresa
+por vibración de sustrato (Hrncir et al., 2000, 2006a); en *M. beecheii* no
+está documentada.
 
 **Rango de frecuencia objetivo: 300–600 Hz**, banda reportada por Hrncir
-et al. (2006) para señalización vibracional en meliponinos asociada al
-forrajeo/comunicación (título completo pendiente en
-`thesis/referencias.md`). Con el MPU6500 (acelerómetro con salida
+et al. (2000, 2006a) para señalización vibracional en meliponinos asociada al
+forrajeo/comunicación. Con el MPU6500 (acelerómetro con salida
 programable de hasta 4 kHz con el DLPF desactivado, sección 2.2) muestreado
 a 1500 Hz, el **Nyquist es 750 Hz**: la banda completa de 300–600 Hz queda
 cubierta con un margen de diseño de 1.25× sobre su límite superior
@@ -69,7 +68,7 @@ f_muestreo > 2 × f_señal_max
 
 Con Sample Rate = 100 Hz, la frecuencia máxima representable sin aliasing
 es 50 Hz (Nyquist = 100/2). La banda objetivo reportada por Hrncir et al.
-(2006) es **300–600 Hz** — muy por encima de esos 50 Hz. Con la
+(2000, 2006a) es **300–600 Hz** — muy por encima de esos 50 Hz. Con la
 configuración por defecto, cualquier vibración en esa banda aparecería
 como ruido de baja frecuencia (aliasing), no como la señal real.
 
@@ -270,9 +269,8 @@ configuración lista para cableado final en campo.
 
 ## Referencias
 
-- Hrncir, M., Jarau, S., Zucchi, R., & Barth, F. G. (2006). [Título
-  completo pendiente — comunicación y señalización vibracional en
-  Melipona]. Ver `thesis/referencias.md`.
+- Hrncir et al. (2006a, 2006b): ver las entradas completas en
+  `thesis/referencias.md`.
 - InvenSense. *MPU-6500 Product Specification*, Rev 1.1 (tasa de salida
   del acelerómetro hasta 4 kHz, DLPF programable 5–260 Hz, Tabla 2).
 - InvenSense. *MPU-6000 and MPU-6050 Register Map and Descriptions*

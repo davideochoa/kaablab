@@ -73,10 +73,22 @@ Temperatura, humedad y decibeles (nivel acústico de actividad).
 Establecer rangos de bajo a alto nivel en el Capítulo II.
 
 Umbrales provisionales de temperatura (confirmar con asesor):
-- < 28°C: alerta baja (brood development range, Roubik & Peralta 1983)
-- 28–33°C: rango óptimo
-- ≥ 34–35°C: alerta temprana (LT50 pupas, Macías-Macías et al. 2011)
-- ≥ 38–40°C: crítico (mortalidad de obreras)
+- Rango intranidal documentado: 25.4–34.0 °C, media 30.2 °C
+  (Moo-Valle et al., 2000, M. beecheii, Yucatán).
+- Crítico: 40 °C → 90 % de mortalidad de pupas y 40 % de obreras;
+  5 °C → 100 % de mortalidad de pupas (Macías-Macías et al., 2011,
+  vía Quezada-Euán, 2018).
+- < 28 °C: límite inferior de desarrollo de cría según Roubik y Peralta
+  (1983), en Melipona de Brasil (congénere, no M. beecheii); provisional,
+  no verificado contra el artículo original.
+- 28–33 °C (zona óptima): SIN FUENTE: valor de diseño provisional,
+  pendiente de confirmar con el asesor.
+- ≥ 38–40 °C: SIN FUENTE: valor de diseño provisional, pendiente de
+  confirmar con el asesor.
+
+Nota: todos los umbrales de temperatura están sujetos a confirmación del
+asesor. Se eliminó el umbral "≥ 34–35 °C: alerta temprana (LT50 pupas)":
+Macías-Macías et al. (2011) no reporta LT50 a esa temperatura.
 
 Umbrales provisionales de HR (confirmar con asesor):
 - < 60% HR: alerta baja
