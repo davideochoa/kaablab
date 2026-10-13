@@ -10,13 +10,13 @@ El artículo de referencia (Chin-Canché et al., 2026) es evidencia de código e
 
 ### 3.1.2 Repositorios públicos con código y datos
 
-- **GitHub: **github.com/guillermochin/kaablab-bee-congress-2026-figures
+- **GitHub: **Chin-Canché (2026)
 
-- **Zenodo****: **doi.org/10.5281/zenodo.19685877
+- **Zenodo****: **Chin-Canché (2026), https://doi.org/10.5281/zenodo.19685877
 
-- **VarroaDataset****: **doi.org/10.5281/zenodo.4085044 (CC BY 4.0)
+- **VarroaDataset****: **https://doi.org/10.5281/zenodo.4085044 (CC BY 4.0)
 
-- **BeeAudio**** Dataset: **kaggle.com — annajyang/beehive-sounds
+- **BeeAudio**** Dataset: **https://kaggle.com/datasets/annajyang/beehive-sounds
 
 ### 3.1.3 Análisis de transferibilidad del pipeline
 

@@ -2,7 +2,7 @@
 
 ## 1.1 Antecedentes
 
-El artículo de Chin-Canché et al. (2026) validó el pipeline KAABLAB sobre datos públicos de *Apis mellifera* en California. El módulo bioacústico alcanzó F1 ponderado = 0.933 (clasificación multiclase del estado de salud) y AUC-ROC = 0.9945 (detección de ausencia de reina). El módulo de visión alcanzó AUC-ROC = 0.969 con YOLOv8s. Los pipelines bee_audio_analysis y varroa_vision están disponibles en GitHub (github.com/guillermochin/kaablab-bee-congress-2026-figures) y Zenodo (doi.org/10.5281/zenodo.19685877).
+El artículo de Chin-Canché et al. (2026) validó el pipeline KAABLAB sobre datos públicos de *Apis mellifera* en California. El módulo bioacústico alcanzó F1 ponderado = 0.933 (clasificación multiclase del estado de salud) y AUC-ROC = 0.9945 (detección de ausencia de reina). El módulo de visión alcanzó AUC-ROC = 0.969 con YOLOv8s. Los pipelines bee_audio_analysis y varroa_vision están disponibles en GitHub y Zenodo (Chin-Canché, 2026; https://doi.org/10.5281/zenodo.19685877).
 
 Es importante destacar que ambos módulos fueron evaluados exclusivamente sobre conjuntos de datos públicos recolectados por terceros —el BeeAudio Dataset de Anna Yang (Kaggle, 2022) y el VarroaDataset de Schurischuster y Kampel (Zenodo, 2020)—, sin instrumentación propia de colmenas ni validación en condiciones reales de campo. El artículo no recolectó ningún dato nuevo: su contribución es metodológica, no empírica. Esta distinción es la que justifica estructuralmente la presente tesis.
 
@@ -129,7 +129,7 @@ La estrategia experimental organiza el trabajo en cuatro fases macro, distintas 
 
 ## 1.9 Planeación: recursos, cronograma y presupuesto
 
-El proyecto se ejecuta en cuatro semestres —propuesta de tesis (S1), desarrollo (S2), integración de hardware y revisión (S3) e implementación (S4)— y se encuentra en el tercero. Los recursos de cómputo en campo se basan en un edge device de bajo costo (ESP32 DevKit V1 con shield de expansión para coordinación y almacenamiento; el procesamiento y la inferencia se harán en una aplicación móvil), alimentación autónoma mediante power bank, batería LiPo y panel solar, y una arquitectura sensorial heterogénea de cinco sensores (temperatura/humedad interno, temperatura/humedad externo, sonido aéreo, vibración estructural e IR doble haz). La Tabla 1.3 presenta el cronograma con hitos de decisión y planes de contingencia; la Tabla 1.4 detalla el presupuesto por nodo y para los tres meliponarios instrumentados.
+El proyecto se ejecuta en cuatro semestres —propuesta de tesis (S1), desarrollo (S2), integración de hardware y revisión (S3) e implementación (S4)— y se encuentra en el tercero. Los recursos de cómputo en campo se basan en un edge device de bajo costo (ESP32 DevKit V1 que captura y almacena en microSD; el procesamiento y la inferencia se harán en una aplicación Android), alimentación autónoma mediante power bank, batería LiPo y panel solar, y una arquitectura sensorial heterogénea de cinco sensores (temperatura/humedad interno, temperatura/humedad externo, sonido aéreo, vibración estructural e IR doble haz). La Tabla 1.3 presenta el cronograma con hitos de decisión y planes de contingencia; la Tabla 1.4 detalla el presupuesto por nodo y para los tres meliponarios instrumentados.
 
 | **N°** | **Actividad** | **S1** | **S2** | **S3** | **S4** | **Hito / Entregable** | **Contingencia** |
 | --- | --- | --- | --- | --- | --- | --- | --- |
