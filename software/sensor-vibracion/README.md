@@ -3,7 +3,7 @@
 Sensor de vibración estructural del sistema KaabLab. Vía este acelerómetro
 se busca capturar señales vibracionales relacionadas con comportamiento
 defensivo en *Melipona beecheii*, en la banda **300–600 Hz** reportada por
-Hrncir et al. (2000, 2006a) para señalización vibracional en meliponinos (ver
+Hrncir et al. (2000, 2006) para señalización vibracional en meliponinos (ver
 `thesis/referencias.md`).
 
 Documento dirigido a nivel licenciatura en mecatrónica: se explican tanto
@@ -36,11 +36,11 @@ abejas la excitan directamente golpeándola o presionándola con el cuerpo,
 a diferencia del sonido aéreo (variación de presión que viaja por el
 aire, captado por el INMP441 — ver `../sensor-audio/README.md`). En otros
 meliponinos del género *Melipona* la señalización de forrajeo se expresa
-por vibración de sustrato (Hrncir et al., 2000, 2006a); en *M. beecheii* no
+por vibración de sustrato (Hrncir et al., 2000, 2006); en *M. beecheii* no
 está documentada.
 
 **Rango de frecuencia objetivo: 300–600 Hz**, banda reportada por Hrncir
-et al. (2000, 2006a) para señalización vibracional en meliponinos asociada al
+et al. (2000, 2006) para señalización vibracional en meliponinos asociada al
 forrajeo/comunicación. Con el MPU6500 (acelerómetro con salida
 programable de hasta 4 kHz con el DLPF desactivado, sección 2.2) muestreado
 a 1500 Hz, el **Nyquist es 750 Hz**: la banda completa de 300–600 Hz queda
@@ -68,7 +68,7 @@ f_muestreo > 2 × f_señal_max
 
 Con Sample Rate = 100 Hz, la frecuencia máxima representable sin aliasing
 es 50 Hz (Nyquist = 100/2). La banda objetivo reportada por Hrncir et al.
-(2000, 2006a) es **300–600 Hz** — muy por encima de esos 50 Hz. Con la
+(2000, 2006) es **300–600 Hz** — muy por encima de esos 50 Hz. Con la
 configuración por defecto, cualquier vibración en esa banda aparecería
 como ruido de baja frecuencia (aliasing), no como la señal real.
 
@@ -269,7 +269,7 @@ configuración lista para cableado final en campo.
 
 ## Referencias
 
-- Hrncir et al. (2006a, 2006b): ver las entradas completas en
+- Hrncir et al. (2006): ver la entrada completa en
   `thesis/referencias.md`.
 - InvenSense. *MPU-6500 Product Specification*, Rev 1.1 (tasa de salida
   del acelerómetro hasta 4 kHz, DLPF programable 5–260 Hz, Tabla 2).

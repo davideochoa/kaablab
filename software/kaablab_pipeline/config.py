@@ -25,9 +25,9 @@ TRAFFIC_PEAK_RATE = 8.0  # eventos/intervalo en el pico de actividad; valor de d
                          # calibrado con datos reales (gap documentado, sección 1.1.5d)
 
 # --- Vibración (MPU6500) ---
-# Banda de interés real: vuelo ~180-250 Hz (Hrncir et al., 2008),
+# Banda de interés real: vuelo ~180 Hz (Hrncir et al., 2008),
 # forrajeo/reclutamiento con fundamental ~300-600 Hz (Hrncir et al., 2000,
-# 2006a; ver
+# 2006; ver
 # thesis/capitulo-1-antecedentes-planteamiento-objetivos/capitulo-1.md, 1.1.5e).
 # FS_VIB = 1500 Hz es una elección de diseño dentro de la capacidad del
 # acelerómetro del MPU6500 (salida programable hasta 4000 Hz con el DLPF

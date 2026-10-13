@@ -14,7 +14,9 @@ Tabla 2.2 Arquitectura sensorial heterogénea: fabricante, principio físico, ra
 
 Tabla 2.3 Protocolos de comunicación y pines por sensor (ESP32 DevKit V1) .......... [pendiente]
 
-Tabla 2.4 Métricas de evaluación con umbrales objetivo y benchmarks de referencia .......... [pendiente]
+Tabla 2.4 Umbrales de referencia de temperatura y humedad para las alertas del sistema .......... [pendiente]
+
+Tabla 2.5 Métricas de evaluación con umbrales objetivo y benchmarks de referencia .......... [pendiente]
 
 Tabla 3.1 Análisis de transferibilidad del pipeline KAABLAB al dominio de *Melipona beecheii* .......... [pendiente]
 

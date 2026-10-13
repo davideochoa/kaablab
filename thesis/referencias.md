@@ -12,11 +12,7 @@ dos Santos, F. J., Bomfim, I. G. A., Cavalcante, M. C., Coelho, A. A. da P., & G
 
 Hrncir, M., Jarau, S., Zucchi, R., & Barth, F. G. (2000). Recruitment behavior in stingless bees, *Melipona scutellaris* and *M. quadrifasciata*. II. Possible mechanisms of communication. *Apidologie, 31*(1), 93–113. https://doi.org/10.1051/apido:2000109
 
-Hrncir, M., Barth, F. G., & Tautz, J. (2006a). Vibratory and airborne-sound signals in bee communication (Hymenoptera). In S. Drosopoulos & M. F. Claridge (Eds.), *Insect sounds and communication: Physiology, behaviour, ecology and evolution* (pp. 421–436). CRC Press.
-
-Hrncir, M., Schmidt, V. M., Schorkopf, D. L. P., Jarau, S., Zucchi, R., & Barth, F. G. (2006b). Vibrating the food receivers: A direct way of signal transmission in stingless bees (*Melipona seminigra*). *Journal of Comparative Physiology A, 192*(8), 879–887. https://doi.org/10.1007/s00359-006-0123-8
-
-<!-- Hrncir 2006a respalda los rangos de frecuencia (tabla de frecuencias principales por especie); 2006b respalda la transmisión por trofalaxis. Pendiente: confirmar en la lista de referencias de Quezada-Euán (2018), cap. 5, cuál se cita como "Hrncir et al. 2006" -->
+Hrncir, M., Barth, F. G., & Tautz, J. (2006). Vibratory and airborne-sound signals in bee communication (Hymenoptera). In S. Drosopoulos & M. F. Claridge (Eds.), *Insect sounds and communication: Physiology, behaviour, ecology and evolution* (pp. 421–436). CRC Press.
 
 Hrncir, M., Gravel, A.-I., Schorkopf, D. L. P., Schmidt, V. M., Zucchi, R., & Barth, F. G. (2008). Thoracic vibrations in stingless bees (*Melipona seminigra*): Resonances of the thorax influence vibrations associated with flight but not those associated with sound production. *Journal of Experimental Biology, 211*(5), 678–685. https://doi.org/10.1242/jeb.013920
 
