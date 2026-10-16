@@ -2,9 +2,13 @@
 
 Formato APA. Este archivo es la fuente de trabajo versionada; la conversión a `.bib` (BibTeX) para gestión de citas queda pendiente (ver `docs/REVISION_2026-09.md`).
 
-Chin-Canché, G. A., Ruíz-Canul, K. G., Grajales-Rodríguez, A. A., Guerrero-Mota, R. A., Noh-Valdéz, J. A., & Euan-Cupul, F. I. (2026). KAABLAB: Sistema AIoT para el monitoreo y detección temprana de anomalías en colonias de abejas [Apis mellifera]. Ciencia y Tecnología ITESCAM-Calkiní, X(X), XX–XX. [en prensa] GitHub: github.com/guillermochin/kaablab-bee-congress-2026-figures. Zenodo: https://doi.org/10.5281/zenodo.19685877
+Chin-Canché, G. A. (2026). *kaablab-bee-congress-2026-figures* [Software y conjunto de datos]. Zenodo. https://doi.org/10.5281/zenodo.19685877
 
-<!-- PENDIENTE: confirmar con los coautores el año, volumen, número y páginas definitivos antes de la versión final de la tesis — el documento fuente muestra inconsistencias entre el año de portada (2026) y las páginas internas (2024 / 2023;2(3):2-12), y volumen/número/páginas aparecen como marcadores de plantilla (X(X):XX-XX), señal de que el artículo está en prensa sin datos finales de publicación -->
+<!-- REVISAR CON COAUTORES: confirmar autoría completa, título del depósito, fecha de versión y licencia abriendo el DOI -->
+
+Chin-Canché, G. A., Ruíz-Canul, K. G., Grajales-Rodríguez, A. A., Guerrero-Mota, R. A., Noh-Valdéz, J. A., & Euan-Cupul, F. I. (2026). KAABLAB: Sistema AIoT para el monitoreo y detección temprana de anomalías en colonias de abejas. *Ciencia y Tecnología ITESCAM-Calkiní*, en prensa.
+
+<!-- REVISAR CON COAUTORES: confirmar año, volumen, número, páginas y DOI -->
 
 Cruz-López, L., Malo, E. A., Rojas, J. C., & Morgan, E. D. (2005). Chemical composition and stimulatory olfactory response of the mandibular gland secretion in *Melipona beecheii*. *Journal of Chemical Ecology, 31*(6), 1257-1268.
 
@@ -12,11 +16,7 @@ dos Santos, F. J., Bomfim, I. G. A., Cavalcante, M. C., Coelho, A. A. da P., & G
 
 Hrncir, M., Jarau, S., Zucchi, R., & Barth, F. G. (2000). Recruitment behavior in stingless bees, *Melipona scutellaris* and *M. quadrifasciata*. II. Possible mechanisms of communication. *Apidologie, 31*(1), 93–113. https://doi.org/10.1051/apido:2000109
 
-Hrncir, M., Barth, F. G., & Tautz, J. (2006a). Vibratory and airborne-sound signals in bee communication (Hymenoptera). In S. Drosopoulos & M. F. Claridge (Eds.), *Insect sounds and communication: Physiology, behaviour, ecology and evolution* (pp. 421–436). CRC Press.
-
-Hrncir, M., Schmidt, V. M., Schorkopf, D. L. P., Jarau, S., Zucchi, R., & Barth, F. G. (2006b). Vibrating the food receivers: A direct way of signal transmission in stingless bees (*Melipona seminigra*). *Journal of Comparative Physiology A, 192*(8), 879–887. https://doi.org/10.1007/s00359-006-0123-8
-
-<!-- Hrncir 2006a respalda los rangos de frecuencia (tabla de frecuencias principales por especie); 2006b respalda la transmisión por trofalaxis. Pendiente: confirmar en la lista de referencias de Quezada-Euán (2018), cap. 5, cuál se cita como "Hrncir et al. 2006" -->
+Hrncir, M., Barth, F. G., & Tautz, J. (2006). Vibratory and airborne-sound signals in bee communication (Hymenoptera). In S. Drosopoulos & M. F. Claridge (Eds.), *Insect sounds and communication: Physiology, behaviour, ecology and evolution* (pp. 421–436). CRC Press.
 
 Hrncir, M., Gravel, A.-I., Schorkopf, D. L. P., Schmidt, V. M., Zucchi, R., & Barth, F. G. (2008). Thoracic vibrations in stingless bees (*Melipona seminigra*): Resonances of the thorax influence vibrations associated with flight but not those associated with sound production. *Journal of Experimental Biology, 211*(5), 678–685. https://doi.org/10.1242/jeb.013920
 
@@ -36,16 +36,17 @@ Roubik, D. W. (2006). Stingless bee nesting biology. *Apidologie, 37*(2), 124–
 
 Roubik, D. W., & Peralta, F. J. A. (1983). Thermodynamics in nests of two *Melipona* species in Brazil. *Acta Amazonica, 13*, 453–466.
 
+Schurischuster, S., & Kampel, M. (2020). *VarroaDataset* [Data set]. Zenodo. https://doi.org/10.5281/zenodo.4085044
+
 Suárez Carvajal, Y. Y. (2025). Estimación del impacto de variables internas y ambientales en la vitalidad de las colonias de Melipona eburnea en Colombia, generando alertas tempranas que permitan optimizar el manejo y mejorar su bienestar [Trabajo de grado de maestría, Universidad Tecnológica de Pereira]. Facultad de Ingeniería Mecánica, Pereira, Colombia.
+
+Yang, A. (2022). *Beehive sounds* [Data set]. Kaggle. https://kaggle.com/datasets/annajyang/beehive-sounds
 
 ## Referencias ya citadas en el cuerpo de la tesis (no verificadas en esta revisión)
 
 Las siguientes referencias ya son citadas en los capítulos existentes pero no fueron parte del alcance de esta revisión (PASO 7); se listan aquí para que la compilación final de la bibliografía las incluya:
 
 - Cauich Kumul, R., Ruiz Ruiz, J. C., Ortíz Vázquez, E., & Segura Campos, M. R. (2015). Potencial antioxidante de la miel de *Melipona beecheii* y su relación con la salud: una revisión. *Nutrición Hospitalaria, 32*(4), 1432–1442. https://doi.org/10.3305/nh.2015.32.4.9312
-- Chin-Canché et al. (2026). Ver entrada arriba.
 - Ramírez-Miranda, I., Moguel-Ordóñez, Y., Acevedo-Fernández, J. J., & Betancur-Ancona, D. (2023). Calidad microbiológica y actividad antibacteriana de miel producida por Melipona beecheii en Yucatán, México. *Revista MVZ Córdoba, 28*(2), e3175. https://doi.org/10.21897/rmvz.3175
-- Schurischuster, S., & Kampel, M. (2020). VarroaDataset. Zenodo. https://doi.org/10.5281/zenodo.4085044
 - Uthoff, C., Homsi, M. N., & von Bergen, M. (2023). Acoustic and vibration monitoring of honeybee colonies for beekeeping-relevant aspects of presence of queen bee and swarming. *Computers and Electronics in Agriculture, 205*, 107589. https://doi.org/10.1016/j.compag.2022.107589
 - Villanueva-Gutiérrez, R., Roubik, D. W., Colli-Ucán, W., Güemez-Ricalde, F. J., & Buchmann, S. L. (2013). A critical view of colony losses in managed Mayan honey-making bees (Apidae: Meliponini) in the heart of Zona Maya. *Journal of the Kansas Entomological Society, 86*(4), 352–362. https://doi.org/10.2317/JKES130131.1
-- Yang, A. (2022). Beehive sounds [Dataset]. Kaggle. kaggle.com/datasets/annajyang/beehive-sounds

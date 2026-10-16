@@ -14,7 +14,7 @@ def extract_vibration(sig):
     return dict(
         vib_rms=float(np.sqrt(np.mean(sig ** 2))),
         vib_dom_freq=dom,
-        vib_e_150_250=band(150, 250),   # vuelo (180-250 Hz, con margen)
+        vib_e_150_250=band(150, 250),   # vuelo (~180 Hz, con margen)
         vib_e_250_400=band(250, 400),   # transición / armónicos bajos de forrajeo
         vib_e_400_600=band(400, 600),   # forrajeo intenso, hasta 600 Hz (Nyquist = 750 Hz)
         vib_var=float(np.var(sig)),

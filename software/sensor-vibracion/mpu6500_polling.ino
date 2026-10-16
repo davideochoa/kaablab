@@ -1,6 +1,6 @@
 /*
  * MPU6500 — Ruta A: polling con librería, muestreo a FS_VIB = 1500 Hz
- * KaabLab — vibración estructural, banda objetivo 300-600 Hz (Hrncir et al., 2000, 2006a)
+ * KaabLab — vibración estructural, banda objetivo 300-600 Hz (Hrncir et al., 2000, 2006)
  *
  * Ver README.md (secciones 2 y 3.1) para la justificación completa de esta
  * configuración antes de modificarla.

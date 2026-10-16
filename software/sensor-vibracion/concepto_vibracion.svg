@@ -67,7 +67,7 @@
   <text x="500" y="212" text-anchor="middle" font-size="11" fill="#8a3226" transform="rotate(0)">300–600 Hz</text>
   <text x="500" y="226" text-anchor="middle" font-size="9.5" fill="#8a3226">(forrajeo/comunicación,</text>
   <text x="500" y="238" text-anchor="middle" font-size="9.5" fill="#8a3226">Hrncir et al.,</text>
-  <text x="500" y="250" text-anchor="middle" font-size="9.5" fill="#8a3226">2000, 2006a)</text>
+  <text x="500" y="250" text-anchor="middle" font-size="9.5" fill="#8a3226">2000, 2006)</text>
 
   <!-- limite Nyquist 750 Hz (FS_VIB = 1500 Hz) -->
   <line x1="580" y1="150" x2="580" y2="330" stroke="#8a6d00" stroke-width="2" stroke-dasharray="6,4"/>

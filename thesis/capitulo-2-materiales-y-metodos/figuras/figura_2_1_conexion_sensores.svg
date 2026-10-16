@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 1320" width="1500" height="1320" font-family="Segoe UI, Arial, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 1750" width="1500" height="1750" font-family="Segoe UI, Arial, sans-serif">
   <title>Figura 2.1 — Conexión de los sensores al nodo de borde</title>
-  <rect x="0" y="0" width="1500" height="1320" fill="#ffffff"/>
+  <rect x="0" y="0" width="1500" height="1750" fill="#ffffff"/>
 
   <text x="750" y="34" text-anchor="middle" font-size="20" font-weight="bold" fill="#1a1a1a">
     Conexión de los sensores al nodo de borde
@@ -34,7 +34,7 @@
   <text x="280" y="412" text-anchor="end" font-size="13" fill="#1a1a1a">GPIO32 (SD)</text>
 
   <!-- I2C group -->
-  <text x="280" y="444" text-anchor="end" font-size="10" fill="#2c5aa0">— Bus I²C compartido (SHT31 + MPU6050) —</text>
+  <text x="280" y="444" text-anchor="end" font-size="10" fill="#2c5aa0">— Bus I²C (SHT31 + MPU6050 + DS3231) —</text>
 
   <circle cx="292" cy="465" r="4" fill="#2c5aa0"/>
   <text x="280" y="470" text-anchor="end" font-size="13" fill="#1a1a1a">GPIO21 (SDA)</text>
@@ -68,6 +68,21 @@
 
   <circle cx="292" cy="871" r="4" fill="#7a2ca0"/>
   <text x="280" y="876" text-anchor="end" font-size="13" fill="#1a1a1a">GPIO33 (Haz B sec.)</text>
+
+  <!-- SPI group (microSD) -->
+  <text x="280" y="908" text-anchor="end" font-size="10" fill="#1a7f8a">— SPI/VSPI (microSD) —</text>
+
+  <circle cx="292" cy="929" r="4" fill="#1a7f8a"/>
+  <text x="280" y="934" text-anchor="end" font-size="13" fill="#1a1a1a">GPIO5 (CS)</text>
+
+  <circle cx="292" cy="987" r="4" fill="#1a7f8a"/>
+  <text x="280" y="992" text-anchor="end" font-size="13" fill="#1a1a1a">GPIO23 (MOSI)</text>
+
+  <circle cx="292" cy="1045" r="4" fill="#1a7f8a"/>
+  <text x="280" y="1050" text-anchor="end" font-size="13" fill="#1a1a1a">GPIO19 (MISO)</text>
+
+  <circle cx="292" cy="1103" r="4" fill="#1a7f8a"/>
+  <text x="280" y="1108" text-anchor="end" font-size="13" fill="#1a1a1a">GPIO18 (SCK)</text>
 
   <!-- ===================== INMP441 box ===================== -->
   <rect x="1120" y="110" width="320" height="200" rx="8" fill="#eefbf1" stroke="#227a3d" stroke-width="2"/>
@@ -138,6 +153,36 @@
   <circle cx="1128" cy="1130" r="4" fill="#7a2ca0"/>
   <text x="1145" y="1135" font-size="13" fill="#1a1a1a">OUT — Haz B secundario</text>
 
+  <!-- ===================== DS3231 box ===================== -->
+  <rect x="1120" y="1200" width="320" height="150" rx="8" fill="#eefbf1" stroke="#227a3d" stroke-width="2"/>
+  <text x="1280" y="1228" text-anchor="middle" font-size="15" font-weight="bold" fill="#1a1a1a">DS3231</text>
+  <text x="1280" y="1245" text-anchor="middle" font-size="11" fill="#555555">reloj de tiempo real (RTC) — I²C 0x68</text>
+  <text x="1135" y="1272" font-size="10.5" fill="#555555">Alimentación: VCC 3.3V, GND (común)</text>
+
+  <circle cx="1128" cy="1300" r="4" fill="#2c5aa0"/>
+  <text x="1145" y="1305" font-size="13" fill="#1a1a1a">SDA</text>
+
+  <circle cx="1128" cy="1330" r="4" fill="#2c5aa0"/>
+  <text x="1145" y="1335" font-size="13" fill="#1a1a1a">SCL</text>
+
+  <!-- ===================== microSD box ===================== -->
+  <rect x="1120" y="1380" width="320" height="210" rx="8" fill="#eefbf1" stroke="#227a3d" stroke-width="2"/>
+  <text x="1280" y="1408" text-anchor="middle" font-size="15" font-weight="bold" fill="#1a1a1a">microSD</text>
+  <text x="1280" y="1425" text-anchor="middle" font-size="11" fill="#555555">almacenamiento local — SPI/VSPI</text>
+  <text x="1135" y="1452" font-size="10.5" fill="#555555">Alimentación: VCC 3.3V, GND (común)</text>
+
+  <circle cx="1128" cy="1480" r="4" fill="#1a7f8a"/>
+  <text x="1145" y="1485" font-size="13" fill="#1a1a1a">CS</text>
+
+  <circle cx="1128" cy="1510" r="4" fill="#1a7f8a"/>
+  <text x="1145" y="1515" font-size="13" fill="#1a1a1a">MOSI</text>
+
+  <circle cx="1128" cy="1540" r="4" fill="#1a7f8a"/>
+  <text x="1145" y="1545" font-size="13" fill="#1a1a1a">MISO</text>
+
+  <circle cx="1128" cy="1570" r="4" fill="#1a7f8a"/>
+  <text x="1145" y="1575" font-size="13" fill="#1a1a1a">SCK</text>
+
   <!-- ===================== Connections (signal pins only) ===================== -->
   <!-- I2S -> INMP441 -->
   <line x1="300" y1="291" x2="1120" y2="230" stroke="#7a2ca0" stroke-width="1.8"/>
@@ -164,40 +209,53 @@
   <line x1="300" y1="813" x2="1120" y2="1105" stroke="#227a3d" stroke-width="1.8"/>
   <line x1="300" y1="871" x2="1120" y2="1130" stroke="#7a2ca0" stroke-width="1.8"/>
 
+  <!-- I2C -> DS3231 (bus compartido, mismo origen) -->
+  <line x1="300" y1="465" x2="1120" y2="1300" stroke="#2c5aa0" stroke-width="1.8"/>
+  <line x1="300" y1="523" x2="1120" y2="1330" stroke="#2c5aa0" stroke-width="1.8"/>
+
+  <!-- SPI -> microSD -->
+  <line x1="300" y1="929" x2="1120" y2="1480" stroke="#1a7f8a" stroke-width="1.8"/>
+  <line x1="300" y1="987" x2="1120" y2="1510" stroke="#1a7f8a" stroke-width="1.8"/>
+  <line x1="300" y1="1045" x2="1120" y2="1540" stroke="#1a7f8a" stroke-width="1.8"/>
+  <line x1="300" y1="1103" x2="1120" y2="1570" stroke="#1a7f8a" stroke-width="1.8"/>
+
   <!-- Bus junction dots (fan-out I2C) -->
   <circle cx="300" cy="465" r="4" fill="#2c5aa0"/>
   <circle cx="300" cy="523" r="4" fill="#2c5aa0"/>
 
   <!-- ===================== Legend ===================== -->
-  <rect x="40" y="1210" width="14" height="14" fill="#2c5aa0"/>
-  <text x="60" y="1221" font-size="10.5" fill="#1a1a1a">I²C compartido (SHT31 + MPU6050)</text>
+  <rect x="40" y="1630" width="14" height="14" fill="#2c5aa0"/>
+  <text x="60" y="1641" font-size="10.5" fill="#1a1a1a">I²C compartido (SHT31 + MPU6050 + DS3231)</text>
 
-  <rect x="330" y="1210" width="14" height="14" fill="#7a2ca0"/>
-  <text x="350" y="1221" font-size="10.5" fill="#1a1a1a">I²S (INMP441) / Haz B secundario (IR)</text>
+  <rect x="330" y="1630" width="14" height="14" fill="#7a2ca0"/>
+  <text x="350" y="1641" font-size="10.5" fill="#1a1a1a">I²S (INMP441) / Haz B secundario (IR)</text>
 
-  <rect x="680" y="1210" width="14" height="14" fill="#c0392b"/>
-  <text x="700" y="1221" font-size="10.5" fill="#1a1a1a">1-Wire (DHT22) / Haz A principal (IR)</text>
+  <rect x="680" y="1630" width="14" height="14" fill="#c0392b"/>
+  <text x="700" y="1641" font-size="10.5" fill="#1a1a1a">1-Wire (DHT22) / Haz A principal (IR)</text>
 
-  <rect x="1030" y="1210" width="14" height="14" fill="#e08a3c"/>
-  <text x="1050" y="1221" font-size="10.5" fill="#1a1a1a">Haz A secundario (IR)</text>
+  <rect x="1030" y="1630" width="14" height="14" fill="#e08a3c"/>
+  <text x="1050" y="1641" font-size="10.5" fill="#1a1a1a">Haz A secundario (IR)</text>
 
-  <rect x="40" y="1235" width="14" height="14" fill="#227a3d"/>
-  <text x="60" y="1246" font-size="10.5" fill="#1a1a1a">Alimentación / Haz B principal (IR)</text>
+  <rect x="40" y="1655" width="14" height="14" fill="#227a3d"/>
+  <text x="60" y="1666" font-size="10.5" fill="#1a1a1a">Alimentación / Haz B principal (IR)</text>
 
-  <rect x="330" y="1235" width="14" height="14" fill="#8a6d00"/>
-  <text x="350" y="1246" font-size="10.5" fill="#1a1a1a">INT — MPU6050, Ruta B (opcional, punteado)</text>
+  <rect x="330" y="1655" width="14" height="14" fill="#8a6d00"/>
+  <text x="350" y="1666" font-size="10.5" fill="#1a1a1a">INT — MPU6050, Ruta B (opcional, punteado)</text>
 
-  <rect x="680" y="1235" width="14" height="14" fill="#555555"/>
-  <text x="700" y="1246" font-size="10.5" fill="#1a1a1a">GND común</text>
+  <rect x="680" y="1655" width="14" height="14" fill="#555555"/>
+  <text x="700" y="1666" font-size="10.5" fill="#1a1a1a">GND común</text>
+
+  <rect x="1030" y="1655" width="14" height="14" fill="#1a7f8a"/>
+  <text x="1050" y="1666" font-size="10.5" fill="#1a1a1a">SPI/VSPI (microSD)</text>
 
   <!-- ===================== Footer note ===================== -->
-  <text x="750" y="1275" text-anchor="middle" font-size="10" fill="#777777">
-    Alimentación (3V3/GND) común a los 5 sensores; se omite como línea individual por claridad — ver el diagrama de cada
+  <text x="750" y="1695" text-anchor="middle" font-size="10" fill="#777777">
+    Alimentación (3V3/GND) común a los 5 sensores, el DS3231 y la microSD; se omite como línea individual por claridad — ver el diagrama de cada
   </text>
-  <text x="750" y="1290" text-anchor="middle" font-size="10" fill="#777777">
+  <text x="750" y="1710" text-anchor="middle" font-size="10" fill="#777777">
     sensor en software/sensor-*/diagrama_conexion.svg para el detalle completo de alimentación y pull-ups.
   </text>
-  <text x="750" y="1305" text-anchor="middle" font-size="10" fill="#777777">
+  <text x="750" y="1725" text-anchor="middle" font-size="10" fill="#777777">
     GPIO13 (INT, Ruta B opcional del MPU6050) no choca con GPIO4 (DATA del DHT22) — ver Tabla 2.3.
   </text>
 </svg>

@@ -19,7 +19,7 @@ Una contribución de diseño original de esta tesis es la arquitectura sensorial
 | Temp + HR interna | SHT31 | Capacitivo de película polimérica | 0–100% HR · ±2% HR | Interno primario | Autocalibración >80–85% HR · requiere I²C |
 | Temp + HR externa | DHT22 | Capacitivo higroscópico | 0–80% HR · −40–80 °C | Externo secundario | Degrada sin recuperación a HR sostenida alta · histéresis |
 | Nivel acústico / vitalidad | INMP441 | MEMS capacitivo | 60 Hz–15 kHz | Estado general de la colonia | Capta sonido aéreo; no capta vibración de sustrato |
-| Vibración estructural / defensivo | MPU6500 | Acelerómetro MEMS | 180–600 Hz (vuelo 180–250 + forrajeo 300–600; muestreo a 1.5 kHz, Nyquist 750 Hz, sin recorte) | Comportamiento defensivo (sustrato) | Requiere contacto con madera |
+| Vibración estructural / defensivo | MPU6500 | Acelerómetro MEMS | 180–600 Hz (vuelo ~180 + forrajeo 300–600; muestreo de diseño a 1.5 kHz, Nyquist 750 Hz, sin recorte) | Comportamiento defensivo (sustrato) | Requiere contacto con madera |
 | Conteo de tráfico | IR doble haz | Módulo integrado FC-51/KY-033 (LED 940 nm + fototransistor + comparador LM393), 4 módulos / 2 pares | Direccional (entrada/salida) | Proxy de forrajeo y vitalidad | Sensible a luz solar directa sin filtro; distancia mínima de detección (20–300 mm) mayor al diámetro del tubo (~15 mm), pendiente de validar |
 
 **Tabla 2.2 **Arquitectura sensorial heterogénea: fabricante, principio físico, rango, rol y limitación por sensor.
@@ -38,9 +38,9 @@ La separación física interno/externo convierte la comparación entre ambos sen
 
 ### 2.2.2 Fundamento físico del INMP441 y el MPU6500 como sensores complementarios
 
-El INMP441 es un micrófono MEMS (Micro-Electro-Mechanical System). Contiene una membrana muy delgada que vibra con las variaciones de presión del aire (sonido aéreo). Esa vibración modifica la capacitancia entre la membrana y una placa fija, y el circuito convierte esa variación en voltaje. Su rango frecuencial efectivo es aproximadamente 60 Hz–15 kHz (Suárez Carvajal, 2025), lo que lo hace adecuado para captar el **nivel acústico general y el estado de vitalidad de la colonia** —no el comportamiento defensivo—, pero no registra la vibración de sustrato del nido (sí su componente de sonido aéreo) en el rango de 180–600 Hz (vuelo ~180–250 Hz, Hrncir et al., 2008; forrajeo/reclutamiento ~300–600 Hz, Hrncir et al., 2000, 2006a).
+El INMP441 es un micrófono MEMS (Micro-Electro-Mechanical System). Contiene una membrana muy delgada que vibra con las variaciones de presión del aire (sonido aéreo). Esa vibración modifica la capacitancia entre la membrana y una placa fija, y el circuito convierte esa variación en voltaje. Su rango frecuencial efectivo es aproximadamente 60 Hz–15 kHz (Suárez Carvajal, 2025), lo que lo hace adecuado para captar el **nivel acústico general y el estado de vitalidad de la colonia** —no el comportamiento defensivo—, pero no registra la vibración de sustrato del nido (sí su componente de sonido aéreo) en el rango de 180–600 Hz (vuelo ~180 Hz, Hrncir et al., 2008; forrajeo/reclutamiento ~300–600 Hz, Hrncir et al., 2000, 2006).
 
-En otros meliponinos se ha descrito el comportamiento defensivo mediante vibración del sustrato del nido (dos Santos et al., 2025); en *M. beecheii* no está documentado. El comportamiento defensivo de *M. beecheii*, por tanto, no está caracterizado acústicamente y no puede inferirse confiablemente a partir del INMP441 sin datos propios; su rol en esta arquitectura se limita al nivel acústico como proxy de vitalidad y actividad general de la colonia. El MPU6500 es un acelerómetro MEMS de 6 ejes (3 de aceleración + 3 de giroscopio), montado en contacto directo con la madera de la colmena, que captura el rango de vibración estructural de 180–600 Hz (vuelo ~180–250 Hz, forrajeo/reclutamiento ~300–600 Hz) donde, en esos grupos, ocurre la señalización defensiva. Con el filtro digital desactivado, su salida del acelerómetro es programable hasta 4 kHz; el firmware muestrea a 1.5 kHz (Nyquist de 750 Hz, con un margen de diseño de 1.25× sobre el límite superior de 600 Hz de la banda), por lo que la banda completa se captura sin recorte. Los dos sensores son físicamente complementarios y cubren fenómenos distintos: el INMP441 aporta nivel acústico/vitalidad; el MPU6500 aporta comportamiento defensivo vía vibración estructural.
+En otros meliponinos se ha descrito el comportamiento defensivo mediante vibración del sustrato del nido (dos Santos et al., 2025); en *M. beecheii* no está documentado. El comportamiento defensivo de *M. beecheii*, por tanto, no está caracterizado acústicamente y no puede inferirse confiablemente a partir del INMP441 sin datos propios; su rol en esta arquitectura se limita al nivel acústico como proxy de vitalidad y actividad general de la colonia. El MPU6500 es un acelerómetro MEMS de 6 ejes (3 de aceleración + 3 de giroscopio), montado en contacto directo con la madera de la colmena, que captura el rango de vibración estructural de 180–600 Hz (vuelo ~180 Hz, forrajeo/reclutamiento ~300–600 Hz) donde, en esos grupos, ocurre la señalización defensiva. Con el filtro digital desactivado, su salida del acelerómetro es programable hasta 4 kHz; el firmware se diseñó para muestrear a 1.5 kHz (Nyquist de 750 Hz, con un margen de diseño de 1.25× sobre el límite superior de 600 Hz de la banda), lo que cubriría la banda completa sin recorte (por validar en banco). Los dos sensores son físicamente complementarios y cubren fenómenos distintos: el INMP441 aporta nivel acústico/vitalidad; el MPU6500 aporta comportamiento defensivo vía vibración estructural.
 
 ### 2.2.3 Sensor IR doble haz — conteo de tráfico en piquera
 
@@ -77,7 +77,7 @@ El subsistema IoT cumple una función central: convertir el estado físico de la
 
 ### 2.3.1 Conexión de los sensores
 
-Todos los sensores convergen en un único nodo de borde (ESP32 DevKit V1), que concentra la adquisición y la primera etapa de transmisión. La heterogeneidad de la arquitectura obliga a convivir varios protocolos distintos en el mismo microcontrolador: 1-Wire para el DHT22, I²C para el SHT31 y el MPU6500 (que comparten bus con direcciones 0x44 y 0x68 sin conflicto), I²S para el micrófono digital INMP441, y GPIO digital para el sensor IR doble haz. Resistencias pull-up de 10 kΩ estabilizan la línea de datos del DHT22 y el bus I²C. La Figura 2.1 resume la conexión y la Tabla 2.3 detalla los protocolos y pines.
+Todos los sensores convergen en un único nodo de borde (ESP32 DevKit V1), que concentra la adquisición y la primera etapa de transmisión. La heterogeneidad de la arquitectura obliga a convivir varios protocolos distintos en el mismo microcontrolador: 1-Wire para el DHT22, I²C para el SHT31, el DS3231 y el MPU6500 (direcciones 0x44, 0x68 y 0x69, sin conflicto), I²S para el micrófono digital INMP441, y GPIO digital para el sensor IR doble haz. Resistencias pull-up de 10 kΩ estabilizan la línea de datos del DHT22 y el bus I²C. La Figura 2.1 resume la conexión y la Tabla 2.3 detalla los protocolos y pines.
 
 ![Figura 2.1](figuras/figura_2_1_conexion_sensores.svg)
 
@@ -96,10 +96,12 @@ Todos los sensores convergen en un único nodo de borde (ESP32 DevKit V1), que c
 | Contador IR doble haz | Haz B (principal) | GPIO27 |
 | Contador IR doble haz | Haz B (secundario) | GPIO33 |
 | MPU6500 (interrupción opcional) | INT (Ruta B, opcional) | GPIO13 |
+| Reloj DS3231 (I²C, 0x68) | SDA / SCL | GPIO21 / GPIO22 |
+| microSD (SPI/VSPI) | CS / MOSI / MISO / SCK | GPIO5 / GPIO23 / GPIO19 / GPIO18 |
 
 **Tabla 2.3 **Protocolos de comunicación y pines por sensor (ESP32 DevKit V1).
 
-Direcciones I²C del bus compartido: SHT31 en 0x44 u 0x45, MPU6500 en 0x68 u 0x69 — sin conflicto entre sí. Opcionalmente, si el muestreo por polling del bus I²C muestra pérdida de muestras en la prueba de banco, el MPU6500 puede operar además por interrupción data-ready, usando GPIO13 para la señal INT — sin conflicto con el resto del mapeo de pines.
+Direcciones I²C del bus compartido: SHT31 en 0x44, DS3231 en 0x68 y MPU6500 en 0x69 (AD0 a 3.3 V), sin conflicto entre sí. Opcionalmente, si el muestreo por polling del bus I²C muestra pérdida de muestras en la prueba de banco, el MPU6500 puede operar además por interrupción data-ready, usando GPIO13 para la señal INT — sin conflicto con el resto del mapeo de pines.
 
 ### 2.3.2 Disposición física en la colmena
 
@@ -111,7 +113,7 @@ El principio de instalación es no invasivo: solo las sondas de los sensores pen
 
 ### 2.3.3 Flujo del dato: de la captura al dataset
 
-El ESP32 opera en muestreo periódico (5 minutos activo / 55 dormido) para preservar autonomía. Cada ciclo escribe las lecturas en un buffer local en microSD y, cuando hay enlace disponible, las transmite de forma inalámbrica. Conviene una precisión de ingeniería: el audio solo puede viajar por WiFi, que ofrece ancho de banda suficiente; LoRa queda reservado para telemetría ambiental y de conteo IR ligera en sitios remotos sin cobertura. Por ello el diseño es inalámbrico con respaldo local: si no hay enlace, el dato espera en la microSD y se sincroniza de forma diferida. En el servidor, el meliponicultor etiqueta los registros por observación directa y se consolidan en el dataset (audio y vibración en Parquet; conteo IR y variables ambientales en series de tiempo estructuradas), publicado finalmente en Zenodo (Figura 2.3).
+El ESP32 opera en ciclos de 5 minutos activo / 55 en deep sleep y solo lee los sensores en crudo. Cada ciclo captura 10 ventanas (una cada 30 s): audio de 1 s a 16 kHz, vibración triaxial de 2 s a 1500 Hz, temperatura/humedad interna y externa y conteo IR, guardadas en microSD (audio y vibración en binario, metadatos en JSON) con marca de tiempo del DS3231. El ESP32 crea una red WiFi local sin internet; una app Android (por desarrollar) descargará por HTTP local los ciclos, aplicará el pipeline (pre-énfasis, MFCC, fusión ponderada, descriptores de vibración y tráfico), ejecutará el modelo XGBoost exportado, mostrará gráficas y alertas, guardará el histórico y permitirá etiquetar por observación directa. Sin servidor ni nube, el dataset se exporta manualmente a Zenodo cuando hay conexión (Figura 2.3).
 
 ![Figura 2.3](figuras/figura_2_3_flujo_datos.svg)
 
@@ -131,7 +133,7 @@ Antes de la extracción de MFCCs, se aplica un filtro de pre-énfasis de primer 
 
 ### 2.4.3 Umbral de energía RMS para descarte de segmentos silenciosos
 
-No todos los segmentos de 60 segundos contienen señal de colmena útil. Durante períodos de baja actividad nocturna, o si el micrófono se desconecta momentáneamente, el segmento puede contener principalmente ruido de fondo. Se calcula la energía RMS (Root Mean Square) de cada segmento y se descarta si cae por debajo de un umbral empírico determinado durante la fase de calibración inicial en cada meliponario. Los segmentos descartados se registran como datos faltantes y no se usan para entrenamiento ni inferencia.
+No todas las ventanas de 1 s (10 por ciclo de 5 min) contienen señal de colmena útil. Durante períodos de baja actividad nocturna, o si el micrófono se desconecta momentáneamente, el segmento puede contener principalmente ruido de fondo. Se calcula la energía RMS (Root Mean Square) de cada segmento y se descarta si cae por debajo de un umbral empírico determinado durante la fase de calibración inicial en cada meliponario. Los segmentos descartados se registran como datos faltantes y no se usan para entrenamiento ni inferencia.
 
 ### 2.4.4 Normalización Z-score del vector de características
 
@@ -147,13 +149,25 @@ Antes de concatenar las variables ambientales, se convierte la humedad relativa 
 
 El sistema KaabLab para *M. beecheii* se organiza en cuatro capas funcionales, que expanden las tres del artículo de referencia con la adición de la capa de preprocesamiento:
 
-- **Capa ****IoT**** (instrumentación heterogénea): **SHT31 interno + DHT22 externo (temperatura/HR) + INMP441 (nivel acústico) + MPU6500 (vibración estructural) + sensor IR doble haz en piquera (conteo de tráfico) + ESP32 o Raspberry Pi 4 como edge device + batería LiPo 5,000–10,000 mAh + panel solar 5–10 W.
+- **Capa ****IoT**** (instrumentación heterogénea): **SHT31 interno + DHT22 externo (temperatura/HR) + INMP441 (nivel acústico) + MPU6500 (vibración estructural) + sensor IR doble haz en piquera (conteo de tráfico) + ESP32 como edge device + batería LiPo 5,000–10,000 mAh + panel solar 5–10 W.
 
 - **Capa de preprocesamiento: **fusión sensorial ponderada por confianza y contraste interno-externo (SHT31 + DHT22) → filtro de media móvil → pre-énfasis de audio (α = 0.97) → umbral RMS → normalización Z-score del vector completo.
 
 - **Módulo ****bioacústico y sensorial: **extracción de MFCCs (n=13, media y desviación), ZCR, centroide y rolloff espectral del INMP441; energía de vibración por bandas, pico y varianza de aceleración del MPU6500; conteo direccional del sensor IR; concatenación con variables ambientales interna/externa y su contraste; clasificación con XGBoost, Gradient Boosting, RF y SVM; optimización en dos fases (búsqueda aleatoria 20 it. + bayesiana 15 it., 3-fold CV).
 
-- **Capa de alertas y evidencia: **umbral de confianza 0.7; registro de clase + confianza + timestamp en JSON local; sincronización diferida.
+- **Capa de alertas y evidencia: **umbral de confianza 0.7; registro de clase + confianza + timestamp en JSON local; exportación manual posterior.
+
+Los umbrales de alerta se limitan a lo respaldado por la literatura; el resto se definirá con el dataset de campo.
+
+| **Variable** | **Rango o umbral** | **Fuente / estado** |
+| --- | --- | --- |
+| Temperatura intranidal normal | 25.4–34.0 °C (media 30.2 °C) | Moo-Valle et al. (2000), *Melipona beecheii* |
+| Temperatura crítica alta | 40 °C: 90 % de mortalidad de pupas | Macías-Macías et al. (2011) |
+| Temperatura crítica baja | 5 °C: 100 % de mortalidad de pupas | Macías-Macías et al. (2011) |
+| Humedad relativa intranidal | Sin referencia publicada | Se definirá con el dataset de campo |
+| Contraste temperatura interna–externa | Sin referencia publicada para el umbral; patrón día/noche de termoconformidad (Moo-Valle et al., 2000) | Se definirá con el dataset de campo |
+
+**Tabla 2.4 **Umbrales de referencia de temperatura y humedad para las alertas del sistema.
 
 ## 2.6 Consideraciones de interferencia del hardware IoT en *M. beecheii*
 
@@ -161,9 +175,9 @@ El sistema KaabLab para *M. beecheii* se organiza en cuatro capas funcionales, q
 
 La instrumentación electrónica introducida en o cerca del nido no es neutra: puede alterar el mismo comportamiento que se busca monitorear. Se identifican cuatro vectores de interferencia potencial:
 
-1. **Campos electromagnéticos del ESP32/RPi (WiFi 2.4 GHz). **Riesgo teórico sobre la magnetorrecepción de las abejas, cuyo mecanismo sensorial podría verse afectado por campos electromagnéticos de radiofrecuencia cercanos al nido.
+1. **Campos electromagnéticos del ESP32 (WiFi 2.4 GHz). **Riesgo teórico sobre la magnetorrecepción de las abejas, cuyo mecanismo sensorial podría verse afectado por campos electromagnéticos de radiofrecuencia cercanos al nido.
 
-2. **Calor generado por el hardware (~5 W en la Raspberry Pi 4). **Puede alterar localmente el balance térmico de *M. beecheii*, especie termoconformadora cuyo rango de temperatura intranidal documentado es de 25.4-34.0°C, con media de 30.2°C (Moo-Valle et al., 2000).
+2. **Calor generado por el hardware. **Puede alterar localmente el balance térmico de *M. beecheii*, especie termoconformadora cuyo rango de temperatura intranidal documentado es de 25.4-34.0°C, con media de 30.2°C (Moo-Valle et al., 2000).
 
 3. **Vibraciones mecánicas del propio hardware. **Ventiladores, relés o vibración de componentes pueden contaminar las lecturas del MPU6500, introduciendo ruido no biológico en la señal de vibración estructural.
 
@@ -201,11 +215,11 @@ Su superioridad sobre redes neuronales profundas para datos tabulares con datase
 
 ### 2.9.1 Recolección de datos bioacústicos, de vibración y ambientales
 
-Segmentos de 60 segundos a 22,050 Hz (INMP441) y datos de vibración estructural simultáneos (MPU6500 a 1.5 kHz), con variables ambientales interna (SHT31) y externa (DHT22) registradas por separado. Seis clases de estado de salud siguiendo la taxonomía del artículo de referencia. Etiquetado por observación directa del meliponicultor. Meta: ≥ 1,000 registros de *M. beecheii* en el primer semestre.
+Ventanas de 1 s a 16 kHz (INMP441), 10 por ciclo de 5 min, y datos de vibración estructural simultáneos (MPU6500 a 1.5 kHz), con variables ambientales interna (SHT31) y externa (DHT22) registradas por separado. Tres clases de estado de salud (sana, sin reina, estrés). Etiquetado por observación directa del meliponicultor. Meta: ≥ 1,000 registros de *M. beecheii* en el cuarto semestre.
 
 ### 2.9.2 Recolección de datos de conteo IR en piquera
 
-Registro continuo de cruces de haz (entradas y salidas) del sensor IR doble haz, agregado en intervalos de 5 minutos alineados con el resto de las modalidades. Etiquetado indirecto por correlación con observación directa de actividad de forrajeo. Meta de precisión de conteo por definir durante la calibración del Semestre 1 (sección 2.10).
+Registro continuo de cruces de haz (entradas y salidas) del sensor IR doble haz, agregado en intervalos de 5 minutos alineados con el resto de las modalidades. Etiquetado indirecto por correlación con observación directa de actividad de forrajeo. Meta de precisión de conteo por definir durante la calibración del Semestre 3 (sección 2.10).
 
 ### 2.9.3 Manejo del desbalance de clases
 
@@ -223,8 +237,8 @@ División 70/15/15 con estratificación por clase. Formato Parquet (audio y vibr
 | Arquitectura sensorial — HR >85% | Precisión SHT31 vs DHT22 | DHT22 <±8% · SHT31 <±3% | N/A (nuevo) |
 | Bioacústico — estado de salud | F1 ponderado | ≥ 0.80 | 0.933 (XGBoost) |
 | Bioacústico — ausencia de reina | AUC-ROC | ≥ 0.85 | 0.991 (XGBoost) |
-| Conteo IR — tráfico en piquera | Precisión de conteo | Por definir en Semestre 1 | N/A (nuevo) |
+| Conteo IR — tráfico en piquera | Precisión de conteo | Por definir en Semestre 3 | N/A (nuevo) |
 | Sistema — autonomía IoT | Horas de operación | ≥ 72 h | N/A |
 | Sistema — latencia de alerta | Detección a alerta | < 60 s | N/A |
 
-**Tabla 2.4 **Métricas de evaluación con umbrales objetivo y benchmarks de referencia.
+**Tabla 2.5 **Métricas de evaluación con umbrales objetivo y benchmarks de referencia.

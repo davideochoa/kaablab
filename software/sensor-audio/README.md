@@ -44,8 +44,8 @@ específicas (ver sección 1 más abajo para el detalle completo):
 - **Actividad de vuelo en piquera:** 200–500 Hz
 - **Alarma / intrusos:** hasta 5,000–8,000 Hz
 
-Las vibraciones estructurales de 180–600 Hz (vuelo ~180–250 Hz, Hrncir et
-al., 2008; forrajeo/reclutamiento ~300–600 Hz, Hrncir et al., 2000, 2006a;
+Las vibraciones estructurales de 180–600 Hz (vuelo ~180 Hz, Hrncir et
+al., 2008; forrajeo/reclutamiento ~300–600 Hz, Hrncir et al., 2000, 2006;
 muestreadas con el MPU6500 a FS_VIB = 1500 Hz, Nyquist 750 Hz) se
 registran por dos canales complementarios: este micrófono de aire capta su
 componente aéreo (misma frecuencia principal, Hrncir et al., 2000), pero no
@@ -68,8 +68,8 @@ para *M. beecheii*:
 | Alarma / intrusos | hasta 5,000–8,000 Hz | Extremo superior de interés, aún dentro del rango plano del sensor |
 
 **Canales complementarios INMP441 / MPU6500:** las vibraciones estructurales de
-**180–600 Hz** (vuelo ~180–250 Hz, Hrncir et al., 2008; forrajeo/
-reclutamiento ~300–600 Hz, Hrncir et al., 2000, 2006a; muestreadas con el
+**180–600 Hz** (vuelo ~180 Hz, Hrncir et al., 2008; forrajeo/
+reclutamiento ~300–600 Hz, Hrncir et al., 2000, 2006; muestreadas con el
 MPU6500 a FS_VIB = 1500 Hz, Nyquist 750 Hz; el hecho de que en otros meliponinos el comportamiento defensivo se exprese por
 sustrato y no por sonido aéreo está documentado por dos Santos et al.,
 2025) tienen un componente de sonido aéreo y otro de sustrato con la misma

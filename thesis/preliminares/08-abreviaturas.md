@@ -23,7 +23,6 @@
 - **pp** — Puntos porcentuales.
 - **RF** — Bosque Aleatorio (*Random Forest*).
 - **RMS** — Valor Eficaz (*Root Mean Square*).
-- **RPi4** — Raspberry Pi 4.
 - **SMOTE** — Técnica de Sobremuestreo Sintético de la Clase Minoritaria (*Synthetic Minority Oversampling Technique*).
 - **SVM** — Máquina de Vectores de Soporte (*Support Vector Machine*).
 - **XGBoost** — Extreme Gradient Boosting.
