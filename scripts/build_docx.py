@@ -19,7 +19,7 @@ import tempfile
 import zipfile
 from pathlib import Path
 
-VERSION = "v1.0"
+VERSION = "v1.1"
 
 RAIZ = Path(__file__).resolve().parent.parent
 THESIS = RAIZ / "thesis"
