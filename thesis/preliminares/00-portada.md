@@ -22,10 +22,8 @@ Director: Dra. Marlene Méndez Moreno
 
 Codirector: Dr. Rogelio Alfredo Flores Haas
 
-Asesor interno: Dr. Daniel Bolivar Moreno
+Asesor interno: Mtro. Daniel Bolivar Moreno
 
-Asesor externo: Dr. Henry Jesus Loeza Concha
-
-Colegio de Posgraduados Campeche
+Asesor externo: Dr. Henry Jesus Loeza Concha - Colegio de Posgraduado Campeche
 
 Calkiní, Campeche, México — 2026

@@ -35,13 +35,12 @@ CAPITULOS = [
     "capitulo-5-conclusiones/capitulo-5.md",
 ]
 
-# Documentos firmados (01–05): en el .docx solo se reserva su página.
+# Documentos firmados (01–03 y 06): en el .docx solo se reserva su página.
 DOCUMENTOS_OFICIALES = {
     "01-carta-liberacion-tesis.md": "Carta de liberación de tesis (CPI-FO-05-06)",
     "02-oficio-autorizacion-comite.md": "Oficio de autorización del comité tutorial/claustro doctoral",
     "03-carta-reconocimiento-directores.md": "Carta de reconocimiento del director(a) y codirector(a) de tesis",
-    "04-declaracion-propiedad-intelectual.md": "Declaración de propiedad intelectual",
-    "05-oficio-antiplagio.md": "Oficio de liberación de análisis anti-plagio",
+    "06-oficio-antiplagio.md": "Oficio de liberación de análisis anti-plagio",
 }
 
 # Medidas (twips: 1 cm = 567; medios puntos para tamaños de fuente)
@@ -258,10 +257,10 @@ def ensamblar(dir_png: Path, soffice: str) -> str:
             bloques.append(f"\\[Insertar escaneo oficial: {DOCUMENTOS_OFICIALES[nombre]}\\]")
             continue
         texto = normalizar_md(f.read_text(encoding="utf-8"))
-        if nombre.startswith("07-"):
+        if nombre.startswith("08-"):
             titulo = re.search(r"^# .*$", texto, flags=re.M).group(0)
             texto = f"{titulo}\n\n{CAMPO_TOC}"
-        elif nombre.startswith("06-") and not re.sub(r"^# .*$", "", texto, flags=re.M).strip():
+        elif nombre.startswith("07-") and not re.sub(r"^# .*$", "", texto, flags=re.M).strip():
             titulo = re.search(r"^# .*$", texto, flags=re.M).group(0)
             texto = f"{titulo}\n\n\\[Pendiente\\]"
         bloques.append(texto)

@@ -201,7 +201,7 @@ El subsistema de IA toma el dataset crudo y lo transforma, etapa por etapa, en u
 
 ### 2.8.1 Número de coeficientes MFCC (n = 13)
 
-La selección de n = 13 coeficientes MFCC sigue el estándar de la literatura de bioacústica de colmenas (Uthoff et al., 2023) y fue validada en el artículo de referencia: CV F1 = 0.9336 ± 0.0085 con XGBoost. Con n = 13, cada coeficiente se representa con media y desviación estándar, generando 26 valores acústicos por segmento. Valores mayores incrementan la dimensionalidad sin aportar información discriminativa adicional y elevan el riesgo de sobreajuste con datasets pequeños.
+La selección de n = 13 coeficientes MFCC sigue el estándar de la literatura de bioacústica de colmenas (Uthoff et al., 2023) y fue validada en el artículo de referencia: CV F1 = 0.9336 ± 0.0085 con XGBoost (Chin-Canché et al., 2026a). Con n = 13, cada coeficiente se representa con media y desviación estándar, generando 26 valores acústicos por segmento. Valores mayores incrementan la dimensionalidad sin aportar información discriminativa adicional y elevan el riesgo de sobreajuste con datasets pequeños.
 
 ### 2.8.2 Validación cruzada de 3 pliegues
 
@@ -209,7 +209,7 @@ Con datasets estimados de 2,000–5,000 registros, la diferencia en el balance s
 
 ### 2.8.3 XGBoost y Gradient Boosting
 
-Su superioridad sobre redes neuronales profundas para datos tabulares con datasets pequeños se explica por tres razones: la regularización L1+L2 reduce el sobreajuste; el boosting secuencial reduce sesgo y varianza simultáneamente; y no requieren normalización estricta. Superaron a Regresión Logística y KNN por 5–14 pp de F1 en el artículo de referencia.
+Su superioridad sobre redes neuronales profundas para datos tabulares con datasets pequeños se explica por tres razones: la regularización L1+L2 reduce el sobreajuste; el boosting secuencial reduce sesgo y varianza simultáneamente; y no requieren normalización estricta. Superaron a Regresión Logística y KNN por 5–14 pp de F1 en el artículo de referencia (Chin-Canché et al., 2026a).
 
 ## 2.9 Protocolo de construcción del dataset
 
@@ -236,7 +236,7 @@ División 70/15/15 con estratificación por clase. Formato Parquet (audio y vibr
 | Arquitectura sensorial — HR <80% | Contraste SHT31 (interno) vs DHT22 (externo) | Diferencia consistente con patrón de termoconformidad (mayor estabilidad interna de día que de noche) | N/A (nuevo) |
 | Arquitectura sensorial — HR >85% | Precisión SHT31 vs DHT22 | DHT22 <±8% · SHT31 <±3% | N/A (nuevo) |
 | Bioacústico — estado de salud | F1 ponderado | ≥ 0.80 | 0.933 (XGBoost) |
-| Bioacústico — ausencia de reina | AUC-ROC | ≥ 0.85 | 0.991 (XGBoost) |
+| Bioacústico — ausencia de reina | AUC-ROC | ≥ 0.85 | 0.9945 (XGBoost) |
 | Conteo IR — tráfico en piquera | Precisión de conteo | Por definir en Semestre 3 | N/A (nuevo) |
 | Sistema — autonomía IoT | Horas de operación | ≥ 72 h | N/A |
 | Sistema — latencia de alerta | Detección a alerta | < 60 s | N/A |

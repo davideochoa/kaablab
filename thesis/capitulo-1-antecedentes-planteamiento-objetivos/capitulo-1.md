@@ -2,7 +2,7 @@
 
 ## 1.1 Antecedentes
 
-El artículo de Chin-Canché et al. (2026) validó el pipeline KAABLAB sobre datos públicos de *Apis mellifera* en California. El módulo bioacústico alcanzó F1 ponderado = 0.933 (clasificación multiclase del estado de salud) y AUC-ROC = 0.9945 (detección de ausencia de reina). El módulo de visión alcanzó AUC-ROC = 0.969 con YOLOv8s. Los pipelines bee_audio_analysis y varroa_vision están disponibles en GitHub y Zenodo (Chin-Canché, 2026; https://doi.org/10.5281/zenodo.19685877).
+El trabajo de Chin-Canché et al. (2026a, 2026b) validó el pipeline KAABLAB sobre datos públicos de *Apis mellifera* en California. El módulo bioacústico alcanzó F1 ponderado = 0.933 (clasificación multiclase del estado de salud) y AUC-ROC = 0.9945 (detección de ausencia de reina). El módulo de visión alcanzó AUC-ROC = 0.969 con YOLOv8s. Los pipelines bee_audio_analysis y varroa_vision están disponibles en GitHub y Zenodo (Chin-Canché, 2026; https://doi.org/10.5281/zenodo.19685877).
 
 Es importante destacar que ambos módulos fueron evaluados exclusivamente sobre conjuntos de datos públicos recolectados por terceros —el BeeAudio Dataset de Anna Yang (Kaggle, 2022) y el VarroaDataset de Schurischuster y Kampel (Zenodo, 2020)—, sin instrumentación propia de colmenas ni validación en condiciones reales de campo. El artículo no recolectó ningún dato nuevo: su contribución es metodológica, no empírica. Esta distinción es la que justifica estructuralmente la presente tesis.
 
@@ -22,7 +22,7 @@ El artículo de referencia presenta tres limitaciones metodológicas que esta te
 
 ### 1.1.3 Hallazgos metodológicos clave del artículo de referencia
 
-El análisis de importancia de características reveló que las variables no acústicas dominan: la variable frames concentró el 27.5% de la importancia relativa en XGBoost. La correlación negativa más fuerte con el estado de salud fue la humedad interna (ρ = −0.378). Esto confirma la importancia crítica de medir correctamente la humedad —y por tanto, la necesidad de una arquitectura sensorial robusta que no pierda precisión en los rangos de alta HR del clima tropical.
+El análisis de importancia de características reveló que las variables no acústicas dominan: la variable frames concentró el 27.5% de la importancia relativa en XGBoost. La correlación negativa más fuerte con el estado de salud fue la humedad interna (ρ = −0.378) (Chin-Canché et al., 2026a). Esto confirma la importancia crítica de medir correctamente la humedad —y por tanto, la necesidad de una arquitectura sensorial robusta que no pierda precisión en los rangos de alta HR del clima tropical.
 
 ### 1.1.4 Amenazas bióticas en colmenas de *M. beecheii*
 

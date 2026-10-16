@@ -2,13 +2,11 @@
 
 Formato APA. Este archivo es la fuente de trabajo versionada; la conversión a `.bib` (BibTeX) para gestión de citas queda pendiente (ver `docs/REVISION_2026-09.md`).
 
-Chin-Canché, G. A. (2026). *kaablab-bee-congress-2026-figures* [Software y conjunto de datos]. Zenodo. https://doi.org/10.5281/zenodo.19685877
+Chin-Canché, G. A. (2026). *GuillermoChin/kaablab-bee-congress-2026-figures: KAABLAB Bee Congress 2025: Figure reproduction package* (Versión v1.0.0) [Software]. Zenodo. https://doi.org/10.5281/zenodo.19685877
 
-<!-- REVISAR CON COAUTORES: confirmar autoría completa, título del depósito, fecha de versión y licencia abriendo el DOI -->
+Chin-Canché, G. A., Ruíz-Canul, K., Grajales-Rodríguez, A. A., Guerrero-Mota, R. A., Noh-Valdéz, J. A., & Euan-Cupul, F. I. (2026a). KAABLAB: Sistema AIoT para el monitoreo y detección temprana de anomalías en colonias de abejas [Manuscrito inédito]. Instituto Tecnológico Superior de Calkiní.
 
-Chin-Canché, G. A., Ruíz-Canul, K. G., Grajales-Rodríguez, A. A., Guerrero-Mota, R. A., Noh-Valdéz, J. A., & Euan-Cupul, F. I. (2026). KAABLAB: Sistema AIoT para el monitoreo y detección temprana de anomalías en colonias de abejas. *Ciencia y Tecnología ITESCAM-Calkiní*, en prensa.
-
-<!-- REVISAR CON COAUTORES: confirmar año, volumen, número, páginas y DOI -->
+Chin-Canché, G. A., Ruíz-Canul, K., Grajales-Rodríguez, A. A., Guerrero-Mota, R. A., Noh-Valdéz, J. A., & Euan-Cupul, F. I. (2026b). Kaablab: Sistema AIOT para el monitoreo y detección temprana de anomalías en colonias de *Apis mellifera*. En II Congreso sobre Abejas, Biodiversidad y Soberanía Alimentaria. *Ciencia y Tecnología ITESCAM-Calkiní, 5*(S4), 20. ISSN 2992-7692.
 
 Cruz-López, L., Malo, E. A., Rojas, J. C., & Morgan, E. D. (2005). Chemical composition and stimulatory olfactory response of the mandibular gland secretion in *Melipona beecheii*. *Journal of Chemical Ecology, 31*(6), 1257-1268.
 

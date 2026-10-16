@@ -4,7 +4,7 @@
 
 El presente protocolo documenta la factibilidad científica y metodológica del proyecto KaabLab en su fase de adaptación a *Melipona beecheii*. Las conclusiones son las siguientes:
 
-- El artículo de referencia (Chin-Canché et al., 2026) valida los pipelines con métricas sólidas y código disponible, estableciendo un punto de partida técnico concreto y no especulativo.
+- El artículo de referencia (Chin-Canché et al., 2026a) valida los pipelines con métricas sólidas y código disponible, estableciendo un punto de partida técnico concreto y no especulativo.
 
 - El análisis de transferibilidad (Tabla 3.1) confirma que, tras excluir el módulo de visión no transferible a *M. beecheii* (*Varroa destructor* no la parasita), cerca del 40% de los componentes restantes son directamente reutilizables (extracción MFCC, XGBoost/Gradient Boosting, optimizador de hiperparámetros). Las contribuciones originales esperadas de esta tesis son:
 

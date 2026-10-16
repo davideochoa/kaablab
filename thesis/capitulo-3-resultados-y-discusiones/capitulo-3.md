@@ -6,7 +6,7 @@ El proyecto cuenta con una base técnica concreta y verificable que distingue es
 
 ### 3.1.1 Baseline validado: pipeline completo para *Apis mellifera*
 
-El artículo de referencia (Chin-Canché et al., 2026) es evidencia de código ejecutado, modelos entrenados y métricas publicadas en revista arbitrada. Los pipelines bee_audio_analysis y varroa_vision están disponibles públicamente. Los hiperparámetros óptimos documentados son: SVM kernel RBF con C = 34.22, γ = scale (CV F1 = 0.94 en clasificación de salud); Gradient Boosting con learning rate = 0.03, max_depth = 8, 436 estimadores, subsample = 0.836 (CV F1 = 0.9823 en detección de ausencia de reina). La ganancia de la fase bayesiana sobre la búsqueda aleatoria fue de apenas 0.0005 F1.
+El artículo de referencia (Chin-Canché et al., 2026a) es evidencia de código ejecutado, modelos entrenados y métricas reportadas en el manuscrito extendido del trabajo de referencia. Los pipelines bee_audio_analysis y varroa_vision están disponibles públicamente. Los hiperparámetros óptimos documentados son: SVM kernel RBF con C = 34.22, γ = scale (CV F1 = 0.94 en clasificación de salud); Gradient Boosting con learning rate = 0.03, max_depth = 8, 436 estimadores, subsample = 0.836 (CV F1 = 0.9823 en detección de ausencia de reina). La ganancia de la fase bayesiana sobre la búsqueda aleatoria fue de apenas 0.0005 F1.
 
 ### 3.1.2 Repositorios públicos con código y datos
 

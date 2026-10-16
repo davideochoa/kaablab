@@ -35,15 +35,16 @@ Nota: la plantilla original omite por error la línea del Capítulo IV (salta de
 3. Oficio de autorización del comité tutorial/claustro doctoral
 4. Carta de reconocimiento del director(a) y codirector(a)
 5. Declaración de propiedad intelectual
-6. Oficio de liberación (análisis anti-plagio)
-7. Agradecimientos (si aplica beca)
-8. Índice completo
-9. Listado de abreviaturas (si aplica)
-10. Índice de Figuras (solo títulos)
-11. Índice de Tablas (solo títulos)
-12. Resumen (español) — máximo 1 cuartilla
-13. Abstract (inglés) — máximo 1 cuartilla
-14. Introducción — máximo 2 cuartillas
+6. Carta de cesión de derechos (requerida por los Lineamientos TecNM 2023, 3.9; no aparece en la plantilla institucional; incluir con firma autógrafa)
+7. Oficio de liberación (análisis anti-plagio)
+8. Agradecimientos (si aplica beca)
+9. Índice completo
+10. Listado de abreviaturas (si aplica)
+11. Índice de Figuras (solo títulos)
+12. Índice de Tablas (solo títulos)
+13. Resumen (español) — máximo 1 cuartilla
+14. Abstract (inglés) — máximo 1 cuartilla
+15. Introducción — máximo 2 cuartillas
 
 ## Tablas y figuras
 
