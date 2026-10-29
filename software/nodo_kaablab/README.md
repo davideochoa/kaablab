@@ -36,13 +36,13 @@ del nodo (celular / pipeline en `../kaablab_pipeline/`).
 | SHT31 (0x44) | I²C — SDA = GPIO21, SCL = GPIO22 | Temperatura y humedad interna |
 | MPU6500 / GY-6500 (**0x69**) | I²C — SDA = GPIO21, SCL = GPIO22; INT = GPIO13 (opcional, sin uso en este firmware) | Vibración estructural |
 | DS3231 (0x68) | I²C — SDA = GPIO21, SCL = GPIO22 | Reloj de tiempo real (marca de tiempo) |
-| DHT22 | 1-Wire — DATA = GPIO4 | Temperatura y humedad exterior |
+| DHT22 | Protocolo propio de un hilo — DATA = GPIO4 | Temperatura y humedad exterior |
 | INMP441 | I²S — SCK = GPIO14, WS = GPIO15, SD = GPIO32 | Nivel acústico |
-| IR doble haz (4 módulos FC-51/KY-033) | Haz A: GPIO26 (principal) + GPIO25 (secundario); Haz B: GPIO27 (principal) + GPIO33 (secundario) | Conteo de tráfico en piquera |
+| IR doble haz (4 módulos TCRT5000 reflectivos) | Haz A: GPIO26 (principal) + GPIO25 (secundario); Haz B: GPIO27 (principal) + GPIO33 (secundario) | Conteo de tráfico en piquera |
 | microSD (SPI, VSPI) | CS = GPIO5, MOSI = GPIO23, MISO = GPIO19, SCK = GPIO18 | Almacenamiento local |
 
-Los pines de los sensores coinciden con `thesis/capitulo-2-materiales-y-metodos/capitulo-2.md`,
-Tabla 2.3. El DS3231 y la microSD no figuran en esa tabla.
+Los pines de los sensores, del DS3231 y de la microSD coinciden con
+`thesis/capitulo-2-materiales-y-metodos/capitulo-2.md`, Tabla 2.3.
 
 **MPU6500 en 0x69:** el pin `AD0` del MPU6500 debe conectarse a 3.3 V. Con
 `AD0` a GND el sensor responde en 0x68, la misma dirección que el DS3231,

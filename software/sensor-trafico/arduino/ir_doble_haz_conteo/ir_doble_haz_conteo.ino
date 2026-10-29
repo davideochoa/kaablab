@@ -1,32 +1,30 @@
 /*
- * Contador IR doble haz (módulos FC-51 / KY-033) — lectura digital con
+ * Contador IR doble haz (módulos TCRT5000 reflectivos) — lectura digital con
  * debounce por software y lógica de secuencia para conteo direccional
  * KaabLab — conteo de tráfico de forrajeo en la piquera
  *
  * ADVERTENCIA — DISEÑO NO CERRADO (ver README.md secciones 1, 2 y 5):
- *   - La distancia mínima de detección especificada de los módulos
- *     FC-51/KY-033 (20-300 mm) excede el diámetro real del tubo de la
- *     piquera (~15 mm). No hay garantía de que detecten de forma
- *     confiable a esa distancia sin validación de banco.
+ *   - Rango de operación declarado por el fabricante del TCRT5000
+ *     (hoja Vishay): 0.2-15 mm, pico a 2.5 mm — pendiente de validar en
+ *     banco con el tubo real de la piquera (~15 mm).
  *   - Estos módulos no tienen mitigación integrada contra falsos
  *     positivos por luz solar IR directa.
  *   Este código asume que la validación de banco de la sección 5 del
  *   README ya se realizó. NO instalar en campo sin esa validación.
  *
  * Pin mapping confirmado del proyecto (ver README.md sección 1.1 sobre
- * por qué el doble haz requiere 2 pares emisor-receptor — 4 módulos
- * físicos, uno formando el Haz A y otro el Haz B, separados ~4 mm a lo
- * largo del eje del túnel). Dentro de cada par, AMBOS módulos tienen
- * fototransistor propio y entregan una señal OUT utilizable — no hay un
- * módulo "emisor puro": por eso se leen las 4 señales, aunque el conteo
- * final usa solo las dos "principales":
+ * la geometría — 4 módulos reflectivos, 2 por haz, separación entre
+ * haces >= ~10 mm por el ancho de la cabeza óptica del TCRT5000, a validar). Cada
+ * módulo detecta por reflexión (sin haz directo) y entrega una señal OUT
+ * utilizable: por eso se leen las 4 señales, aunque el conteo final usa
+ * solo las dos "principales":
  *   Haz A - receptor principal   = GPIO26
  *   Haz A - receptor secundario  = GPIO25 (mismo par, diagnóstico/banco)
  *   Haz B - receptor principal   = GPIO27
  *   Haz B - receptor secundario  = GPIO33 (mismo par, diagnóstico/banco)
  *
  * GPIO25 quedó libre al descartarse el diseño discreto anterior (que lo
- * usaba como drive de LED IR) en favor de los módulos FC-51/KY-033 (ver
+ * usaba como drive de LED IR) en favor de los módulos TCRT5000 (ver
  * CLAUDE.md, "Decisiones de diseño confirmadas"). GPIO33 no tiene uso
  * previo en el mapeo de pines del proyecto.
  *
@@ -42,7 +40,7 @@ const int HAZ_A_SEC_PIN = 25;
 const int HAZ_B_PIN = 27;
 const int HAZ_B_SEC_PIN = 33;
 
-// Polaridad de salida de los módulos FC-51/KY-033: en la configuración
+// Polaridad de salida de los módulos TCRT5000: en la configuración
 // típica, OUT permanece en HIGH con el haz intacto y baja a LOW cuando el
 // haz se interrumpe (objeto detectado).
 // CONFIRMAR EN BANCO (README.md sección 5): el ajuste del potenciómetro
@@ -114,7 +112,7 @@ void setup() {
   pinMode(HAZ_B_PIN, INPUT);
   pinMode(HAZ_B_SEC_PIN, INPUT);
 
-  Serial.println("Contador IR doble haz iniciado (4 modulos FC-51/KY-033, 2 pares)");
+  Serial.println("Contador IR doble haz iniciado (4 modulos TCRT5000, 2 por haz)");
   Serial.println("timestamp_ms,evento,total_entradas,total_salidas");
 }
 

@@ -349,6 +349,11 @@ Notas:
 
   El bus I²C 1 de Raspberry Pi (GPIO2/GPIO3) los soporta sin conflicto,
   igual que en ESP32.
+- **Velocidad del bus I²C:** fijar `dtparam=i2c_arm_baudrate=400000` en
+  `/boot/firmware/config.txt`. El valor por defecto es 100 kHz y a esa
+  velocidad una lectura del MPU6500 (~81 bits) ocupa ~810 µs, más que el
+  periodo de ~667 µs: **los 1500 Hz son imposibles a 100 kHz**. La
+  velocidad es única para todo el bus (SHT31, DS3231 y MPU6500).
 - **DS3231 como RTC del sistema:** la Raspberry Pi no tiene reloj de
   tiempo real propio; el DS3231 se habilita como RTC del kernel con
   `dtoverlay=i2c-rtc,ds3231` en `/boot/config.txt`
@@ -364,6 +369,8 @@ Notas:
   y no está disponible por defecto como en el ESP32 (donde el
   periférico I²S se configura directamente en el firmware) — detalle
   de configuración a documentar junto con el código Python (sección 5).
+- **Alimentación de los módulos TCRT5000: 3.3 V** (pin 1 o 17), no 5 V: la salida D0
+  subiría a 5 V y los GPIO de Raspberry Pi tampoco lo toleran; alimentar a 3.3 V; validar la sensibilidad en banco.
 - **GPIO5/6/12/13** para el sensor de tráfico de forrajeo se eligieron
   por ser pines de propósito general sin función reservada, libres de
   conflicto con I²C (2/3), I²S (18/19/20), UART (14/15) y SPI (7-11).
@@ -402,6 +409,33 @@ Python equivalente en su subcarpeta `raspberry/`; lo pendiente en todos
 los casos (secciones 3.1–3.3) es la **validación de banco** de los
 riesgos de temporización específicos de cada uno bajo Linux, no la
 implementación del código en sí.
+
+---
+
+## 6. Rieles de alimentación
+
+Todos los GPIO del ESP32 DevKit V1 y de la Raspberry Pi trabajan a 3.3 V y
+no toleran 5 V. Por eso todo componente cuya salida o cuyos pull-ups llegan
+a un GPIO o al bus I²C se alimenta a **3.3 V**; solo la microSD HW-125 usa
+5 V, porque su regulador interno la baja a 3.3 V.
+
+| Componente | Riel | ESP32 DevKit V1 | Raspberry Pi | Nota |
+|---|---|---|---|---|
+| MPU6500 (GY-6500) | 3.3 V | 3V3 | 3V3 (pin 1/17) | Trae pull-ups I²C y regulador propio — **verificar en el módulo recibido** |
+| SHT31 (breakout) | 3.3 V | 3V3 | 3V3 | Trae pull-ups I²C — **verificar en el módulo recibido** |
+| DS3231 (ZS-042) | 3.3 V | 3V3 | 3V3 | Trae pull-ups I²C y circuito de carga de la pila — **verificar en el módulo recibido** |
+| INMP441 | 3.3 V | 3V3 | 3V3 | — |
+| DHT22 | 3.3 V | 3V3 | 3V3 | Pull-up de DATA a 3.3 V; verificar en la hoja de datos el alcance de cable con 3.3 V |
+| Módulos TCRT5000 (×4) | 3.3 V | 3V3 | 3V3 | Salida D0 a 3.3 V; validar la sensibilidad en banco |
+| microSD pequeña de 3.3 V (sin regulador) | 3.3 V | 3V3 | No aplica | — |
+| microSD HW-125 | 5 V (VIN) | VIN | No aplica | Regulador AMS1117 y buffer de nivel en el módulo; líneas SPI a 3.3 V — **verificar en el módulo recibido** |
+
+> **Advertencia — bus I²C:** los módulos que traen pull-ups (ZS-042 del
+> DS3231, GY-6500, breakout del SHT31) **no deben alimentarse a 5 V**: sus
+> pull-ups subirían SDA y SCL a 5 V y pondrían 5 V en el bus I²C del ESP32 o
+> de la Raspberry Pi. El valor de esos pull-ups y si van a VCC del módulo o a
+> la salida de su regulador dependen del fabricante — **verificar en el
+> módulo recibido**.
 
 ---
 

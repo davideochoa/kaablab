@@ -44,7 +44,7 @@
   <rect x="195" y="558" width="18" height="14" rx="2" fill="#eefbf1" stroke="#227a3d" stroke-width="1.5"/>
   <rect x="230" y="558" width="18" height="14" rx="2" fill="#fdf0e4" stroke="#e08a3c" stroke-width="1.5"/>
   <text x="210" y="600" text-anchor="middle" font-size="9.5" fill="#555555">Sensor IR doble haz —</text>
-  <text x="210" y="612" text-anchor="middle" font-size="9.5" fill="#555555">4 módulos, 2 pares enfrentados</text>
+  <text x="210" y="612" text-anchor="middle" font-size="9.5" fill="#555555">4 módulos TCRT5000 reflectivos, 2 por haz</text>
   <text x="145" y="522" text-anchor="middle" font-size="9" fill="#227a3d">A → B: entrada</text>
   <text x="270" y="522" text-anchor="middle" font-size="9" fill="#c0392b">B → A: salida</text>
   <line x1="260" y1="558" x2="150" y2="558" stroke="#227a3d" stroke-width="1.5" marker-end="url(#arrowGreen)"/>

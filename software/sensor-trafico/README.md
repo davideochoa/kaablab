@@ -1,4 +1,4 @@
-# Contador IR doble haz (FC-51 / KY-033) — conteo direccional de tráfico en piquera
+# Contador IR doble haz (TCRT5000 reflectivo) — conteo direccional de tráfico en piquera
 
 Sensor de conteo de tráfico de forrajeo del sistema KaabLab. A diferencia
 del INMP441 y el MPU6050 (ver `../sensor-audio/` y `../sensor-vibracion/`),
@@ -21,7 +21,7 @@ la configuración concreta para el ESP32 DevKit V1.
 |---|---|
 | `README.md` | Este documento |
 | `arduino/ir_doble_haz_conteo/ir_doble_haz_conteo.ino` | Lectura digital con debounce y lógica de secuencia direccional |
-| `arduino/diagrama_conexion.svg` | Esquema de conexión ESP32 DevKit V1 ↔ módulos FC-51/KY-033 |
+| `arduino/diagrama_conexion.svg` | Esquema de conexión ESP32 DevKit V1 ↔ módulos TCRT5000 |
 | `concepto_deteccion.svg` | Diagrama conceptual: qué es un evento de cruce y cómo se detecta |
 | `raspberry/conteo_trafico.py` | Equivalente Python por detección de eventos `RPi.GPIO` (opcional, fuera de la tesis) |
 | `raspberry/diagrama_conexion.svg` | Esquema de conexión Raspberry Pi 4 (GPIO BCM, ver `docs/arquitectura-hardware/README.md`) |
@@ -39,8 +39,9 @@ la configuración concreta para el ESP32 DevKit V1.
 El contador IR doble haz **no mide una magnitud física continua con un
 rango de frecuencia o amplitud**, a diferencia del INMP441 (60 Hz–15 kHz)
 o el MPU6050 (300–600 Hz objetivo). Mide **eventos discretos**: cada vez
-que una abeja cruza el tubo de la piquera, interrumpe primero un haz
-infrarrojo y luego el otro, en un orden que depende de si entra o sale.
+que una abeja cruza el tubo de la piquera, pasa primero por la zona de
+detección de un haz y luego por la del otro (cada módulo la detecta por la
+luz IR que refleja su cuerpo), en un orden que depende de si entra o sale.
 Lo que se registra es un **conteo de eventos por unidad de tiempo**
 (entradas y salidas agregadas por intervalo, típicamente cada 5 minutos —
 ver `thesis/capitulo-2-materiales-y-metodos/capitulo-2.md`, sección 2.9.2), no una
@@ -56,57 +57,51 @@ La "unidad de medida" relevante aquí no es Hz sino:
 
 ## 1. Contexto del problema (pendiente real, diseño no cerrado)
 
-La arquitectura vigente para este sensor usa **módulos integrados
-FC-51 y/o KY-033** — cada uno combina en una sola placa: LED emisor IR,
-fototransistor receptor, comparador **LM393** y un potenciómetro para
-ajustar la sensibilidad/umbral de disparo.
+La arquitectura vigente para este sensor usa **módulos comerciales con
+TCRT5000**, un sensor óptico **reflectivo**: emisor IR y fototransistor en
+el mismo encapsulado, más comparador **LM393** y un potenciómetro en la
+placa para ajustar la sensibilidad/umbral de disparo.
 
-**Problema crítico sin resolver:** la distancia mínima de detección
-especificada por estos módulos es de **20–300 mm**, pero el diámetro del
-tubo de la piquera donde se instala el sensor es de **~15 mm** — por
-debajo del mínimo especificado del fabricante. No hay garantía, solo por
-lectura de datasheet, de que el módulo detecte de forma confiable un
-objeto (la abeja cruzando) a una distancia menor a la que fue
-especificado y calibrado de fábrica. **Este es un punto crítico de
-validación en banco antes de instalar (sección 5), no un diseño
-cerrado.**
+**Rango de detección:** el rango de operación declarado por el fabricante del TCRT5000 (hoja de datos Vishay): 0.2–15 mm, pico a 2.5 mm — pendiente de validar en banco. El tubo de la
+piquera mide **~15 mm**, en el límite superior de ese rango. No hay
+garantía, solo por lectura de la hoja de datos, de que el módulo comercial
+detecte de forma confiable el cuerpo de la abeja dentro del tubo, ni de
+que el reflejo de la pared opuesta no dispare la salida. **Este es un
+punto crítico de validación en banco antes de instalar (sección 5), no un
+diseño cerrado.**
 
 ### 1.1 Nota sobre la arquitectura física del doble haz con módulos integrados
 
-**Confirmado:** el proyecto usa 4 módulos FC-51/KY-033 (2 pares), no 2.
-Cada módulo integra emisor y receptor en una sola placa (pensado
-originalmente para detección por reflexión, no por haz directo). Para
-lograr los **dos haces independientes y espacialmente separados** que
-requiere la lógica de conteo direccional (Haz A y Haz B, ~4 mm de
-separación a lo largo del eje del túnel — ver
-`thesis/capitulo-2-materiales-y-metodos/capitulo-2.md`, sección 2.2.3), el diseño
-requiere **dos pares emisor-receptor — es decir, 4 módulos físicos en
-total**: dos formando el Haz A (uno a cada lado del tubo) y dos formando
-el Haz B, desplazados ~4 mm respecto al primer par.
+**Confirmado:** el proyecto usa 4 módulos TCRT5000 reflectivos, 2 por
+haz. Cada módulo emite y recibe por la misma cara y detecta la abeja por
+reflexión: **no se forma un haz directo entre módulos**. Los **dos haces
+independientes y espacialmente separados** que requiere la lógica de
+conteo direccional (Haz A y Haz B, separación ≥ ~10 mm (ancho de la cabeza óptica del TCRT5000, única parte que va en la piquera; la placa queda en la caja, no se cuenta su ancho), a validar, a lo largo del
+eje del túnel — ver `thesis/capitulo-2-materiales-y-metodos/capitulo-2.md`,
+sección 2.2.3) son en realidad dos zonas de detección, cada una vigilada
+por dos módulos.
 
-Dentro de cada par, **ambos módulos tienen su propio fototransistor y
-producen una señal `OUT` utilizable** — no hay un módulo "emisor puro" y
-otro "receptor puro": ambos son unidades completas enfrentadas. Por eso
-se conectan al ESP32 las dos señales `OUT` de cada par (una declarada
-"principal" y la otra "secundaria"), en vez de una sola: esto permite,
-durante la validación de banco (sección 5), comparar ambas lecturas y
-detectar diafonía entre el LED propio de un módulo y su propio receptor,
-o decidir cuál de las dos señales resulta más limpia para el conteo
-final. Solo la alimentación (VCC/GND) es compartida sin necesidad de
+Cada módulo tiene su propio fototransistor y produce una señal `OUT`
+utilizable. Por eso se conectan al ESP32 las dos señales `OUT` de cada
+haz (una declarada "principal" y la otra "secundaria"), en vez de una
+sola: esto permite, durante la validación de banco (sección 5), comparar
+ambas lecturas, detectar diafonía (el LED de un módulo saturando el
+receptor del otro si quedan cara a cara) o decidir cuál de las dos
+señales resulta más limpia para el conteo final. Solo la alimentación (VCC/GND) es compartida sin necesidad de
 señal adicional al ESP32. Ver el esquema de conexión (sección 4) para el
 detalle de pines.
 
-Esta necesidad de 4 módulos con 4 señales digitales (en vez de 2 módulos
-con 2 señales) es una consecuencia directa de usar módulos integrados
-reflectivos en una configuración de haz directo, y es otro punto a
-confirmar físicamente en el montaje real antes de dar el diseño por
-cerrado.
+El uso de 4 módulos con 4 señales digitales (en vez de 2) responde a la
+redundancia y al diagnóstico en banco, no a formar un haz directo; la
+geometría de montaje (posición de cada módulo en el barreno y separación
+≥ ~10 mm (ancho de la cabeza óptica del TCRT5000, única parte que va en la piquera; la placa queda en la caja, no se cuenta su ancho), a validar) es otro punto a confirmar físicamente en el montaje real
+antes de dar el diseño por cerrado.
 
 ---
 
 ## 2. Riesgo adicional: falsos positivos por luz solar IR
 
-Los módulos FC-51/KY-033 **no tienen mitigación integrada** contra luz
+Los módulos TCRT5000 **no tienen mitigación integrada** contra luz
 solar directa u otras fuentes de IR ambiental (a diferencia de un diseño
 con modulación IR activa, donde el receptor solo responde a un LED
 emisor pulsado a una frecuencia conocida, rechazando luz IR continua de
@@ -137,11 +132,11 @@ Pin mapping confirmado del proyecto:
 
 GPIO25 quedó libre para este uso porque el diseño discreto anterior (que
 lo usaba como línea de drive de un LED IR) fue descartado en favor de los
-módulos FC-51/KY-033 — ver `CLAUDE.md`, sección "Decisiones de diseño
+módulos TCRT5000 — ver `CLAUDE.md`, sección "Decisiones de diseño
 confirmadas". GPIO33 es un GPIO de propósito general sin uso previo en el
 mapeo de pines del proyecto (ver `thesis/capitulo-2-materiales-y-metodos/capitulo-2.md`,
-Tabla 2.3), sin conflicto con I²C (21/22), I²S (14/15/32) ni el 1-Wire del
-DHT22 (4).
+Tabla 2.3), sin conflicto con I²C (21/22), I²S (14/15/32) ni el protocolo propio de un
+hilo del DHT22 (4).
 
 Puntos clave del código:
 
@@ -176,17 +171,19 @@ Puntos clave del código:
 
 Ver [`arduino/diagrama_conexion.svg`](./arduino/diagrama_conexion.svg).
 
+> **Alimentación de los módulos TCRT5000: 3.3 V** (no 5 V: la salida D0 subiría a 5 V y el ESP32 no lo tolera). Nota: alimentar a 3.3 V; validar la sensibilidad en banco.
+
 Incluye: bus VCC (3.3V) y GND compartido entre los 4 módulos, y las
 **cuatro** señales digitales — par A: GPIO26 (principal) y GPIO25
-(secundario); par B: GPIO27 (principal) y GPIO33 (secundario) — con la
-disposición enfrentada a través del tubo y la separación de ~4 mm entre
-pares.
+(secundario); par B: GPIO27 (principal) y GPIO33 (secundario) — con los
+módulos montados como sensores reflectivos en el barreno y la separación
+≥ ~10 mm (ancho de la cabeza óptica del TCRT5000, única parte que va en la piquera; la placa queda en la caja, no se cuenta su ancho), a validar entre haces.
 
 ### 4.1 Componentes pasivos
 
 | Componente | Valor | Cant. | Dónde va | ¿Lo trae el módulo? | Estado del valor |
 |---|---|---|---|---|---|
-| Resistencias del LED IR y del comparador LM393 | según fabricante | — | En cada módulo FC-51/KY-033 | Sí — **verificar en el módulo recibido** | Sin pasivos externos obligatorios |
+| Resistencias del LED IR y del comparador LM393 | según fabricante | — | En cada módulo TCRT5000 | Sí — **verificar en el módulo recibido** | Sin pasivos externos obligatorios |
 | Condensador cerámico | 100 nF (opcional) | 4 | Entre VCC y GND de cada módulo, junto a sus pines | No | **Pendiente de verificar** (valor de diseño) |
 
 Pasivos de la ESP32 (100 µF + 100 nF entre 3V3 y GND; 1N4007 solo en la entrada de 6.5–16 V) y de la microSD: ver [`../nodo_kaablab/README.md`](../nodo_kaablab/README.md), sección "Componentes pasivos del nodo". En Raspberry Pi no se requieren pasivos extra.
@@ -199,8 +196,7 @@ Pasivos de la ESP32 (100 µF + 100 nF entre 3V3 y GND; 1N4007 solo en la entrada
 o de código.** Antes de instalar en una colmena real, se requiere:
 
 1. **Prueba de banco con el tubo real (~15 mm de diámetro):** confirmar
-   si los módulos FC-51/KY-033, montados a esa distancia — por debajo de
-   su mínimo especificado de 20–300 mm —, detectan de forma confiable el
+   si los módulos TCRT5000 — rango de operación declarado por el fabricante del TCRT5000 (hoja de datos Vishay): 0.2–15 mm, pico a 2.5 mm — pendiente de validar en banco —, detectan de forma confiable el
    cruce de un objeto del tamaño de una obrera de *M. beecheii* (~10 mm),
    sin zonas ciegas ni disparos erráticos. Ajustar el potenciómetro de
    sensibilidad de cada módulo como parte de esta prueba, no asumir el
@@ -217,13 +213,14 @@ o de código.** Antes de instalar en una colmena real, se requiere:
 
 ### Si la validación falla
 
-Si el bench de banco muestra que los módulos FC-51/KY-033 no detectan de
+Si el bench de banco muestra que los módulos TCRT5000 no detectan de
 forma confiable a ~15 mm, o que los falsos positivos por luz solar
 persisten pese al blindaje mecánico, se deja anotado como alternativas a
 evaluar:
 
-- **Sensores con menor distancia mínima de detección** especificada,
-  compatibles con el diámetro real del tubo.
+- **Sensores con un rango de detección** especificado compatible con
+  el diámetro real del tubo, o un montaje que fije la distancia
+  módulo–abeja cerca del pico de 2.5 mm.
 - **Rediseño con el circuito discreto** (fototransistor **PT333-3B** +
   comparador **LM393** + transistor driver para el LED, descrito en
   `thesis/capitulo-2-materiales-y-metodos/capitulo-2.md`, sección 2.2.3) —
@@ -245,9 +242,10 @@ listo para cableado final en campo.
   885-900. https://doi.org/10.1007/s00359-024-01709-2 — precedente
   parcial: detector IR simple, no direccional, en *M. quadrifasciata*.
   Ver `thesis/referencias.md`.
-- Datasheets de los módulos FC-51 y KY-033 (fabricante genérico,
-  variable según proveedor) — sección de distancia de detección
-  especificada y ajuste del potenciómetro de sensibilidad. Confirmar
+- Vishay. *TCRT5000(L) Reflective Optical Sensor with Transistor Output*,
+  hoja de datos (rango de operación 0.2–15 mm, pico 2.5 mm). La placa
+  comercial (comparador LM393 y potenciómetro de sensibilidad) es de
+  fabricante genérico, variable según proveedor. Confirmar
   edición/proveedor exacto del lote de módulos usado antes de la entrega
   final de la tesis.
 - `thesis/capitulo-2-materiales-y-metodos/capitulo-2.md`, sección 2.2.3 — diseño

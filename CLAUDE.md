@@ -22,8 +22,8 @@ validado originalmente en Apis mellifera.
 | SHT31 / FS400-SHT31 | Sensirion (Suiza) | Interno primario, temp+HR | Temperatura + Humedad absoluta |
 | DHT22 | Aosong (Taiwán) | Externo secundario | Temperatura + Humedad exterior |
 | INMP441 | InvenSense (EUA) | Audio aéreo, piquera interior | Nivel acústico / vitalidad colonia |
-| MPU6050 / GY-521 | TDK InvenSense | Vibración estructural | Comportamiento defensivo (sustrato) |
-| IR doble haz | LED 940nm + fototransistor | Conteo tráfico piquera | Entradas / salidas de forrajeras |
+| MPU6500 / GY-6500 | TDK InvenSense | Vibración estructural | Comportamiento defensivo (sustrato) |
+| IR doble haz, 4 × TCRT5000 | Vishay (sensor óptico reflectivo) + comparador LM393 | Conteo tráfico piquera | Entradas / salidas de forrajeras |
 | ESP32 DevKit V1 | Espressif | Edge device | Adquisición, coordinación y almacenamiento |
 | Raspberry Pi 4 | Raspberry Pi Foundation | Opcional, fuera de la tesis | Soporte alternativo en software/*/raspberry/ |
 | DS3231 | Analog Devices (Maxim) | Reloj de tiempo real (RTC), I²C 0x68 | Marca de tiempo de cada ventana |
@@ -36,33 +36,42 @@ validado originalmente en Apis mellifera.
 - INMP441: captura nivel acústico como proxy de vitalidad y estado general
   de la colonia. NO comportamiento defensivo (los meliponinos expresan
   defensa por vibración de sustrato, no sonido aéreo — dos Santos et al. 2025).
-- Rango INMP441: 60 Hz–15 kHz (Suárez Carvajal 2025, estudio en
-  *Melipona eburnea*, Colombia). NO "50–10,000 Hz".
-  Confirmado y documentado en software/sensor-audio/README.md.
+- Rango INMP441: 60 Hz–15 kHz (fuente: hoja de datos del INMP441,
+  pendiente de citar). NO "50–10,000 Hz". Suárez Carvajal (2025, estudio
+  en *Melipona eburnea*, Colombia) queda solo como contexto de bioacústica
+  de meliponinos, no como fuente del rango del micrófono. Documentado en
+  software/sensor-audio/README.md.
 - MPU6050: sensor primario para comportamiento defensivo vía vibración
   estructural. Montar en contacto directo con la madera de la colmena.
-- SHT31 interno: se autocalibraba por encima de ~80–85% HR.
+- SHT31 interno: "autocalibración" por encima de ~80–85% HR — verificar
+  contra la hoja de datos (SHT3x-DIS) antes de usarlo como hecho.
 - DHT22 externo: degrada sin recuperación a HR sostenida alta.
+  Alimentación a 3.3 V, pull-up de DATA a 3.3 V; alimentar a 3.3 V; verificar en la hoja de datos el alcance de cable con 3.3 V.
 - Variable diagnóstica térmica: contraste SHT31(interno) - DHT22(externo),
   no el valor absoluto interno solo (M. beecheii es termoconformadora con
   desfase de 5–6 h — Moo-Valle et al. 2000).
-- Sensor IR doble haz: arquitectura vigente usa 4 módulos comerciales
-  FC-51/KY-033 (2 pares emisor-receptor, uno por haz), NO 2 — cada módulo
-  integra emisor+receptor en la misma placa (reflectivo), por lo que no
-  puede formar haz directo cruzado con solo 2 unidades. Haz A: receptor
-  principal GPIO26, receptor secundario GPIO25 (mismo par, redundancia/
-  diagnóstico de banco). Haz B: receptor principal GPIO27, receptor
-  secundario GPIO33. Separación entre haces ~4 mm. Embebido en barreno
+- Sensor IR doble haz: 4 módulos comerciales TCRT5000 reflectivos
+  (emisor IR y fototransistor en el mismo encapsulado + comparador LM393
+  en la placa), 2 por "haz" (zona de detección). Cada módulo detecta la
+  abeja por la luz IR que refleja su cuerpo; NO se forma haz directo entre
+  módulos. Haz A: módulo principal GPIO26, secundario GPIO25 (redundancia/
+  diagnóstico de banco). Haz B: principal GPIO27, secundario GPIO33.
+  Rango de operación declarado por el fabricante (hoja Vishay TCRT5000):
+  0.2–15 mm, pico a 2.5 mm — pendiente de validar en banco. Separación
+  entre haces ≥ ~10 mm (ancho de la cabeza óptica del TCRT5000, única parte que va en la piquera; la placa queda en la caja, no se cuenta su ancho), a validar.
+  Embebido en barreno
   ~15 mm en pared ≥25 mm. Lógica: A→B = entrada, B→A = salida. SIN
   mitigación integrada contra luz solar IR — el diseño discreto con
   modulación IR fue descartado; se depende únicamente del blindaje
-  mecánico del tubo de madera. Ver software/sensor-trafico/README.md.
+  mecánico del tubo de madera. Alimentación de los módulos: 3.3 V (no 5 V: la salida D0 subiría a 5 V y el ESP32 no lo tolera);
+  alimentar a 3.3 V; validar la sensibilidad en banco. Ver software/sensor-trafico/README.md.
 - Frase "primero del mundo" → "primero documentado para la especie" en todo.
 - Dispositivo edge confirmado: ESP32 DevKit V1 (no ESP32-CAM). Mapeo de
   pines confirmado, sin conflictos: I²C compartido SHT31 +
-  DS3231 (0x68) + MPU6050/6500 (0x69, AD0 a 3.3 V) (SDA=GPIO21,
+  DS3231 (0x68) + MPU6500 (0x69, AD0 a 3.3 V) (SDA=GPIO21,
   SCL=GPIO22); I²S INMP441 (SCK=GPIO14, WS=GPIO15, SD=GPIO32);
-  DHT22 1-Wire (DATA=GPIO4); IR doble haz, 4 módulos FC-51/KY-033 (haz A:
+  DHT22 protocolo propio de un hilo (DATA=GPIO4); IR doble haz, 4 módulos
+  TCRT5000 reflectivos (haz A:
   GPIO26 principal + GPIO25 secundario; haz B: GPIO27 principal + GPIO33
   secundario); microSD SPI/VSPI (CS=GPIO5, MOSI=GPIO23, MISO=GPIO19,
   SCK=GPIO18). Ver thesis/capitulo-2-materiales-y-metodos/capitulo-2.md,
@@ -105,9 +114,11 @@ Umbrales provisionales de HR (confirmar con asesor):
 - Revisar libro de José Quezada sobre temperatura en M. beecheii (Cap. 2)
 - Anotar dimensiones cuerpo de abeja y separación de haces en figuras IR
 - Convertir referencias.md a formato .bib BibTeX
-- Validación de banco pendiente — contador IR doble haz (FC-51/KY-033):
-  la distancia mínima de detección especificada por el módulo (20–300 mm)
-  excede el diámetro del tubo de la piquera (~15 mm), y no hay mitigación
+- Validación de banco pendiente — contador IR doble haz (TCRT5000
+  reflectivo): confirmar la detección dentro del tubo de ~15 mm (rango
+  declarado por el fabricante 0.2–15 mm, pico 2.5 mm, pendiente de validar
+  en banco), el reflejo de la pared opuesta del tubo y la separación
+  ≥ ~10 mm entre haces (a validar); no hay mitigación
   integrada contra falsos positivos por luz solar IR — se depende del
   blindaje mecánico del tubo de madera. Debe probarse en banco antes de
   instalar en campo; no darlo por diseño cerrado.

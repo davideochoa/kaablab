@@ -144,16 +144,19 @@ Puntos clave del código:
 
 Ver [`arduino/diagrama_conexion.svg`](./arduino/diagrama_conexion.svg).
 
-Incluye: VCC (3.3–5V), GND, DATA (GPIO4), y la resistencia pull-up de
-10 kΩ entre DATA y VCC requerida por el protocolo del sensor (muchos
+Incluye: VCC (3.3 V), GND, DATA (GPIO4), y la resistencia pull-up de
+10 kΩ entre DATA y VCC (es decir, a 3.3 V) requerida por el protocolo del sensor (muchos
 módulos AM2302/DHT22 ya la incluyen integrada en la placa — verificar
 antes de añadir una externa).
+
+> **Alimentación: 3.3 V**, con el pull-up de DATA a 3.3 V (a 5 V, DATA llevaría
+> 5 V a GPIO4, que no lo tolera). Nota: alimentar a 3.3 V; verificar en la hoja de datos el alcance de cable con 3.3 V.
 
 ### 4.1 Componentes pasivos
 
 | Componente | Valor | Cant. | Dónde va | ¿Lo trae el módulo? | Estado del valor |
 |---|---|---|---|---|---|
-| Resistencia pull-up | 4.7–10 kΩ | 1 | Entre DATA y VCC | El módulo de 3 pines suele traerla — **verificar en el módulo recibido** | **Pendiente de verificar**: la hoja AM2302 consultada no confirma el valor |
+| Resistencia pull-up | 4.7–10 kΩ | 1 | Entre DATA y VCC (3.3 V) | El módulo de 3 pines suele traerla — **verificar en el módulo recibido** | **Pendiente de verificar**: la hoja AM2302 consultada no confirma el valor |
 | Condensador cerámico | 100 nF | 1 | Entre VCC y GND, junto al sensor | Según módulo — **verificar en el módulo recibido** | Hoja AM2302 ("100 nF para filtrado") |
 
 Pasivos de la ESP32 (100 µF + 100 nF entre 3V3 y GND; 1N4007 solo en la entrada de 6.5–16 V) y de la microSD: ver [`../nodo_kaablab/README.md`](../nodo_kaablab/README.md), sección "Componentes pasivos del nodo". En Raspberry Pi no se requieren pasivos extra.

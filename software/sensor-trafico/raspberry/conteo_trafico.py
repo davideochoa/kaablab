@@ -9,7 +9,7 @@ MISMA lógica que la versión ESP32 (ver README.md, secciones 1-3, antes
 de modificar este script):
 
     - 4 señales digitales leídas (Haz A principal/secundario, Haz B
-      principal/secundario), una por módulo FC-51/KY-033.
+      principal/secundario), una por módulo TCRT5000.
     - Debounce por software: un cambio de estado solo se acepta como
       real si el nivel se mantiene estable durante DEBOUNCE_MS.
     - Lógica de secuencia direccional basada en las señales PRINCIPALES:
@@ -21,9 +21,9 @@ de modificar este script):
       que en la versión Arduino.
 
 ADVERTENCIA — DISEÑO NO CERRADO (idéntica a la del código Arduino, ver
-README.md secciones 1, 2 y 5): la distancia mínima de detección
-especificada de los módulos FC-51/KY-033 (20-300 mm) excede el diámetro
-real del tubo de la piquera (~15 mm), y no hay mitigación integrada
+README.md secciones 1, 2 y 5): el rango de operación declarado por el
+fabricante del TCRT5000 (0.2-15 mm, pico 2.5 mm) esta pendiente de validar
+en banco con el tubo real de la piquera (~15 mm), y no hay mitigación integrada
 contra falsos positivos por luz solar IR directa. Este script asume que
 la validación de banco de la sección 5 del README ya se realizó. NO
 instalar en campo sin esa validación — eso aplica igual en ambas
@@ -118,7 +118,7 @@ HAZ_A_SEC_PIN = 6
 HAZ_B_PIN = 12
 HAZ_B_SEC_PIN = 13
 
-# Polaridad de salida de los modulos FC-51/KY-033: identica a la version
+# Polaridad de salida de los modulos TCRT5000: identica a la version
 # Arduino (README.md seccion 3, "Polaridad configurable") — en la
 # configuracion tipica, OUT permanece en HIGH con el haz intacto y baja
 # a LOW cuando el haz se interrumpe. CONFIRMAR EN BANCO antes de confiar
@@ -253,7 +253,7 @@ class TrafficCounter:
 
 def main() -> None:
     GPIO.setmode(GPIO.BCM)
-    # Sin pull-up/down interno: los modulos FC-51/KY-033 entregan una
+    # Sin pull-up/down interno: los modulos TCRT5000 entregan una
     # salida digital ya acondicionada (push-pull) por su comparador
     # LM393 interno, igual que asume la version Arduino (pinMode INPUT
     # simple, sin INPUT_PULLUP).

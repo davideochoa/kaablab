@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 772" width="800" height="772" font-family="Segoe UI, Arial, sans-serif">
-  <title>Esquema de conexión ESP32 DevKit V1 — 4 módulos FC-51/KY-033 (doble haz)</title>
+  <title>Esquema de conexión ESP32 DevKit V1 — 4 módulos TCRT5000 reflectivos (doble haz)</title>
   <rect x="0" y="0" width="800" height="520" fill="#ffffff"/>
 
   <text x="400" y="28" text-anchor="middle" font-size="18" font-weight="bold" fill="#1a1a1a">
-    Conexión ESP32 DevKit V1 ↔ 4 módulos FC-51/KY-033 (doble haz)
+    Conexión ESP32 DevKit V1 ↔ 4 módulos TCRT5000 reflectivos (doble haz)
   </text>
   <text x="400" y="46" text-anchor="middle" font-size="12" fill="#555555">
     KaabLab — conteo direccional de tráfico en piquera (esquema, no a escala)
@@ -31,11 +31,16 @@
   <circle cx="212" cy="355" r="4" fill="#7a2ca0"/>
   <text x="130" y="360" text-anchor="end" font-size="12" fill="#1a1a1a">GPIO33 — Haz B secundario</text>
 
-  <!-- Tube cross-section with 4 modules (2 pares: A y B, ~4mm de separacion) -->
+  <!-- Tube cross-section with 4 modules TCRT5000 reflectivos (2 por haz) -->
+  <defs>
+    <marker id="flechaIR" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto-start-reverse">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#b03a2e"/>
+    </marker>
+  </defs>
   <rect x="440" y="150" width="200" height="220" rx="10" fill="#fdf8ef" stroke="#7a5a30" stroke-width="2"/>
   <text x="540" y="140" text-anchor="middle" font-size="11" fill="#7a5a30">Tubo de la piquera (≈15 mm de diámetro)</text>
 
-  <!-- Par A: modulo A1 (principal) arriba, A2 (secundario) abajo, enfrentados -->
+  <!-- Haz A: modulo A1 (principal) arriba, A2 (secundario) abajo; ambos reflectivos -->
   <rect x="470" y="100" width="70" height="30" rx="4" fill="#eef3fb" stroke="#c0392b" stroke-width="2"/>
   <text x="505" y="120" text-anchor="middle" font-size="10" fill="#1a1a1a">Módulo A1</text>
   <text x="505" y="90" text-anchor="middle" font-size="9.5" fill="#c0392b">OUT → GPIO26 (principal)</text>
@@ -44,9 +49,11 @@
   <text x="505" y="409" text-anchor="middle" font-size="10" fill="#1a1a1a">Módulo A2</text>
   <text x="505" y="435" text-anchor="middle" font-size="9.5" fill="#e08a3c">OUT → GPIO25 (secundario)</text>
 
-  <line x1="505" y1="130" x2="505" y2="390" stroke="#c0392b" stroke-width="2" stroke-dasharray="5,4"/>
+  <!-- Haz A: cono de emisión de cada cabeza óptica (sin haz directo entre módulos) -->
+  <polygon points="505,130 487,190 523,190" fill="#c0392b" fill-opacity="0.18" stroke="#c0392b" stroke-width="1" stroke-dasharray="3,2"/>
+  <polygon points="505,390 487,330 523,330" fill="#e08a3c" fill-opacity="0.18" stroke="#e08a3c" stroke-width="1" stroke-dasharray="3,2"/>
 
-  <!-- Par B: modulo B1 (principal) arriba, B2 (secundario) abajo, ~4mm mas adelante -->
+  <!-- Par B: modulo B1 (principal) arriba, B2 (secundario) abajo, >= ~10 mm mas adelante (a validar) -->
   <rect x="560" y="100" width="70" height="30" rx="4" fill="#eefbf1" stroke="#227a3d" stroke-width="2"/>
   <text x="595" y="120" text-anchor="middle" font-size="10" fill="#1a1a1a">Módulo B1</text>
   <text x="595" y="90" text-anchor="middle" font-size="9.5" fill="#227a3d">OUT → GPIO27 (principal)</text>
@@ -55,9 +62,20 @@
   <text x="595" y="409" text-anchor="middle" font-size="10" fill="#1a1a1a">Módulo B2</text>
   <text x="595" y="435" text-anchor="middle" font-size="9.5" fill="#7a2ca0">OUT → GPIO33 (secundario)</text>
 
-  <line x1="595" y1="130" x2="595" y2="390" stroke="#227a3d" stroke-width="2" stroke-dasharray="5,4"/>
+  <!-- Haz B: cono de emisión de cada cabeza óptica (sin haz directo entre módulos) -->
+  <polygon points="595,130 577,190 613,190" fill="#227a3d" fill-opacity="0.18" stroke="#227a3d" stroke-width="1" stroke-dasharray="3,2"/>
+  <polygon points="595,390 577,330 613,330" fill="#7a2ca0" fill-opacity="0.18" stroke="#7a2ca0" stroke-width="1" stroke-dasharray="3,2"/>
+  <!-- Abeja dentro del tubo y reflexión IR hacia cada cabeza (emitido → abeja → reflejado) -->
+  <line x1="505" y1="136" x2="542" y2="252" stroke="#b03a2e" stroke-width="1.2" marker-start="url(#flechaIR)" marker-end="url(#flechaIR)"/>
+  <line x1="505" y1="384" x2="542" y2="268" stroke="#b03a2e" stroke-width="1.2" marker-start="url(#flechaIR)" marker-end="url(#flechaIR)"/>
+  <line x1="595" y1="136" x2="558" y2="252" stroke="#b03a2e" stroke-width="1.2" marker-start="url(#flechaIR)" marker-end="url(#flechaIR)"/>
+  <line x1="595" y1="384" x2="558" y2="268" stroke="#b03a2e" stroke-width="1.2" marker-start="url(#flechaIR)" marker-end="url(#flechaIR)"/>
+  <ellipse cx="550" cy="260" rx="13" ry="8" fill="#f5c518" stroke="#8a6d00" stroke-width="1.5"/>
+  <text x="550" y="282" text-anchor="middle" font-size="9.5" fill="#555555">abeja (refleja el IR)</text>
+  <text x="540" y="362" text-anchor="middle" font-size="9.5" font-style="italic" fill="#8a6d00">Geometría a validar con el experto</text>
 
-  <text x="550" y="145" text-anchor="middle" font-size="9.5" fill="#8a6d00">≈4 mm de separación entre pares (Haz A / Haz B)</text>
+
+  <text x="550" y="145" text-anchor="middle" font-size="9.5" fill="#8a6d00">Separación entre haces ≥ ~10 mm (cabeza óptica del TCRT5000, no la placa), a validar</text>
 
   <!-- VCC / GND bus lines a los 4 modulos -->
   <line x1="220" y1="150" x2="720" y2="150" stroke="#2c5aa0" stroke-width="1.5"/>
@@ -98,9 +116,10 @@
 
   <!-- Nota -->
   <rect x="30" y="440" width="740" height="65" rx="6" fill="#fff8e6" stroke="#8a6d00" stroke-width="1"/>
-  <text x="42" y="458" font-size="10.5" fill="#1a1a1a">Doble haz = 2 pares emisor-receptor = 4 módulos FC-51/KY-033. Dentro de cada par, AMBOS módulos tienen fototransistor propio</text>
-  <text x="42" y="472" font-size="10.5" fill="#1a1a1a">y una señal OUT utilizable: por eso se cablean las 4 señales (principal + secundaria por par), no solo 2 — ver README §1.1.</text>
-  <text x="42" y="486" font-size="10.5" fill="#1a1a1a">Distancia mínima de detección especificada (20–300 mm) &gt; diámetro real del tubo (≈15 mm) — ver README §1, validar en banco.</text>
+  <text x="42" y="458" font-size="10.5" fill="#1a1a1a">Doble haz = 2 zonas de detección × 2 módulos TCRT5000 reflectivos (detectan por reflexión, sin haz directo). Cada módulo tiene fototransistor propio</text>
+  <text x="42" y="472" font-size="10.5" fill="#1a1a1a">y una señal OUT utilizable: por eso se cablean las 4 señales (principal + secundaria por haz), no solo 2 — ver README §1.1.</text>
+  <text x="42" y="486" font-size="10.5" fill="#1a1a1a">Rango declarado por el fabricante del TCRT5000: 0.2–15 mm (pico 2.5 mm), pendiente de validar en banco; tubo ≈15 mm — ver README §1.</text>
+  <text x="42" y="500" font-size="10" fill="#c0392b">Módulos a 3.3 V, no 5 V (D0 subiría a 5 V y la entrada GPIO no lo tolera): alimentar a 3.3 V; validar la sensibilidad en banco.</text>
 
   <!-- Legend -->
   <rect x="30" y="60" width="14" height="14" fill="#2c5aa0"/>
@@ -145,7 +164,7 @@
   <text x="66" y="662" font-size="9.5" fill="#444444">Solo en la entrada externa de 6.5–16 V hacia VIN; NO en el riel de 5 V/USB. Caída ≈ 1.1 V a 1 A (hoja 1N4007). Tope del regulador de la placa no</text>
   <text x="66" y="675" font-size="9.5" fill="#444444">confirmado</text>
   <circle cx="42" cy="695" r="7" stroke="#7f8c8d" stroke-width="1.5" fill="none" stroke-dasharray="5,3"/><text x="42" y="699" text-anchor="middle" font-size="10" font-weight="bold" fill="#555555">i</text>
-  <text x="66" y="694" font-size="11" font-weight="bold" fill="#1a1a1a">FC-51 / KY-033: sin pasivos obligatorios<tspan font-weight="normal" font-size="9.5">  <tspan fill="#b9770e">● verificar en el módulo recibido</tspan></tspan></text>
+  <text x="66" y="694" font-size="11" font-weight="bold" fill="#1a1a1a">TCRT5000: sin pasivos obligatorios<tspan font-weight="normal" font-size="9.5">  <tspan fill="#b9770e">● verificar en el módulo recibido</tspan></tspan></text>
   <text x="66" y="708" font-size="9.5" fill="#444444">Resistencias del LED IR y del comparador LM393 ya en cada módulo (×4)</text>
   <line x1="30" y1="728" x2="40" y2="728" stroke="#c0392b" stroke-width="2" fill="none" stroke-dasharray="2,2"/><line x1="40" y1="721" x2="40" y2="735" stroke="#c0392b" stroke-width="2" fill="none" stroke-dasharray="2,2"/><line x1="45" y1="721" x2="45" y2="735" stroke="#c0392b" stroke-width="2" fill="none" stroke-dasharray="2,2"/><line x1="45" y1="728" x2="55" y2="728" stroke="#c0392b" stroke-width="2" fill="none" stroke-dasharray="2,2"/>
   <text x="66" y="727" font-size="11" font-weight="bold" fill="#1a1a1a">100 nF cerámico (×4, opcional)<tspan font-weight="normal" font-size="9.5">  <tspan fill="#c0392b">● pendiente de verificar</tspan></tspan></text>

@@ -42,7 +42,7 @@ comportamiento defensivo (que en otros meliponinos se expresa por vibración
 de sustrato — dos Santos et al., 2025; en
 *M. beecheii* no está documentado).
 
-**Rango de respuesta plana: 60 Hz–15 kHz** (Suárez Carvajal, 2025, en *M. eburnea*, Colombia).
+**Rango de respuesta plana: 60 Hz–15 kHz** (hoja de datos del INMP441, pendiente de citar). Suárez Carvajal (2025, *M. eburnea*, Colombia) se cita solo como contexto de bioacústica de meliponinos.
 Dentro de ese rango, el proyecto documenta tres bandas de interés
 específicas (ver sección 1 más abajo para el detalle completo):
 
@@ -63,7 +63,7 @@ la vibración de sustrato en sí, que registra el MPU6500.
 ## 1. Contexto: rango del sensor y bandas de interés
 
 El INMP441 tiene una respuesta en frecuencia aproximadamente plana entre
-**60 Hz y 15 kHz** (Suárez Carvajal, 2025, en *M. eburnea*; ver `CLAUDE.md` y
+**60 Hz y 15 kHz** (hoja de datos del INMP441, pendiente de citar; ver `CLAUDE.md` y
 `thesis/capitulo-2-materiales-y-metodos/capitulo-2.md`, Tabla de sensores). Dentro
 de ese rango, el proyecto documenta tres bandas de interés específicas
 para *M. beecheii*:

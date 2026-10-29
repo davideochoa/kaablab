@@ -87,15 +87,15 @@ bool sensores_iniciar() {
   i2s_set_pin(I2S_NUM_0, &pin_cfg);
 
   // Pines IR como entrada con interrupción por flanco de bajada
-  // (los módulos FC-51/KY-033 salen en LOW al detectar bloqueo del haz)
+  // (los módulos TCRT5000 salen en LOW al detectar un objeto por reflexión; polaridad a confirmar en banco)
   pinMode(PIN_IR_A1, INPUT);
   pinMode(PIN_IR_A2, INPUT);
   pinMode(PIN_IR_B1, INPUT);
   pinMode(PIN_IR_B2, INPUT);
   attachInterrupt(digitalPinToInterrupt(PIN_IR_A1), isr_ir_a, FALLING);
   attachInterrupt(digitalPinToInterrupt(PIN_IR_B1), isr_ir_b, FALLING);
-  // Nota: A2/B2 son el segundo módulo de cada par enfrentado; según el
-  // arreglo confirmado (2 pares FC-51/KY-033 enfrentados), la lógica de
+  // Nota: A2/B2 son el módulo secundario de cada haz (4 TCRT5000 reflectivos,
+  // 2 por haz, solo diagnóstico de banco); la lógica de
   // qué par cuenta como "entrada" vs "salida" definitiva se resuelve con
   // el orden temporal en el celular, no aquí.
 

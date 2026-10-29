@@ -46,11 +46,11 @@ que el sensor entrega por I²C.
 
 - **Humedad relativa: 0–100% HR**, sin saturación en todo el rango
 - **Temperatura: −40 a 125 °C**
-- **Precisión: ±2% HR** en todo el rango 0–100%
+- **Precisión: ±2% HR** en todo el rango 0–100% (verificar contra la hoja de datos)
 - Interfaz: I²C, direcciones 0x44/0x45
 
 Por encima de ~80–85% HR el SHT31 activa un ciclo de autocalibración
-interna (no es saturación: sigue reportando valores, pero con menor
+interna (verificar contra la hoja de datos: la existencia de este mecanismo no está confirmada) (no es saturación: sigue reportando valores, pero con menor
 confiabilidad momentánea durante el evento) — ver `CLAUDE.md`, sección
 "Decisiones de diseño confirmadas", y la sección 2 de este documento.
 
@@ -183,7 +183,7 @@ Sí se requiere, una vez instalado en campo:
   tendencia creciente sostenida que indique contaminación o
   envejecimiento del DHT22.
 - Confirmar en campo que la frecuencia de eventos de autocalibración
-  interna (por encima de ~80–85% HR, sección 0) es consistente con lo
+  interna (verificar contra la hoja de datos) (por encima de ~80–85% HR, sección 0) es consistente con lo
   esperado por la fusión ponderada por confianza (ver
   `thesis/capitulo-2-materiales-y-metodos/capitulo-2.md`, sección 2.2.4, Paso 1).
 
@@ -192,7 +192,7 @@ Sí se requiere, una vez instalado en campo:
 ## Referencias
 
 - Sensirion AG. *Datasheet SHT3x-DIS* — tecnología CMOSens®, rangos de
-  operación, direcciones I²C y comportamiento de autocalibración.
+  operación y direcciones I²C. Comportamiento de "autocalibración": verificar contra la hoja de datos.
 - `thesis/capitulo-2-materiales-y-metodos/capitulo-2.md`, secciones 2.2.1
   (fundamento físico SHT31/DHT22), 3.2.4 (fusión ponderada por
   confianza) y 3.4.5 (conversión a humedad absoluta, fórmula de
