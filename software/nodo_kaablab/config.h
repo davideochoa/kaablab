@@ -25,10 +25,13 @@
 #define PIN_I2S_SD  32
 
 // ===================== PINES IR DOBLE HAZ (4 módulos FC-51/KY-033) =====================
-#define PIN_IR_A1 26   // Haz A, módulo principal (Tabla 2.3: GPIO26)
-#define PIN_IR_A2 25   // Haz A, módulo secundario (Tabla 2.3: GPIO25; par enfrentado)
-#define PIN_IR_B1 27   // Haz B, módulo principal
-#define PIN_IR_B2 33   // Haz B, módulo secundario
+// Módulos reflectivos (emisor + receptor en la misma placa). Solo los principales
+// (GPIO26, GPIO27) se usan para el conteo direccional; los secundarios son señales
+// de diagnóstico de banco (redundancia), configuradas como entrada pero no leídas.
+#define PIN_IR_A1 26   // Haz A, módulo principal — conteo (Tabla 2.3: GPIO26)
+#define PIN_IR_A2 25   // Haz A, módulo secundario — diagnóstico de banco (Tabla 2.3: GPIO25)
+#define PIN_IR_B1 27   // Haz B, módulo principal — conteo (Tabla 2.3: GPIO27)
+#define PIN_IR_B2 33   // Haz B, módulo secundario — diagnóstico de banco (Tabla 2.3: GPIO33)
 
 // ===================== PIN INTERRUPCIÓN OPCIONAL MPU6500 (Ruta B) =====================
 #define PIN_MPU_INT 13   // Confirmado en Tabla 2.3, sin choque con DHT22 (GPIO4)

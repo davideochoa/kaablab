@@ -6,14 +6,12 @@ Sistema de monitoreo IoT/IA no invasivo para colmenas de *Melipona beecheii* (ab
 
 ```
 kaablab/
-├── firmware/           # Firmware de los sensores y del microcontrolador (ESP32)
-│   ├── inmp441/        # Micrófono I2S — sonido aéreo
-│   ├── mpu6050/        # IMU — vibración estructural / comportamiento defensivo
-│   ├── ir_counter/     # Sensor IR de doble haz — tráfico de piquera
-│   └── esp32_main/     # Firmware principal de integración
 ├── software/
-│   └── kaablab/        # Pipeline Python: preprocesamiento, extracción de
-│                        # características, modelo XGBoost, ablación
+│   ├── kaablab_pipeline/ # Pipeline Python: preprocesamiento, extracción de
+│   │                    # características, modelo XGBoost, ablación
+│   ├── nodo_kaablab/   # Firmware integrado del nodo ESP32 DevKit V1 (5 sensores)
+│   └── sensor-*/       # Un sensor por carpeta: README + arduino/<sketch>/<sketch>.ino
+│                        # (ESP32) + raspberry/ (Python, opcional)
 ├── thesis/              # Texto de la tesis (fuente versionada en Markdown)
 │   ├── preliminares/
 │   ├── capitulo-1-antecedentes-planteamiento-objetivos/

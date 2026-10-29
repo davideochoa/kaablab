@@ -20,9 +20,15 @@ la configuración concreta para el ESP32 DevKit V1.
 | Archivo | Contenido |
 |---|---|
 | `README.md` | Este documento |
-| `ir_doble_haz_conteo.ino` | Lectura digital con debounce y lógica de secuencia direccional |
-| `diagrama_conexion.svg` | Esquema de conexión ESP32 DevKit V1 ↔ módulos FC-51/KY-033 |
+| `arduino/ir_doble_haz_conteo/ir_doble_haz_conteo.ino` | Lectura digital con debounce y lógica de secuencia direccional |
+| `arduino/diagrama_conexion.svg` | Esquema de conexión ESP32 DevKit V1 ↔ módulos FC-51/KY-033 |
 | `concepto_deteccion.svg` | Diagrama conceptual: qué es un evento de cruce y cómo se detecta |
+| `raspberry/conteo_trafico.py` | Equivalente Python por detección de eventos `RPi.GPIO` (opcional, fuera de la tesis) |
+| `raspberry/diagrama_conexion.svg` | Esquema de conexión Raspberry Pi 4 (GPIO BCM, ver `docs/arquitectura-hardware/README.md`) |
+
+> **Cómo abrir el sketch:** el Arduino IDE exige que cada `.ino` esté en una carpeta con su mismo nombre. Abrir `arduino/ir_doble_haz_conteo/ir_doble_haz_conteo.ino` desde su propia carpeta (Archivo → Abrir), no la carpeta del sensor. Requiere solo el core **esp32** de Espressif (Boards Manager → "esp32"), placa *ESP32 Dev Module*; no usa librerías externas.
+>
+> **Variante Raspberry Pi (opcional):** `pip install RPi.GPIO`.
 
 ---
 
@@ -118,7 +124,7 @@ sol intenso. Debe probarse explícitamente en banco (sección 5).
 
 ## 3. Código de manejo del sensor (ESP32)
 
-Ver [`ir_doble_haz_conteo.ino`](./ir_doble_haz_conteo.ino).
+Ver [`arduino/ir_doble_haz_conteo/ir_doble_haz_conteo.ino`](./arduino/ir_doble_haz_conteo/ir_doble_haz_conteo.ino).
 
 Pin mapping confirmado del proyecto:
 
@@ -168,13 +174,22 @@ Puntos clave del código:
 
 ## 4. Esquema de conexión
 
-Ver [`diagrama_conexion.svg`](./diagrama_conexion.svg).
+Ver [`arduino/diagrama_conexion.svg`](./arduino/diagrama_conexion.svg).
 
 Incluye: bus VCC (3.3V) y GND compartido entre los 4 módulos, y las
 **cuatro** señales digitales — par A: GPIO26 (principal) y GPIO25
 (secundario); par B: GPIO27 (principal) y GPIO33 (secundario) — con la
 disposición enfrentada a través del tubo y la separación de ~4 mm entre
 pares.
+
+### 4.1 Componentes pasivos
+
+| Componente | Valor | Cant. | Dónde va | ¿Lo trae el módulo? | Estado del valor |
+|---|---|---|---|---|---|
+| Resistencias del LED IR y del comparador LM393 | según fabricante | — | En cada módulo FC-51/KY-033 | Sí — **verificar en el módulo recibido** | Sin pasivos externos obligatorios |
+| Condensador cerámico | 100 nF (opcional) | 4 | Entre VCC y GND de cada módulo, junto a sus pines | No | **Pendiente de verificar** (valor de diseño) |
+
+Pasivos de la ESP32 (100 µF + 100 nF entre 3V3 y GND; 1N4007 solo en la entrada de 6.5–16 V) y de la microSD: ver [`../nodo_kaablab/README.md`](../nodo_kaablab/README.md), sección "Componentes pasivos del nodo". En Raspberry Pi no se requieren pasivos extra.
 
 ---
 

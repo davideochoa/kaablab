@@ -17,10 +17,16 @@ los conceptos (Nyquist, DLPF, FIFO) como la configuración concreta.
 | Archivo | Contenido |
 |---|---|
 | `README.md` | Este documento |
-| `mpu6500_polling.ino` | Ruta A: polling con `MPU6500_WE`, muestreo a `FS_VIB` = 1500 Hz |
-| `mpu6500_interrupt_fifo.ino` | Ruta B (opcional): interrupción INT + FIFO interno, diezmado a 1500 Hz |
-| `diagrama_conexion.svg` | Esquema de conexión ESP32 DevKit V1 ↔ MPU6050/MPU6500 |
+| `arduino/mpu6500_polling/mpu6500_polling.ino` | Ruta A: polling con `MPU6500_WE`, muestreo a `FS_VIB` = 1500 Hz |
+| `arduino/mpu6500_interrupt_fifo/mpu6500_interrupt_fifo.ino` | Ruta B (opcional): interrupción INT + FIFO interno, diezmado a 1500 Hz |
+| `arduino/diagrama_conexion.svg` | Esquema de conexión ESP32 DevKit V1 ↔ MPU6500 (0x69, AD0 a 3.3 V) |
 | `concepto_vibracion.svg` | Diagrama conceptual: qué es la vibración estructural medida y su rango de frecuencia objetivo |
+| `raspberry/lectura_mpu6500.py` | Equivalente Python de la Ruta A (polling) vía `smbus2`, MPU6500 en 0x69 (opcional, fuera de la tesis) |
+| `raspberry/diagrama_conexion.svg` | Esquema de conexión Raspberry Pi 4 (GPIO BCM, ver `docs/arquitectura-hardware/README.md`) |
+
+> **Cómo abrir el sketch:** el Arduino IDE exige que cada `.ino` esté en una carpeta con su mismo nombre. Abrir `arduino/mpu6500_polling/mpu6500_polling.ino`, `arduino/mpu6500_interrupt_fifo/mpu6500_interrupt_fifo.ino` desde su propia carpeta (Archivo → Abrir), no la carpeta del sensor. Requiere el core **esp32** de Espressif (Boards Manager → "esp32"), placa *ESP32 Dev Module*, más **MPU9250_WE** (Wolfgang Ewald, clase `MPU6500_WE`) desde el Library Manager.
+>
+> **Variante Raspberry Pi (opcional):** `pip install smbus2` y bus I²C habilitado (`raspi-config`).
 
 ---
 
@@ -102,7 +108,8 @@ Nyquist = FS_VIB / 2   →   objetivo: Nyquist ≥ 600 Hz × 1.25 = 750 Hz
 
 **Configuración adoptada: `FS_VIB = 1500 Hz`** (Nyquist = 750 Hz), igual en el
 firmware (`../nodo_kaablab/config.h`) y en el pipeline
-(`../kaablab_pipeline/config.py`).
+(`../kaablab_pipeline/config.py`). Cumple el criterio en papel; que el
+hardware la sostenga está **pendiente de validar en banco** (sección 2.2).
 
 ### 2.2 El acelerómetro del MPU6500 no está limitado a 1 kHz
 
@@ -173,15 +180,6 @@ requeridas por la configuración objetivo de la sección 2.1.**
 > espera. Por eso el código de la Ruta A (sección 3) evita `delay()` y usa
 > temporización no bloqueante basada en `micros()`.
 
-### 2.4 Nota sobre GPIO14
-
-`CLAUDE.md` documenta un conflicto pendiente de resolver en GPIO14
-(asignado simultáneamente a SCK de I²S para el INMP441 y a SDA de I²C).
-Ese conflicto **no afecta a este sensor**: el MPU6050 en este proyecto usa
-el bus I²C por defecto del ESP32 (SDA=GPIO21, SCL=GPIO22), no GPIO14. Se
-deja la nota aquí solo para que quede claro que ambos temas son
-independientes.
-
 ---
 
 ## 3. Código de manejo del sensor (ESP32)
@@ -190,7 +188,7 @@ Pin mapping confirmado del proyecto: **SDA = GPIO21, SCL = GPIO22**.
 
 ### 3.1 Ruta A — Polling con librería (recomendada para primera prueba)
 
-Ver [`mpu6500_polling.ino`](./mpu6500_polling.ino).
+Ver [`arduino/mpu6500_polling/mpu6500_polling.ino`](./arduino/mpu6500_polling/mpu6500_polling.ino).
 
 Usa la clase **`MPU6500_WE`** (`MPU6500_WE.h`, librería **MPU9250_WE** de
 Wolfgang Ewald, instalable desde el Library Manager), el mismo patrón que el
@@ -213,7 +211,7 @@ Puntos clave del código:
 
 ### 3.2 Ruta B — Interrupción + FIFO (opcional, solo si Ruta A pierde muestras)
 
-Ver [`mpu6500_interrupt_fifo.ino`](./mpu6500_interrupt_fifo.ino).
+Ver [`arduino/mpu6500_interrupt_fifo/mpu6500_interrupt_fifo.ino`](./arduino/mpu6500_interrupt_fifo/mpu6500_interrupt_fifo.ino).
 
 Solo implementar esta ruta si la prueba de banco de la Ruta A (sección 5)
 muestra pérdida de muestras. Usa el pin `INT` (data-ready) del MPU6500 y
@@ -234,10 +232,23 @@ del DHT22 (GPIO4, 1-Wire).
 
 ## 4. Esquema de conexión
 
-Ver [`diagrama_conexion.svg`](./diagrama_conexion.svg).
+Ver [`arduino/diagrama_conexion.svg`](./arduino/diagrama_conexion.svg).
 
 Incluye: VCC (3.3V), GND, SDA (GPIO21), SCL (GPIO22), y el pin INT
 (marcado como opcional, solo necesario para la Ruta B).
+
+### 4.1 Componentes pasivos
+
+| Componente | Valor | Cant. | Dónde va | ¿Lo trae el módulo? | Estado del valor |
+|---|---|---|---|---|---|
+| Condensador cerámico | 100 nF | 1 | Entre VCC y GND, lo más cerca posible del pin VCC del GY-6500 | Puede traerlo — **verificar en el módulo recibido** | Hoja MPU-6500 (0.1 µF X7R en VDD) |
+| Condensadores del chip | 0.1 µF VDD · 0.1 µF REGOUT · 10 nF VDDIO | — | Junto al chip | Sí — **verificar en el módulo recibido** | Hoja PS-MPU-6500A-01, tabla de pines (mirror; confirmar figura del circuito típico) |
+| Pull-ups SDA/SCL | sin confirmar | 2 | En el módulo | Sí — **verificar en el módulo recibido** | Pendiente de verificar (medir) |
+| Puente AD0 → 3.3 V | — (conexión) | 1 | AD0 a 3.3 V → dirección 0x69 | El módulo trae pull-down en AD0 (0x68 por defecto) — **verificar en el módulo recibido** | Hoja MPU-6500 (AD0 = bit 0 de la dirección) |
+
+**Bus I²C compartido (SHT31 0x44, DS3231 0x68, MPU6500 0x69):** no añadir pull-ups si los módulos ya los traen. Añadir 4.7 kΩ o 5.1 kΩ (SDA y SCL a 3.3 V) solo si ningún módulo del bus los trae, o si el analizador lógico muestra flancos lentos. En Raspberry Pi no añadir nunca: la placa ya trae 1.8 kΩ a 3.3 V en GPIO2/GPIO3 (pinout.xyz; no hoja oficial).
+
+Pasivos de la ESP32 (100 µF + 100 nF entre 3V3 y GND; 1N4007 solo en la entrada de 6.5–16 V) y de la microSD: ver [`../nodo_kaablab/README.md`](../nodo_kaablab/README.md), sección "Componentes pasivos del nodo". En Raspberry Pi no se requieren pasivos extra.
 
 ---
 
