@@ -15,9 +15,15 @@ concreta para el ESP32 DevKit V1.
 | Archivo | Contenido |
 |---|---|
 | `README.md` | Este documento |
-| `dht22_lectura.ino` | Lectura de temperatura y humedad con la librería DHT sensor library |
-| `diagrama_conexion.svg` | Esquema de conexión ESP32 DevKit V1 ↔ DHT22 |
+| `arduino/dht22_lectura/dht22_lectura.ino` | Lectura de temperatura y humedad con la librería DHT sensor library |
+| `arduino/diagrama_conexion.svg` | Esquema de conexión ESP32 DevKit V1 ↔ DHT22 |
 | `concepto_capacitivo_dht22.svg` | Diagrama conceptual: principio capacitivo higroscópico y rango de operación |
+| `raspberry/lectura_dht22.py` | Equivalente Python vía `pigpio` (reintentos y registro de tasa de fallos) (opcional, fuera de la tesis) |
+| `raspberry/diagrama_conexion.svg` | Esquema de conexión Raspberry Pi 4 (GPIO BCM, ver `docs/arquitectura-hardware/README.md`) |
+
+> **Cómo abrir el sketch:** el Arduino IDE exige que cada `.ino` esté en una carpeta con su mismo nombre. Abrir `arduino/dht22_lectura/dht22_lectura.ino` desde su propia carpeta (Archivo → Abrir), no la carpeta del sensor. Requiere el core **esp32** de Espressif (Boards Manager → "esp32"), placa *ESP32 Dev Module*, más **DHT sensor library** (Adafruit) desde el Library Manager — instala también su dependencia *Adafruit Unified Sensor*.
+>
+> **Variante Raspberry Pi (opcional):** `pip install pigpio` y el daemon `pigpiod` activo (`sudo systemctl enable --now pigpiod`).
 
 ---
 
@@ -105,7 +111,7 @@ para dos usos concretos en el pipeline del proyecto.
 
 ## 3. Código de manejo del sensor (ESP32)
 
-Ver [`dht22_lectura.ino`](./dht22_lectura.ino).
+Ver [`arduino/dht22_lectura/dht22_lectura.ino`](./arduino/dht22_lectura/dht22_lectura.ino).
 
 Usa la librería **DHT sensor library** de Adafruit (requiere la
 dependencia "Adafruit Unified Sensor", instalable junto con ella desde
@@ -136,12 +142,21 @@ Puntos clave del código:
 
 ## 4. Esquema de conexión
 
-Ver [`diagrama_conexion.svg`](./diagrama_conexion.svg).
+Ver [`arduino/diagrama_conexion.svg`](./arduino/diagrama_conexion.svg).
 
 Incluye: VCC (3.3–5V), GND, DATA (GPIO4), y la resistencia pull-up de
 10 kΩ entre DATA y VCC requerida por el protocolo del sensor (muchos
 módulos AM2302/DHT22 ya la incluyen integrada en la placa — verificar
 antes de añadir una externa).
+
+### 4.1 Componentes pasivos
+
+| Componente | Valor | Cant. | Dónde va | ¿Lo trae el módulo? | Estado del valor |
+|---|---|---|---|---|---|
+| Resistencia pull-up | 4.7–10 kΩ | 1 | Entre DATA y VCC | El módulo de 3 pines suele traerla — **verificar en el módulo recibido** | **Pendiente de verificar**: la hoja AM2302 consultada no confirma el valor |
+| Condensador cerámico | 100 nF | 1 | Entre VCC y GND, junto al sensor | Según módulo — **verificar en el módulo recibido** | Hoja AM2302 ("100 nF para filtrado") |
+
+Pasivos de la ESP32 (100 µF + 100 nF entre 3V3 y GND; 1N4007 solo en la entrada de 6.5–16 V) y de la microSD: ver [`../nodo_kaablab/README.md`](../nodo_kaablab/README.md), sección "Componentes pasivos del nodo". En Raspberry Pi no se requieren pasivos extra.
 
 ---
 

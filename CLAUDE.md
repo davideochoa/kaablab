@@ -131,16 +131,16 @@ Umbrales provisionales de HR (confirmar con asesor):
 kaablab/
 ├── CLAUDE.md
 ├── LICENSE-PENDIENTE.md
-├── firmware/
-│   ├── inmp441/
-│   ├── mpu6050/
-│   ├── ir_counter/
-│   └── esp32_main/
 ├── software/
-│   ├── kaablab/
-│   ├── sensor-vibracion/   # doc: config muestreo vibración estructural (README, .ino, SVG)
-│   ├── sensor-audio/       # doc: config muestreo audio I²S (README, .ino, SVG)
-│   └── sensor-trafico/     # doc: config conteo tráfico IR doble haz (README, .ino, SVG)
+│   ├── kaablab_pipeline/
+│   ├── nodo_kaablab/       # firmware integrado ESP32 DevKit V1 (5 sensores, microSD, HTTP)
+│   ├── sensor-vibracion/   # doc: config muestreo vibración estructural (README, arduino/, raspberry/, SVG)
+│   ├── sensor-audio/       # doc: config muestreo audio I²S (README, arduino/, raspberry/, SVG)
+│   ├── sensor-trafico/     # doc: config conteo tráfico IR doble haz (README, arduino/, raspberry/, SVG)
+│   ├── sensor-temperatura-humedad-basico/     # DHT22 (README, arduino/, raspberry/, SVG)
+│   └── sensor-temperatura-humedad-precision/  # SHT31 (README, arduino/, raspberry/, SVG)
+│       # Cada sketch en arduino/<sketch>/<sketch>.ino (exigencia del Arduino IDE);
+│       # diagrama ESP32 en arduino/diagrama_conexion.svg; Python opcional en raspberry/
 ├── thesis/
 │   ├── preliminares/
 │   ├── capitulo-1-antecedentes-planteamiento-objetivos/capitulo-1.md
@@ -152,6 +152,7 @@ kaablab/
 │   └── referencias.md
 ├── data/
 └── docs/
+    └── arquitectura-hardware/README.md  # ruta dual ESP32 / Raspberry Pi, mapeo BCM
 ```
 
 ## Documentos de referencia

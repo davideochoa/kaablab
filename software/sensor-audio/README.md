@@ -16,9 +16,15 @@ concreta para el ESP32 DevKit V1.
 | Archivo | Contenido |
 |---|---|
 | `README.md` | Este documento |
-| `inmp441_i2s_capture.ino` | Configuración y lectura no bloqueante del driver I²S |
-| `diagrama_conexion.svg` | Esquema de conexión ESP32 DevKit V1 ↔ INMP441 |
+| `arduino/inmp441_i2s_capture/inmp441_i2s_capture.ino` | Configuración y lectura no bloqueante del driver I²S |
+| `arduino/diagrama_conexion.svg` | Esquema de conexión ESP32 DevKit V1 ↔ INMP441 |
 | `concepto_nivel_acustico.svg` | Diagrama conceptual: qué es el nivel acústico medido y su rango de frecuencia |
+| `raspberry/captura_inmp441.py` | Equivalente Python (I²S por hardware/DMA, `sounddevice` + `numpy`) (opcional, fuera de la tesis) |
+| `raspberry/diagrama_conexion.svg` | Esquema de conexión Raspberry Pi 4 (GPIO BCM, ver `docs/arquitectura-hardware/README.md`) |
+
+> **Cómo abrir el sketch:** el Arduino IDE exige que cada `.ino` esté en una carpeta con su mismo nombre. Abrir `arduino/inmp441_i2s_capture/inmp441_i2s_capture.ino` desde su propia carpeta (Archivo → Abrir), no la carpeta del sensor. Requiere solo el core **esp32** de Espressif (Boards Manager → "esp32"), placa *ESP32 Dev Module*; `driver/i2s.h` viene incluido en el core, no requiere librerías adicionales.
+>
+> **Variante Raspberry Pi (opcional):** `pip install sounddevice numpy` y `sudo apt install libportaudio2`; habilitar el overlay I²S en `/boot/config.txt`.
 
 ---
 
@@ -46,7 +52,8 @@ específicas (ver sección 1 más abajo para el detalle completo):
 
 Las vibraciones estructurales de 180–600 Hz (vuelo ~180 Hz, Hrncir et
 al., 2008; forrajeo/reclutamiento ~300–600 Hz, Hrncir et al., 2000, 2006;
-muestreadas con el MPU6500 a FS_VIB = 1500 Hz, Nyquist 750 Hz) se
+muestreadas con el MPU6500 a FS_VIB = 1500 Hz, Nyquist 750 Hz, tasa pendiente
+de validar en banco) se
 registran por dos canales complementarios: este micrófono de aire capta su
 componente aéreo (misma frecuencia principal, Hrncir et al., 2000), pero no
 la vibración de sustrato en sí, que registra el MPU6500.
@@ -70,7 +77,7 @@ para *M. beecheii*:
 **Canales complementarios INMP441 / MPU6500:** las vibraciones estructurales de
 **180–600 Hz** (vuelo ~180 Hz, Hrncir et al., 2008; forrajeo/
 reclutamiento ~300–600 Hz, Hrncir et al., 2000, 2006; muestreadas con el
-MPU6500 a FS_VIB = 1500 Hz, Nyquist 750 Hz; el hecho de que en otros meliponinos el comportamiento defensivo se exprese por
+MPU6500 a FS_VIB = 1500 Hz, Nyquist 750 Hz, tasa pendiente de validar en banco; el hecho de que en otros meliponinos el comportamiento defensivo se exprese por
 sustrato y no por sonido aéreo está documentado por dos Santos et al.,
 2025) tienen un componente de sonido aéreo y otro de sustrato con la misma
 frecuencia principal (Hrncir et al., 2000). El INMP441 registra sonido
@@ -120,8 +127,9 @@ hardware documentada: su ADC de aceleración actualiza su valor
 internamente a **1 kHz fijo**, sin importar la tasa a la que el firmware
 lea el registro — leer más rápido que eso solo produce muestras
 repetidas. Esa limitación no aplica al MPU6500 de los nodos, cuyo
-acelerómetro admite hasta 4 kHz (muestreado a 1500 Hz, Nyquist 750 Hz;
-ver `../sensor-vibracion/README.md`, sección 2.2).
+acelerómetro admite hasta 4 kHz (muestreado a 1500 Hz, Nyquist 750 Hz,
+tasa pendiente de validar en banco; ver `../sensor-vibracion/README.md`,
+sección 2.2).
 
 **El INMP441 no tiene esa limitación.** Según el datasheet de
 InvenSense/TDK (ver Referencias), el INMP441 no tiene un reloj de
@@ -170,7 +178,7 @@ misma línea I²S para este proyecto.
 
 ## 3. Código de manejo del sensor (ESP32)
 
-Ver [`inmp441_i2s_capture.ino`](./inmp441_i2s_capture.ino).
+Ver [`arduino/inmp441_i2s_capture/inmp441_i2s_capture.ino`](./arduino/inmp441_i2s_capture/inmp441_i2s_capture.ino).
 
 Pin mapping confirmado del proyecto (`CLAUDE.md`,
 `thesis/capitulo-2-materiales-y-metodos/capitulo-2.md` Tabla 2.3):
@@ -202,10 +210,21 @@ Puntos clave del código:
 
 ## 4. Esquema de conexión
 
-Ver [`diagrama_conexion.svg`](./diagrama_conexion.svg).
+Ver [`arduino/diagrama_conexion.svg`](./arduino/diagrama_conexion.svg).
 
 Incluye: VDD (3.3V), GND, SCK (GPIO14), WS (GPIO15), SD (GPIO32), y L/R
 (a GND, canal mono).
+
+### 4.1 Componentes pasivos
+
+| Componente | Valor | Cant. | Dónde va | ¿Lo trae el módulo? | Estado del valor |
+|---|---|---|---|---|---|
+| Condensador cerámico | 100 nF | 1 | Entre VDD y GND, junto al pin VDD | Muchos breakouts lo traen — **verificar en el módulo recibido** | **Pendiente de verificar** en la hoja INMP441 (0.1 µF en hojas ADMP441/INMP621) |
+| Condensador | 10 µF (opcional) | 1 | Entre VDD y GND, en paralelo con el de 100 nF | No | **Pendiente de verificar** (valor de diseño) |
+| Pull-down en SD | 100 kΩ (a considerar) | 1 | Entre SD y GND | **Verificar en el módulo recibido** | **Pendiente de verificar** (hoja ADMP441; solo necesario con varios micrófonos en el bus) |
+| Puente L/R → GND | — (conexión) | 1 | L/R a GND → canal izquierdo (mono) | Según breakout | Hoja ADMP441 (confirmar en INMP441) |
+
+Pasivos de la ESP32 (100 µF + 100 nF entre 3V3 y GND; 1N4007 solo en la entrada de 6.5–16 V) y de la microSD: ver [`../nodo_kaablab/README.md`](../nodo_kaablab/README.md), sección "Componentes pasivos del nodo". En Raspberry Pi no se requieren pasivos extra.
 
 ---
 

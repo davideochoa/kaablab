@@ -23,7 +23,7 @@ Adafruit_SHT31 sht31 = Adafruit_SHT31();
 
 const uint8_t SDA_PIN = 21;
 const uint8_t SCL_PIN = 22;
-const uint8_t SHT31_ADDR = 0x44; // ADDR a GND en este proyecto (ver diagrama_conexion.svg)
+const uint8_t SHT31_ADDR = 0x44; // ADDR a GND en este proyecto (ver ../diagrama_conexion.svg)
 
 const unsigned long READ_INTERVAL_MS = 1000;
 

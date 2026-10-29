@@ -253,7 +253,7 @@
     Alimentación (3V3/GND) común a los 5 sensores, el DS3231 y la microSD; se omite como línea individual por claridad — ver el diagrama de cada
   </text>
   <text x="750" y="1710" text-anchor="middle" font-size="10" fill="#777777">
-    sensor en software/sensor-*/diagrama_conexion.svg para el detalle completo de alimentación y pull-ups.
+    sensor en software/sensor-*/arduino/diagrama_conexion.svg para el detalle completo de alimentación y pull-ups.
   </text>
   <text x="750" y="1725" text-anchor="middle" font-size="10" fill="#777777">
     GPIO13 (INT, Ruta B opcional del MPU6050) no choca con GPIO4 (DATA del DHT22) — ver Tabla 2.3.

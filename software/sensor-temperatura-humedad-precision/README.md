@@ -15,9 +15,15 @@ concreta para el ESP32 DevKit V1.
 | Archivo | Contenido |
 |---|---|
 | `README.md` | Este documento |
-| `sht31_lectura.ino` | Lectura de temperatura y humedad vía I²C con Adafruit SHT31 Library |
-| `diagrama_conexion.svg` | Esquema de conexión ESP32 DevKit V1 ↔ SHT31 |
+| `arduino/sht31_lectura/sht31_lectura.ino` | Lectura de temperatura y humedad vía I²C con Adafruit SHT31 Library |
+| `arduino/diagrama_conexion.svg` | Esquema de conexión ESP32 DevKit V1 ↔ SHT31 |
 | `concepto_capacitivo_sht31.svg` | Diagrama conceptual: principio capacitivo de película polimérica y rango de operación |
+| `raspberry/lectura_sht31.py` | Equivalente Python vía `smbus2`, bus I²C 1 compartido con DS3231 (0x68) y MPU6500 (0x69) (opcional, fuera de la tesis) |
+| `raspberry/diagrama_conexion.svg` | Esquema de conexión Raspberry Pi 4 (GPIO BCM, ver `docs/arquitectura-hardware/README.md`) |
+
+> **Cómo abrir el sketch:** el Arduino IDE exige que cada `.ino` esté en una carpeta con su mismo nombre. Abrir `arduino/sht31_lectura/sht31_lectura.ino` desde su propia carpeta (Archivo → Abrir), no la carpeta del sensor. Requiere el core **esp32** de Espressif (Boards Manager → "esp32"), placa *ESP32 Dev Module*, más **Adafruit SHT31 Library** desde el Library Manager (instala también *Adafruit BusIO*).
+>
+> **Variante Raspberry Pi (opcional):** `pip install smbus2` y bus I²C habilitado (`raspi-config`).
 
 ---
 
@@ -111,7 +117,7 @@ para dos usos concretos en el pipeline del proyecto.
 
 ## 3. Código de manejo del sensor (ESP32)
 
-Ver [`sht31_lectura.ino`](./sht31_lectura.ino).
+Ver [`arduino/sht31_lectura/sht31_lectura.ino`](./arduino/sht31_lectura/sht31_lectura.ino).
 
 Pin mapping confirmado del proyecto: **SDA = GPIO21, SCL = GPIO22**
 (bus I²C compartido con el MPU6050, ver `../sensor-vibracion/README.md`).
@@ -124,8 +130,8 @@ Puntos clave del código:
 
 - Inicializa el bus con `Wire.begin(21, 22)` y el sensor con
   `sht31.begin(0x44)` — dirección I²C con `ADDR` a GND (ver diagrama de
-  conexión). Sin conflicto con el MPU6050/6500 en el mismo bus
-  (0x68/0x69).
+  conexión). Sin conflicto con el DS3231 (0x68) ni con el MPU6500
+  (0x69, AD0 a 3.3 V) en el mismo bus.
 - `readTemperature()` / `readHumidity()` disparan una medición nueva en
   el chip CMOSens y leen el resultado ya calibrado y compensado por
   temperatura vía I²C — no requieren timing manual como el DHT22.
@@ -140,10 +146,23 @@ Puntos clave del código:
 
 ## 4. Esquema de conexión
 
-Ver [`diagrama_conexion.svg`](./diagrama_conexion.svg).
+Ver [`arduino/diagrama_conexion.svg`](./arduino/diagrama_conexion.svg).
 
 Incluye: VCC (3.3V), GND, SDA (GPIO21), SCL (GPIO22), y el pin `ADDR`
 (a GND en este proyecto, para dirección 0x44).
+
+### 4.1 Componentes pasivos
+
+| Componente | Valor | Cant. | Dónde va | ¿Lo trae el módulo? | Estado del valor |
+|---|---|---|---|---|---|
+| Condensador cerámico | 100 nF | 1 | Entre VDD y GND, lo más cerca posible del sensor | Muchos breakouts lo traen — **verificar en el módulo recibido** | Hoja SHT3x-DIS |
+| Pull-ups SDA/SCL | 10 kΩ (ejemplo de la hoja) | 2 | En el breakout | Normalmente sí — **verificar en el módulo recibido** | Hoja SHT3x-DIS (valor de ejemplo; dimensionar según bus) |
+| Puente ADDR → GND | — (conexión) | 1 | ADDR a GND → dirección 0x44 | Según breakout — **verificar en el módulo recibido** | Hoja SHT3x-DIS |
+| DS3231 (mismo bus): carga de la pila | ≈ 200 Ω + diodo (módulo ZS-042) | — | Circuito VCC → VBAT del módulo RTC | Sí — **verificar en el módulo recibido** | Fuente: foros, no hoja de datos. Usar LIR2032, o con CR2032 retirar el diodo o la resistencia de carga |
+
+**Bus I²C compartido (SHT31 0x44, DS3231 0x68, MPU6500 0x69):** no añadir pull-ups si los módulos ya los traen. Añadir 4.7 kΩ o 5.1 kΩ (SDA y SCL a 3.3 V) solo si ningún módulo del bus los trae, o si el analizador lógico muestra flancos lentos. En Raspberry Pi no añadir nunca: la placa ya trae 1.8 kΩ a 3.3 V en GPIO2/GPIO3 (pinout.xyz; no hoja oficial).
+
+Pasivos de la ESP32 (100 µF + 100 nF entre 3V3 y GND; 1N4007 solo en la entrada de 6.5–16 V) y de la microSD: ver [`../nodo_kaablab/README.md`](../nodo_kaablab/README.md), sección "Componentes pasivos del nodo". En Raspberry Pi no se requieren pasivos extra.
 
 ---
 
