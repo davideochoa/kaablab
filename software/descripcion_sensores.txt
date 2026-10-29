@@ -1,0 +1,88 @@
+Nodemcu Esp32 Wifi Ch340g Usb-c + Shield Placa Expansion 
+Microcontrolador: ESP32-WROOM-32.
+Voltaje de funcionamiento: 3.3V.
+Frecuencia del reloj: 240MHz.
+Capacidad de la memoria flash 4096KB.
+Capacidad SRAM: 520KB.
+
+Tcrt5000 Sensor Óptico Reflectivo
+Detección de objetos con distancia calibrable de 1 mm a 15 mm mediante potenciómetro integrado para robots móviles.
+Salida digital DO y analógica AO que permiten integrar el módulo a sistemas de control con voltajes de 3,3V a 5V.
+Dimensiones compactas de 3.1 cm por 1.4 cm y peso de 3 g que facilitan el montaje en chasis de robots seguidores.
+Indicadores luminosos integrados para monitoreo visual directo del estado de alimentación y detección de señales.
+
+Placa de Desarrollo del módulo WiFi ESP32-CAM con cámara OV2640 Serie a para Aplicaciones IoT
+Módulo SoC Ultrasmall 802.11b//n WiFi + BT/BLE.
+SRAM interno de 520 KB, PSRAM externo de 4M.
+Soporta interfaces como UART/SPI/I2C/PWM/ADC/DAC.
+CPU dualcore de bajo consumo de 32 bits para procesadores de aplicaciones.
+Frecuencia principal de hasta 240 MHz, potencia de cómputo de hasta 600 DMIPS.
+
+Módulo de Placa de Prueba ESP32-CAM ESP32 con cámara
+Marca	YOURRYONG
+Nombre del modelo	ESP32-CAM
+Tecnología de conectividad	Wi-Fi 4, USB 2.0
+Sistema operativo	FreeRTOS
+Fabricante del CPU	Espressif
+
+sensor de escudo DHT22 Pro
+Fabricante	‎Charcarl SZ
+Número de pieza	‎725418865644
+Referencia del fabricante	725418865644
+ASIN	B0GX7GCXY3
+
+sensores GY-SHT31-D SHT31-D SHT31
+Fabricante	‎Charcarl SZ
+Número de pieza	‎725418862711
+Referencia del fabricante	725418862711
+ASIN	B0GWT9P91F
+
+sensores circulares INMP441
+Fabricante	‎Charcarl SZ
+Número de pieza	‎725418872529
+Referencia del fabricante	725418872529
+ASIN	B0GXRNVN6Y
+
+MPU6500 Módulo Sensorial De Acelerómetro Giroscopio 6 Ejes Reemplace Acelerador Giroscópico
+Nombre de la marca	Zkhxhtg
+Modelo	GY-6500
+Especificaciones:
+Tamaño: aproximadamente 15x25mm/0,59x0,98 pulgadas
+Modelo de módulo: GY-6500
+Chip usado: mpu6500
+
+Fuente de Alimentación para Protoboard, 3.3V y 5V, Módulo de Alimentación Dual
+Tipo de conector que se usa en el cable	Micro usb
+Vataje de salida	5 Vatios
+Factor de forma	Mini ITX
+Vataje	5 watts
+Método Enfriamiento	Pasivo
+Diseño del suministro de energía	Fuente De Alimentación Para Protoboard Con Voltajes Duales De 3.3v Y 5v
+Tensión de entrada máxima	127 Voltios (CA)
+Voltaje de entrada mínimo	127 Voltios (CA)
+Nombre del modelo	V1.0
+Marca	DESTEC
+Número de artículos	1
+Fabricante	Destec
+VOLTAJE DUAL: Proporciona dos salidas de voltaje regulado de 3.3V y 5V para alimentar circuitos en protoboard
+DISEÑO COMPACTO: Módulo de alimentación con formato optimizado para protoboards estándar, permitiendo una integración perfecta
+CONEXIONES: Cuenta con terminales de conexión amarillas para fácil acceso a los voltajes de salida y tierra (GND)
+CONSTRUCCIÓN: Fabricado con PCB de alta calidad en color azul y componentes electrónicos seleccionados para un rendimiento confiable
+COMPATIBILIDAD: Diseñado específicamente para uso con protoboards estándar, ideal para proyectos electrónicos y prototipos
+
+DC5521 Convertidor de potencia 6V-12V Entrada a 3.3V / 5V / 12V Salida con sobrecarga para microcontroladores Módulo de potencia compacto
+Múltiples voltajes de salida: este módulo convertidor DC5521 proporciona una opción de 3 salidas (3.3V, 5V y 12V) para alimentar varios dispositivos electrónicos, por lo que es ideal para aplicaciones como robótica y proyectos
+Conversión de alta eficiencia: la tecnología de conversión avanzada minimiza la pérdida de energía, la salida estable mientras amplía el uso del módulo
+compacta y fácil instalación: mide solo 59,5 x 26,5 mm, este módulo ligero de PCB cuenta con interfaces fáciles de usar para una configuración rápida en electrónica, sistemas domésticos inteligentes y mucho más
+Amplios rangos de voltajes de entrada: con rangos de entrada de DC6-12V, el módulo es compatible para múltiples fuentes de alimentación, asegurando una integración perfecta en diferentes sistemas
+Cortocircuitos y protecciones de sobrecarga: protege automáticamente la corriente durante cortocircuitos o sobrecargas, daños a la conexión de dispositivos y mejora
+Número de modelo del producto	Generic
+ASIN	B0H2M43974
+
+
+
+
+
+
+
+

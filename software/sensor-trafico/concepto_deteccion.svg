@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 460" width="760" height="460" font-family="Segoe UI, Arial, sans-serif">
-  <title>Concepto: detección de tráfico por interrupción de haz IR</title>
+  <title>Concepto: detección de tráfico por sensores IR reflectivos (TCRT5000)</title>
   <rect x="0" y="0" width="760" height="460" fill="#ffffff"/>
 
   <text x="380" y="28" text-anchor="middle" font-size="18" font-weight="bold" fill="#1a1a1a">
@@ -9,27 +9,37 @@
     Conteo discreto de entradas/salidas de forrajeo — no una señal continua ni una banda de frecuencia
   </text>
 
-  <!-- ===== Ilustracion: tubo de la piquera visto en corte, dos modulos enfrentados ===== -->
+  <!-- ===== Ilustracion: tubo de la piquera visto en corte, dos modulos TCRT5000 reflectivos ===== -->
   <text x="380" y="90" text-anchor="middle" font-size="12" fill="#7a5a30">Corte del tubo de la piquera (vista superior, no a escala)</text>
 
   <!-- pared / tubo -->
   <rect x="200" y="110" width="360" height="90" rx="10" fill="#fdf8ef" stroke="#7a5a30" stroke-width="2"/>
   <text x="380" y="230" text-anchor="middle" font-size="10" fill="#7a5a30">diámetro del tubo ≈ 15 mm</text>
 
-  <!-- modulo emisor (arriba) y receptor (abajo), enfrentados -->
+  <!-- modulos reflectivos arriba y abajo; cada uno emite y recibe por la misma cara -->
   <rect x="300" y="70" width="70" height="30" rx="4" fill="#eef3fb" stroke="#2c5aa0" stroke-width="2"/>
-  <text x="335" y="90" text-anchor="middle" font-size="10.5" fill="#1a1a1a">Emisor IR</text>
+  <text x="335" y="90" text-anchor="middle" font-size="10.5" fill="#1a1a1a">TCRT5000 (principal)</text>
 
   <rect x="300" y="210" width="70" height="30" rx="4" fill="#eefbf1" stroke="#227a3d" stroke-width="2"/>
-  <text x="335" y="230" text-anchor="middle" font-size="10.5" fill="#1a1a1a">Receptor IR</text>
+  <text x="335" y="230" text-anchor="middle" font-size="10.5" fill="#1a1a1a">TCRT5000 (secundario)</text>
 
-  <!-- haz -->
-  <line x1="335" y1="100" x2="335" y2="210" stroke="#c0392b" stroke-width="2" stroke-dasharray="5,4"/>
-  <text x="355" y="160" font-size="10.5" fill="#c0392b">haz IR</text>
+  <defs>
+    <marker id="flechaIR" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto-start-reverse">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#b03a2e"/>
+    </marker>
+  </defs>
+  <!-- cono de emisión de cada cabeza óptica (sin haz directo entre módulos) -->
+  <polygon points="335,100 319,130 351,130" fill="#2c5aa0" fill-opacity="0.18" stroke="#2c5aa0" stroke-width="1" stroke-dasharray="3,2"/>
+  <polygon points="335,210 319,180 351,180" fill="#227a3d" fill-opacity="0.18" stroke="#227a3d" stroke-width="1" stroke-dasharray="3,2"/>
+  <!-- reflexión IR en la abeja hacia cada cabeza -->
+  <line x1="335" y1="104" x2="335" y2="144" stroke="#b03a2e" stroke-width="1.2" marker-start="url(#flechaIR)" marker-end="url(#flechaIR)"/>
+  <line x1="335" y1="206" x2="335" y2="166" stroke="#b03a2e" stroke-width="1.2" marker-start="url(#flechaIR)" marker-end="url(#flechaIR)"/>
+  <text x="558" y="104" text-anchor="end" font-size="9.5" font-style="italic" fill="#8a6d00">Geometría a validar con el experto</text>
+  <text x="355" y="160" font-size="10.5" fill="#c0392b">zona de detección</text>
 
   <!-- abeja cruzando el haz -->
   <circle cx="335" cy="155" r="9" fill="#f5c518" stroke="#8a6d00" stroke-width="1.5"/>
-  <text x="335" y="185" text-anchor="middle" font-size="9.5" fill="#555555">abeja interrumpe el haz</text>
+  <text x="335" y="185" text-anchor="middle" font-size="9.5" fill="#555555">la abeja refleja el IR</text>
 
   <!-- flecha de direccion de vuelo -->
   <path d="M280 155 L410 155" stroke="#555555" stroke-width="1.5" fill="none" marker-end="url(#arrowhead)"/>

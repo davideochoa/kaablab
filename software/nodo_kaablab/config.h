@@ -15,7 +15,7 @@
 #define MPU6050_ADDR 0x69   // Dirección del MPU6500 (GY-6500), AD0 en alto; el nombre MPU6050_ADDR se conserva por compatibilidad
 #define DS3231_ADDR  0x68
 
-// ===================== PIN 1-WIRE (DHT22) =====================
+// ===================== PIN DHT22 (protocolo propio de un hilo, no 1-Wire) =====================
 #define PIN_DHT22 4
 #define DHT_TYPE DHT22
 
@@ -24,10 +24,12 @@
 #define PIN_I2S_WS  15
 #define PIN_I2S_SD  32
 
-// ===================== PINES IR DOBLE HAZ (4 módulos FC-51/KY-033) =====================
+// ===================== PINES IR DOBLE HAZ (4 módulos TCRT5000 reflectivos) =====================
 // Módulos reflectivos (emisor + receptor en la misma placa). Solo los principales
 // (GPIO26, GPIO27) se usan para el conteo direccional; los secundarios son señales
 // de diagnóstico de banco (redundancia), configuradas como entrada pero no leídas.
+// Alimentar los módulos a 3.3 V, no 5 V (D0 subiría a 5 V y el ESP32 no lo tolera);
+// validar la sensibilidad en banco.
 #define PIN_IR_A1 26   // Haz A, módulo principal — conteo (Tabla 2.3: GPIO26)
 #define PIN_IR_A2 25   // Haz A, módulo secundario — diagnóstico de banco (Tabla 2.3: GPIO25)
 #define PIN_IR_B1 27   // Haz B, módulo principal — conteo (Tabla 2.3: GPIO27)

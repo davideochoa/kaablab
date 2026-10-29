@@ -27,7 +27,7 @@
  *   INT = GPIO13 (Ruta B, opcional) — confirmado en
  *   thesis/capitulo-2-materiales-y-metodos/capitulo-2.md, Tabla 2.3.
  *   Reasignado desde GPIO4 para evitar el choque con el DATA del DHT22
- *   (GPIO4, 1-Wire).
+ *   (GPIO4, protocolo propio de un hilo).
  *   AD0 del MPU6500 a 3.3 V -> dirección I2C 0x69 (0x68 choca con el DS3231)
  */
 

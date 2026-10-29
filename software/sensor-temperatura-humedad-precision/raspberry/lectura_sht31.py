@@ -78,14 +78,17 @@ Calculo de ocupacion real del bus por este sensor:
          6 bytes*9 = 54 ~= 63 bits
 
     Bits totales de bus ocupado por ciclo de lectura ~= 90 bits.
-    A 100 kHz (modo estandar I2C, suficiente para este sensor, sin
-    necesidad de Fast Mode): 90 / 100_000 ~= 900 us de bus ocupado.
+    El bus I2C tiene UNA sola velocidad para todos sus dispositivos
+    (dtparam=i2c_arm_baudrate). Como el MPU6500 exige 400 kHz para
+    sostener 1500 Hz (ver ../../sensor-vibracion/raspberry/lectura_mpu6500.py),
+    el SHT31 tambien transacciona a 400 kHz:
+    90 / 400_000 ~= 225 us de bus ocupado.
 
     Este script lee el SHT31 una vez por segundo (mismo intervalo que
     ../arduino/sht31_lectura/sht31_lectura.ino, READ_INTERVAL_S = 1.0), por lo que su
     "duty cycle" sobre el bus es aproximadamente:
 
-        900 us / 1_000_000 us = 0.09% del tiempo de bus por segundo
+        225 us / 1_000_000 us ~= 0.02% del tiempo de bus por segundo
 
     Frente al presupuesto del MPU6500 (sensor-vibracion/README.md,
     seccion 2.3): 1500 lecturas/s, ~81 bits cada una, a 400 kHz
@@ -95,13 +98,13 @@ Calculo de ocupacion real del bus por este sensor:
     CONCLUSION DEL ANALISIS (no sustituye la validacion de banco,
     ver README.md seccion de validacion): el SHT31, leido una vez por
     segundo en modo sin clock stretching, consume una fraccion
-    despreciable (~0.09%) del tiempo de bus frente al presupuesto ya
+    despreciable (~0.02%) del tiempo de bus frente al presupuesto ya
     del MPU6500 (~30% a 400 kHz). El riesgo de contencion
     NO esta en el ancho de banda agregado del bus, sino en la
     posibilidad de que una transaccion del SHT31 se intercale, en el
     peor caso, justo en medio de la ventana de tiempo entre dos
     muestras consecutivas del MPU6500 (~667 us a 1500 Hz) e introduzca
-    un retardo puntual de hasta ~900 us en esa muestra especifica —
+    un retardo puntual de hasta ~225 us (a 400 kHz) en esa muestra especifica —
     un jitter puntual, no un problema de throughput sostenido. Esto
     debe confirmarse empiricamente (ver README.md, seccion de
     validacion): capturar con analizador logico el bus compartido

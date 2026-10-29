@@ -45,6 +45,13 @@ seccion 4 — mapeo GPIO BCM equivalente al de ESP32 DevKit V1):
 
 Requisitos del sistema antes de ejecutar:
   1. Habilitar el bus I2C: `sudo raspi-config` -> Interface Options -> I2C.
+     OBLIGATORIO: fijar la velocidad del bus a 400 kHz con
+     `dtparam=i2c_arm_baudrate=400000` en /boot/firmware/config.txt
+     (/boot/config.txt en versiones anteriores) y reiniciar. Por defecto el
+     bus corre a 100 kHz; a esa velocidad una lectura de ~81 bits ocupa
+     ~810 us, mas que el periodo de ~667 us: los 1500 Hz son IMPOSIBLES a
+     100 kHz. La velocidad es unica para todo el bus (SHT31, DS3231 y
+     MPU6500 la comparten).
   2. Verificar que el sensor responde: `sudo i2cdetect -y 1` (debe listar
      0x69 para el MPU6500; 0x68 aparece como "UU" si el DS3231 ya esta
      tomado por el driver RTC del kernel, ver docs/arquitectura-hardware/

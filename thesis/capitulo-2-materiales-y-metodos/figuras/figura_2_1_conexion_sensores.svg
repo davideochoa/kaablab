@@ -48,8 +48,8 @@
   <circle cx="292" cy="581" r="4" fill="#8a6d00"/>
   <text x="280" y="586" text-anchor="end" font-size="13" fill="#1a1a1a">GPIO13 (INT, opcional)</text>
 
-  <!-- 1-Wire -->
-  <text x="280" y="618" text-anchor="end" font-size="10" fill="#c0392b">— 1-Wire (DHT22) —</text>
+  <!-- protocolo propio de un hilo -->
+  <text x="280" y="618" text-anchor="end" font-size="10" fill="#c0392b">— un hilo, protocolo propio (DHT22) —</text>
 
   <circle cx="292" cy="639" r="4" fill="#c0392b"/>
   <text x="280" y="644" text-anchor="end" font-size="13" fill="#1a1a1a">GPIO4 (DATA)</text>
@@ -130,7 +130,9 @@
   <rect x="1120" y="770" width="320" height="150" rx="8" fill="#eefbf1" stroke="#227a3d" stroke-width="2"/>
   <text x="1280" y="798" text-anchor="middle" font-size="15" font-weight="bold" fill="#1a1a1a">DHT22 / AM2302</text>
   <text x="1280" y="815" text-anchor="middle" font-size="11" fill="#555555">externo secundario — temp/HR</text>
-  <text x="1135" y="845" font-size="10.5" fill="#555555">Alimentación: VCC 3.3–5V, GND (común)</text>
+  <text x="1135" y="833" font-size="10.5" fill="#555555">Alimentación: VCC 3.3 V, GND (común)</text>
+  <text x="1135" y="847" font-size="9.5" fill="#c0392b">Pull-up de DATA a 3.3 V. Alimentar a 3.3 V;</text>
+  <text x="1135" y="859" font-size="9.5" fill="#c0392b">verificar en la hoja de datos el alcance de cable a 3.3 V</text>
 
   <circle cx="1128" cy="875" r="4" fill="#c0392b"/>
   <text x="1145" y="880" font-size="13" fill="#1a1a1a">DATA</text>
@@ -138,8 +140,10 @@
   <!-- ===================== Sensor IR doble haz box ===================== -->
   <rect x="1120" y="950" width="320" height="220" rx="8" fill="#fdf8ef" stroke="#7a5a30" stroke-width="2"/>
   <text x="1280" y="978" text-anchor="middle" font-size="15" font-weight="bold" fill="#1a1a1a">Sensor IR doble haz</text>
-  <text x="1280" y="995" text-anchor="middle" font-size="10.5" fill="#555555">4 módulos FC-51/KY-033 — conteo direccional</text>
-  <text x="1135" y="1022" font-size="10.5" fill="#555555">Alimentación: VCC 3.3–5V, GND (común, 4 módulos)</text>
+  <text x="1280" y="995" text-anchor="middle" font-size="10.5" fill="#555555">4 módulos TCRT5000 reflectivos — conteo direccional</text>
+  <text x="1135" y="1022" font-size="10.5" fill="#555555">Alimentación: VCC 3.3 V, GND (común, 4 módulos)</text>
+  <text x="1135" y="1035" font-size="9.5" fill="#c0392b">No 5 V (D0 subiría a 5 V): alimentar a 3.3 V;</text>
+  <text x="1135" y="1046" font-size="9.5" fill="#c0392b">validar la sensibilidad en banco</text>
 
   <circle cx="1128" cy="1055" r="4" fill="#c0392b"/>
   <text x="1145" y="1060" font-size="13" fill="#1a1a1a">OUT — Haz A principal</text>
@@ -169,7 +173,8 @@
   <rect x="1120" y="1380" width="320" height="210" rx="8" fill="#eefbf1" stroke="#227a3d" stroke-width="2"/>
   <text x="1280" y="1408" text-anchor="middle" font-size="15" font-weight="bold" fill="#1a1a1a">microSD</text>
   <text x="1280" y="1425" text-anchor="middle" font-size="11" fill="#555555">almacenamiento local — SPI/VSPI</text>
-  <text x="1135" y="1452" font-size="10.5" fill="#555555">Alimentación: VCC 3.3V, GND (común)</text>
+  <text x="1135" y="1450" font-size="10.5" fill="#555555">Alimentación: VIN 5 V (HW-125, AMS1117)</text>
+  <text x="1135" y="1464" font-size="9.5" fill="#555555">o 3.3 V (módulo sin regulador); GND común</text>
 
   <circle cx="1128" cy="1480" r="4" fill="#1a7f8a"/>
   <text x="1145" y="1485" font-size="13" fill="#1a1a1a">CS</text>
@@ -200,7 +205,7 @@
   <!-- INT -> MPU6050 (opcional, punteado) -->
   <line x1="300" y1="581" x2="1120" y2="705" stroke="#8a6d00" stroke-width="1.8" stroke-dasharray="7,5"/>
 
-  <!-- 1-Wire -> DHT22 -->
+  <!-- un hilo -> DHT22 -->
   <line x1="300" y1="639" x2="1120" y2="875" stroke="#c0392b" stroke-width="1.8"/>
 
   <!-- IR -->
@@ -231,7 +236,7 @@
   <text x="350" y="1641" font-size="10.5" fill="#1a1a1a">I²S (INMP441) / Haz B secundario (IR)</text>
 
   <rect x="680" y="1630" width="14" height="14" fill="#c0392b"/>
-  <text x="700" y="1641" font-size="10.5" fill="#1a1a1a">1-Wire (DHT22) / Haz A principal (IR)</text>
+  <text x="700" y="1641" font-size="10.5" fill="#1a1a1a">Un hilo, protocolo propio (DHT22) / Haz A principal (IR)</text>
 
   <rect x="1030" y="1630" width="14" height="14" fill="#e08a3c"/>
   <text x="1050" y="1641" font-size="10.5" fill="#1a1a1a">Haz A secundario (IR)</text>

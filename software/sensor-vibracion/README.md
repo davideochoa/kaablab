@@ -1,4 +1,4 @@
-# MPU6050 / MPU6500 — Muestreo de vibración estructural (300–600 Hz)
+# MPU6500 — Muestreo de vibración estructural (300–600 Hz)
 
 Sensor de vibración estructural del sistema KaabLab. Vía este acelerómetro
 se busca capturar señales vibracionales relacionadas con comportamiento
@@ -26,7 +26,7 @@ los conceptos (Nyquist, DLPF, FIFO) como la configuración concreta.
 
 > **Cómo abrir el sketch:** el Arduino IDE exige que cada `.ino` esté en una carpeta con su mismo nombre. Abrir `arduino/mpu6500_polling/mpu6500_polling.ino`, `arduino/mpu6500_interrupt_fifo/mpu6500_interrupt_fifo.ino` desde su propia carpeta (Archivo → Abrir), no la carpeta del sensor. Requiere el core **esp32** de Espressif (Boards Manager → "esp32"), placa *ESP32 Dev Module*, más **MPU9250_WE** (Wolfgang Ewald, clase `MPU6500_WE`) desde el Library Manager.
 >
-> **Variante Raspberry Pi (opcional):** `pip install smbus2` y bus I²C habilitado (`raspi-config`).
+> **Variante Raspberry Pi (opcional):** `pip install smbus2` y bus I²C habilitado (`raspi-config`). **Obligatorio** fijar `dtparam=i2c_arm_baudrate=400000` en `/boot/firmware/config.txt` (`/boot/config.txt` en versiones anteriores): el bus I²C de Raspberry Pi trabaja por defecto a 100 kHz, y a esa velocidad una lectura de ~81 bits ocupa ~810 µs, más que el periodo de ~667 µs: **los 1500 Hz son imposibles a 100 kHz**. La velocidad es única para todo el bus (SHT31, DS3231 y MPU6500 comparten la misma).
 
 ---
 
@@ -226,7 +226,7 @@ sketch lo diezma a `FS_VIB` = 1500 Hz con un acumulador de fase (conserva
 El pin `INT` usado en el código es **GPIO13**, confirmado contra el
 mapeo global de pines del proyecto (`thesis/capitulo-2-materiales-y-metodos/capitulo-2.md`,
 Tabla 2.3) — reasignado desde GPIO4 para evitar el choque con el DATA
-del DHT22 (GPIO4, 1-Wire).
+del DHT22 (GPIO4, protocolo propio de un hilo).
 
 ---
 
