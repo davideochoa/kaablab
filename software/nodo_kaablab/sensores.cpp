@@ -53,6 +53,7 @@ bool sensores_iniciar() {
                   MPU6050_ADDR, imu.whoAmI(), MPU6500_WHO_AM_I);
     return false;
   }
+  static_assert(VIB_RANGO_G == 8, "VIB_RANGO_G debe coincidir con setAccRange");
   imu.setAccRange(MPU6500_ACC_RANGE_8G);
   // Tras el reset el filtro digital del acelerómetro queda activo (DLPF programable de
   // 5 a 260 Hz, datasheet MPU-6500 Rev 1.1, Tabla 2), lo que atenuaría la banda objetivo
@@ -128,15 +129,13 @@ LecturaInstantanea sensores_leer_instantanea() {
   return l;
 }
 
-void sensores_capturar_audio(int16_t *buffer) {
+size_t sensores_capturar_audio(int16_t *buffer) {
   size_t bytes_leidos = 0;
-  size_t bytes_totales = N_MUESTRAS_AUDIO * sizeof(int16_t);
-  i2s_read(I2S_NUM_0, (void *)buffer, bytes_totales, &bytes_leidos, portMAX_DELAY);
-  // Si bytes_leidos < bytes_totales, el buffer queda parcialmente lleno;
-  // el celular debe validar el tamaño real del archivo .pcm recibido.
+  i2s_read(I2S_NUM_0, (void *)buffer, N_MUESTRAS_AUDIO * sizeof(int16_t), &bytes_leidos, portMAX_DELAY);
+  return bytes_leidos;
 }
 
-void sensores_capturar_vibracion(int16_t *buffer) {
+uint32_t sensores_capturar_vibracion(int16_t *buffer) {
   // Muestreo por polling a FS_VIB (1500 Hz, periodo ~667 µs). No se usa la FIFO/interrupción
   // interna del MPU6500 (Ruta B, PIN_MPU_INT) en esta versión — polling
   // simple es suficiente dado que todo el procesamiento ocurre en el celular.
@@ -171,4 +170,5 @@ void sensores_capturar_vibracion(int16_t *buffer) {
                   (unsigned long)muestras_tardias, N_MUESTRAS_VIB,
                   100.0f * muestras_tardias / N_MUESTRAS_VIB);
   }
+  return muestras_tardias;
 }

@@ -55,6 +55,7 @@
                                 // el límite superior (600 Hz). Igual que FS_VIB del pipeline.
 #define DUR_VIB_S 2.0f
 #define N_MUESTRAS_VIB ((int)(FS_VIB * DUR_VIB_S))         // 3000 muestras x 3 ejes
+#define VIB_RANGO_G 8           // ±g del acelerómetro (setAccRange en sensores.cpp)
 
 #define VENTANAS_POR_CICLO 10
 #define INTERVALO_VENTANA_MS 30000UL   // 30 s entre ventanas

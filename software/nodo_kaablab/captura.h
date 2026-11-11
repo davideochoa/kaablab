@@ -20,4 +20,7 @@ String captura_crear_ciclo();
 // llamadas), por diseño: nunca más de 1 captura en memoria a la vez.
 void captura_ejecutar_ventana(const String &carpeta_ciclo, int n);
 
+// Número del ciclo que aún captura en este despertar, o -1 si no hay ninguno.
+long captura_ciclo_activo();
+
 #endif

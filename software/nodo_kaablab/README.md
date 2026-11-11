@@ -111,14 +111,7 @@ Pasivos comunes del nodo (los de cada sensor están en la sección 4.1 del READM
 
 ## Datos almacenados en la microSD
 
-Cada despertar crea una carpeta `/ciclo_NNNNN` (contador persistido en
-`/contador_ciclo.txt`). Cada ventana `NN` (00–09) escribe:
-
-| Archivo | Formato |
-|---|---|
-| `audio_NN.pcm` | `int16` mono, 16 kHz, 16 000 muestras (1 s) |
-| `vib_NN.raw` | `int16` en mg, intercalado x,y,z, 1500 Hz, 3000 muestras × 3 ejes (2 s, ≈ 18 KB) |
-| `meta_NN.json` | `ts` (Unix, DS3231), nombres de archivo, `dht_T`, `dht_RH`, `sht_T`, `sht_RH`, `trafico_entradas`, `trafico_salidas` |
+Ver [`docs/contrato-datos-esp32-app.md`](../../docs/contrato-datos-esp32-app.md).
 
 ## API HTTP (celular conectado al AP del nodo)
 
@@ -127,7 +120,7 @@ Cada despertar crea una carpeta `/ciclo_NNNNN` (contador persistido en
 | `GET /ciclos` | JSON con las carpetas `ciclo_*` en la SD |
 | `GET /ciclos/{ciclo}` | JSON con los `meta_*.json` de ese ciclo |
 | `GET /ciclos/{ciclo}/{archivo}` | Archivo crudo (`.json`, `.pcm`, `.raw`) |
-| `DELETE /ciclos/{ciclo}` | Borra la carpeta completa del ciclo |
+| `DELETE /ciclos/{ciclo}` | Borra la carpeta completa del ciclo; 409 `{"error":"ciclo activo"}` si aún captura |
 
 El servidor solo está activo durante la ventana de 5 min; al terminar, el
 nodo apaga el WiFi y entra en deep sleep.
