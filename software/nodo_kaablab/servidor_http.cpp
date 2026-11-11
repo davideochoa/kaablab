@@ -1,5 +1,6 @@
 #include "servidor_http.h"
 #include "config.h"
+#include "captura.h"
 
 #include <WiFi.h>
 #include <WebServer.h>
@@ -10,7 +11,7 @@ static WebServer servidor(HTTP_PORT);
 
 // --- GET /ciclos : lista las carpetas ciclo_* pendientes en la SD ---
 static void handle_listar_ciclos() {
-  StaticJsonDocument<1024> doc;
+  DynamicJsonDocument doc(4096);
   JsonArray arr = doc.to<JsonArray>();
 
   File root = SD.open("/");
@@ -100,6 +101,11 @@ static void handle_borrar_ciclo() {
 
   if (!SD.exists(ruta)) {
     servidor.send(404, "application/json", "{\"error\":\"ciclo no encontrado\"}");
+    return;
+  }
+  long activo = captura_ciclo_activo();
+  if (activo >= 0 && carpeta.startsWith("ciclo_") && carpeta.substring(6).toInt() == activo) {
+    servidor.send(409, "application/json", "{\"error\":\"ciclo activo\"}");
     return;
   }
 
